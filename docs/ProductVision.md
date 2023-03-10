@@ -3,54 +3,38 @@
 
 ## Vision Statement
 
-
-Start by defining a clear and concise vision for your app, to help members of the team, contributors, and users into focusing their often disparate views into a concise, visual, and short textual form. It provides a "high concept" of the product for marketers, developers, and managers.
-
-A product vision describes the essential of the product and sets the direction to where a product is headed, and what the product will deliver in the future. 
-
-**We favor a catchy and concise statement, ideally one sentence.**
-
-We suggest you use the product vision template described in the following link:
-* [How To Create A Convincing Product Vision To Guide Your Team, by uxstudioteam.com](https://uxstudioteam.com/ux-blog/product-vision/)
-
-To learn more about how to write a good product vision, please see also:
-* [Product Management: Product Vision, by ProductPlan](https://www.productplan.com/glossary/product-vision/)
-* [Vision, by scrumbook.org](http://scrumbook.org/value-stream/vision.html)
-* [How to write a vision, by dummies.com](https://www.dummies.com/business/marketing/branding/how-to-write-vision-and-mission-statements-for-your-brand/)
-* [20 Inspiring Vision Statement Examples (2019 Updated), by lifehack.org](https://www.lifehack.org/articles/work/20-sample-vision-statement-for-the-new-startup.html)
+For the gaming community, Game Share is a game review mobile app where you can read other people's opinions and share your own about the most popular games
 
 ## Features
 
 ### Main Features
 
- - Feature 1   
-    Profile page: Users will be able to see each other's profiles, where they can find their nicknames, icons and their reviews.   
- - Feature 2   
-    Register/Login Page: It will exist a page where users can register or login to the app. 
- - Feature 3   
-    Main page: Here the user will be able to find the most recent games, most popular ones and some games organized by genres.
- - Feature 4  
-    Navbar: It will exist a navbar where the user can come to the main page, access the search bar, go to the Register/login page and go to their profile page. 
- - Feature 5  
-    Game page: Just like the name says, it's where the users can see the game information, his rating and the reviews that the users have done. 
- - Feature 6  
-    Users can do reviews: Users are going to be able to do reviews, giving a rating to the game in question. 
- - Feature 7  
-    Search bar: Users will be able to search for games by name or gendre.
- - Feature 8  
-    White/Dark Mode: We will give the user the option to use dark mode (white mode is used by default). This option accessed through the navbar.
- - Feature 9 -
- - Feature 10  
+ - ### Feature 1  
+    **Profile page**: Users will be able to see each other's profiles, where they can find their username, icon and their reviews.   
+ - ### Feature 2   
+    **Register/Login Page**: There will be a page where users can register or login to the app. Users will be able to recover their password.
+ - ### Feature 3   
+    **Main page**: Here the user will be able to find the most recent games, most popular ones and some games organized by genres.
+ - ### Feature 4  
+    **Navigation bar**: There will be a navigation bar where the user can come to the main page, access the search bar, go to the register/login page or go to their profile page (if they're already logged in). 
+ - ### Feature 5  
+    **Game page**: Just like the name says, it's where the users can read the game information, its rating and the reviews that the users have written.
+ - ### Feature 6  
+    **User reviews**: Users are going to be able to write reviews in the game page, giving a rating to the game in question. 
+ - ### Feature 7  
+    **Search bar**: Users will be able to search for games with full text search and filters like genre and rating.
+ - ### Feature 8  
+    **White/Dark Mode**: We will give the user the option to use dark mode (white mode is used by default). The user will be able to switch between the two modes with a button on the main
     
 
 ## Assumptions and dependencies
 
 ### Assumptions 
 
-- Internet - Our app will require the user to have internet access in order to access all the information stored in the cloud.
+- **Internet** - Our app will require the user to have internet access in order to access all the API's and the database's information.
 
 ### Dependencies
 
-- RAWG: Video Game database API - Our app will use the RAWG API to retrieve information about video games. We will use this API for some tasks like retrieving existing games and getting information about them, retrieving games that belong to certain genres and similar tasks.
+- **RAWG: Video Game database API** - Our app will use the RAWG API to retrieve information about video games. We will use this API for some tasks like retrieving existing games and getting information about them, retrieving games that belong to certain genres and similar tasks.
 
-- FireBase- Our app will use the FireBase service to store information generated by users, such as reviews and account details. 
+- **FireBase** - Our app will use the FireBase service to store information generated by users, such as reviews and account details.
