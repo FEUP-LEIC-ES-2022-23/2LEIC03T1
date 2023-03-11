@@ -43,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _title(String title) {
-    return const Text(
-      'Flutter Demo',
-      style: TextStyle(
+    return Text(
+      title,
+      style: const TextStyle(
         fontSize: 30,
         fontWeight: FontWeight.bold,
       ),
