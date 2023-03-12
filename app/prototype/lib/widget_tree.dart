@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype/auth.dart';
-import 'package:prototype/user.dart';
-import 'package:prototype/login_page.dart';
+import 'package:prototype/home.dart';
 
 class WidgetTree extends StatefulWidget {
   const WidgetTree({super.key});
@@ -16,8 +15,7 @@ class _WidgetTreeState extends State<WidgetTree> {
     return StreamBuilder(
         stream: Auth().authStateChanges,
         builder: (context, snapshot) {
-          if (snapshot.hasData) return const UserScreen();
-          return const LoginPage();
+          return const HomeScreen();
         });
   }
 }

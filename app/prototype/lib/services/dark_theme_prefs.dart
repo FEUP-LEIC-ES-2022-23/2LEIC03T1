@@ -1,15 +1,16 @@
-
 class DarkThemePreferences {
-  static var callback;
-  setCallback(Function c){
-    callback=c;
-  }
-  static var isDarkTheme;
+  static Function? callback;
+  static bool? isDarkTheme;
 
-  setDarkTheme (bool value ) async {
-    isDarkTheme = value;
-    if(callback!=null)callback();
+  setCallback(Function c) {
+    callback = c;
   }
+
+  setDarkTheme(bool value) async {
+    isDarkTheme = value;
+    callback!();
+  }
+
   bool getTheme() {
     return isDarkTheme ?? false;
   }
