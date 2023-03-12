@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
 import 'package:prototype/home.dart';
+
+import 'components/App_bar.dart';
+import 'consts/ theme_data.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -15,10 +19,12 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: Styles.themeData(DarkThemePreferences().getTheme(),context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
+          flexibleSpace: App_Bar(),
         ),
         body: Scaffold(
           backgroundColor: Colors.blueGrey,

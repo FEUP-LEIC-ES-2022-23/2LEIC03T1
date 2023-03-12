@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:prototype/components/App_bar.dart';
+import 'package:prototype/provider/dark_theme_provider.dart';
 import 'package:prototype/search.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
+import 'package:provider/provider.dart';
+
 
 import 'consts/ theme_data.dart';
 
@@ -29,34 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       theme: Styles.themeData(DarkThemePreferences().getTheme(),context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
-          flexibleSpace: SafeArea(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Container(
-
-                child: TextButton(
-
-
-                  child: Icon(DarkThemePreferences().getTheme()? Icons.dark_mode_outlined:Icons.light_mode_outlined,color: Colors.white,),
-                  onPressed: () {
-                    setState(() {
-                      DarkThemePreferences().setDarkTheme(!DarkThemePreferences().getTheme());
-                    });
-
-                  },
-
-
-                ),
-              ),
-            ),
+          flexibleSpace: App_Bar(),
           ),
-        ),
         body: Scaffold(
           body: Scaffold(
 

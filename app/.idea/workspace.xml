@@ -10,9 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5037ab26-b367-472e-994c-bd8260c5dedd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prototype/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prototype/lib/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/lib/home.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prototype/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prototype/lib/search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/lib/search.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prototype/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prototype/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prototype/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
