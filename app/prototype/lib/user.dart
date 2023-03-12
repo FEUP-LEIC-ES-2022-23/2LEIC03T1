@@ -59,6 +59,11 @@ class _UserScreenState extends State<UserScreen> {
     return InkWell(
       onTap: () async {
         await signOut();
+        // there must be a better way to do this
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
       },
       child: Container(
         width: 130,
@@ -79,7 +84,7 @@ class _UserScreenState extends State<UserScreen> {
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
-          flexibleSpace: const LightNightModeWidget(),
+          flexibleSpace: LightNightModeWidget(),
         ),
         body: Center(
           child: Column(

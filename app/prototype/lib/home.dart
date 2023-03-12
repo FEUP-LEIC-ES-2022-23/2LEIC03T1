@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
               currentIndex: _selected,
-              selectedItemColor: Colors.green,
+              selectedItemColor: Colors.pink,
               onTap: (int index) {
                 switch (index) {
                   case 0:
