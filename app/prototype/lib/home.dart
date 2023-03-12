@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:prototype/components/App_bar.dart';
-import 'package:prototype/provider/dark_theme_provider.dart';
 import 'package:prototype/search.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
@@ -17,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   void initState() {
     // TODO: implement initState
