@@ -16,16 +16,15 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   int _selected = 1;
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: Styles.SearchThemeData(DarkThemePreferences().getTheme(),context),
+      theme: Styles.SearchThemeData(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
-          flexibleSpace: light_night_mode_widget(),
+          flexibleSpace: LightNightModeWidget(),
         ),
         body: Scaffold(
           body: Center(
@@ -60,26 +59,20 @@ class _SearchScreenState extends State<SearchScreen> {
             onTap: (int index) {
               switch (index) {
                 case 0:
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => const HomeScreen(),
-                      transitionDuration: const Duration(seconds: 1),
-                      transitionsBuilder: (_, a, __, c) =>
-                          FadeTransition(opacity: a, child: c),
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
                     ),
                   );
                   break;
                 case 1:
                   break;
                 case 2:
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ___) => const UserScreen(),
-                      transitionDuration: const Duration(seconds: 1),
-                      transitionsBuilder: (_, a, __, c) =>
-                          FadeTransition(opacity: a, child: c),
+                    MaterialPageRoute(
+                      builder: (context) => const UserScreen(),
                     ),
                   );
                   break;

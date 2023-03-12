@@ -3,6 +3,7 @@ import 'package:prototype/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:prototype/search.dart';
 import 'package:prototype/home.dart';
+import 'package:prototype/components/light_night_mode_widget.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -17,19 +18,6 @@ class _UserScreenState extends State<UserScreen> {
 
   Future<void> signOut() async {
     await Auth().signOut();
-  }
-
-  Widget _title() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: const TextSpan(
-          text: 'GameShare',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Colors.green,
-          )),
-    );
   }
 
   Widget _userUid() {
@@ -67,7 +55,9 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: _title(),
+          backgroundColor: Colors.pink,
+          title: const Text('GameShare'),
+          flexibleSpace: LightNightModeWidget(),
         ),
         body: Center(
           child: Column(
@@ -97,23 +87,17 @@ class _UserScreenState extends State<UserScreen> {
           selectedItemColor: Colors.pink,
           onTap: (int index) {
             if (index == 0) {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => const HomeScreen(),
-                  transitionDuration: const Duration(seconds: 1),
-                  transitionsBuilder: (_, a, __, c) =>
-                      FadeTransition(opacity: a, child: c),
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
                 ),
               );
             } else if (index == 1) {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => const SearchScreen(),
-                  transitionDuration: const Duration(seconds: 1),
-                  transitionsBuilder: (_, a, __, c) =>
-                      FadeTransition(opacity: a, child: c),
+                MaterialPageRoute(
+                  builder: (context) => const SearchScreen(),
                 ),
               );
             }
