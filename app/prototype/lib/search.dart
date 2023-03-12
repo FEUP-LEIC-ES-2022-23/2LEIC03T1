@@ -3,7 +3,7 @@ import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
 import 'package:prototype/home.dart';
 
-import 'components/App_bar.dart';
+import 'components/light_night_mode_widget.dart';
 import 'consts/ theme_data.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -20,15 +20,14 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: Styles.themeData(DarkThemePreferences().getTheme(),context),
+      theme: Styles.SearchThemeData(DarkThemePreferences().getTheme(),context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
-          flexibleSpace: App_Bar(),
+          flexibleSpace: light_night_mode_widget(),
         ),
         body: Scaffold(
-          backgroundColor: Colors.blueGrey,
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

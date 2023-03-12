@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:prototype/components/App_bar.dart';
+import 'package:prototype/components/light_night_mode_widget.dart';
 import 'package:prototype/search.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
 import 'package:provider/provider.dart';
-
-
 import 'consts/ theme_data.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
-          flexibleSpace: App_Bar(),
+          flexibleSpace: light_night_mode_widget(),
           ),
         body: Scaffold(
           body: Scaffold(

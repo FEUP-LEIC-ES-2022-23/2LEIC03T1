@@ -1,5 +1,4 @@
 
-
 class DarkThemePreferences {
   static var callback;
   setCallback(Function c){

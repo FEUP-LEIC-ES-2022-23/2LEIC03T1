@@ -4,21 +4,8 @@ import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:provider/provider.dart';
 
 
-class App_Bar extends StatefulWidget {
-
-  App_Bar();
-
-  @override
-  State<App_Bar> createState() => _App_Bar();
-}
-
-class _App_Bar extends State<App_Bar> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+class light_night_mode_widget extends StatelessWidget {
+  light_night_mode_widget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +19,13 @@ class _App_Bar extends State<App_Bar> {
              child: TextButton(
                child: Icon(DarkThemePreferences().getTheme()? Icons.dark_mode_outlined:Icons.light_mode_outlined,color: Colors.white,),
                onPressed: () {
-                 setState(() {
+
                    DarkThemePreferences().setDarkTheme(!DarkThemePreferences().getTheme());
-                 });
-
-               },
-
-
+                 })
              ),
            ),
          ),
-       )
-   );
+       );
 
   }
 }
