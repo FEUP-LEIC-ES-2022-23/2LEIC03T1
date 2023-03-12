@@ -4,7 +4,7 @@ import 'package:prototype/user.dart';
 import 'package:prototype/home.dart';
 
 import 'components/light_night_mode_widget.dart';
-import 'consts/ theme_data.dart';
+import 'consts/theme_data.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -19,7 +19,8 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: Styles.SearchThemeData(DarkThemePreferences().getTheme(), context),
+      theme:
+          Styles.search_theme_data(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,

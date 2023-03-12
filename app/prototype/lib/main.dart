@@ -5,7 +5,7 @@ import 'package:prototype/widget_tree.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 
-import 'consts/ theme_data.dart';
+import 'consts/theme_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
