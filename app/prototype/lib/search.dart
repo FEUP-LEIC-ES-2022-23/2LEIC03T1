@@ -4,7 +4,7 @@ import 'package:prototype/user.dart';
 import 'package:prototype/home.dart';
 
 import 'components/light_night_mode_widget.dart';
-import 'consts/ theme_data.dart';
+import 'consts/theme_data.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

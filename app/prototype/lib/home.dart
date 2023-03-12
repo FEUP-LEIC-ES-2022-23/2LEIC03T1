@@ -4,7 +4,7 @@ import 'package:prototype/search.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
 import 'package:provider/provider.dart';
-import 'consts/ theme_data.dart';
+import 'consts/theme_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
