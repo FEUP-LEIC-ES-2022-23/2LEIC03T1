@@ -35,10 +35,7 @@ class _App_Bar extends State<App_Bar> {
                  setState(() {
                    DarkThemePreferences().setDarkTheme(!DarkThemePreferences().getTheme());
                  });
-
                },
-
-
              ),
            ),
          ),

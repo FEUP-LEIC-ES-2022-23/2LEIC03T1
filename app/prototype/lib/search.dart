@@ -20,7 +20,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: Styles.themeData(DarkThemePreferences().getTheme(),context),
+      theme: Styles.SearchThemeData(DarkThemePreferences().getTheme(),context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
@@ -28,7 +28,6 @@ class _SearchScreenState extends State<SearchScreen> {
           flexibleSpace: App_Bar(),
         ),
         body: Scaffold(
-          backgroundColor: Colors.blueGrey,
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
