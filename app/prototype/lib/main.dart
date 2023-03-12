@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/widget_tree.dart';
-import 'package:provider/provider.dart';
-import 'package:prototype/services/dark_theme_prefs.dart';
 
 import 'consts/theme_data.dart';
 

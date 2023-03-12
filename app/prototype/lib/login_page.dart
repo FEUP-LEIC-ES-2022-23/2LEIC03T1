@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prototype/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         emailController.text,
         passwordController.text,
       );
+      errorMessage = null;
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -90,6 +92,12 @@ class _LoginPageState extends State<LoginPage> {
           signIn();
         } else {
           signUp();
+        }
+        if (errorMessage == null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
+          );
         }
       },
       child: Container(

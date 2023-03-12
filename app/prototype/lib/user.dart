@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prototype/login_page.dart';
 import 'package:prototype/search.dart';
 import 'package:prototype/home.dart';
 import 'package:prototype/components/light_night_mode_widget.dart';
@@ -28,8 +29,29 @@ class _UserScreenState extends State<UserScreen> {
           style: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w700,
-            color: Colors.green,
+            color: Colors.white,
           )),
+    );
+  }
+
+  Widget _signInButton() {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      },
+      child: Container(
+        width: 130,
+        padding: const EdgeInsets.symmetric(vertical: 13),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(color: Colors.white, width: 2)),
+        child: const Text('Sign in',
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+      ),
     );
   }
 
@@ -44,9 +66,9 @@ class _UserScreenState extends State<UserScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            border: Border.all(color: Colors.green, width: 2)),
+            border: Border.all(color: Colors.white, width: 2)),
         child: const Text('Sign out',
-            style: TextStyle(fontSize: 20, color: Colors.green)),
+            style: TextStyle(fontSize: 20, color: Colors.white)),
       ),
     );
   }
@@ -57,14 +79,14 @@ class _UserScreenState extends State<UserScreen> {
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
-          flexibleSpace: LightNightModeWidget(),
+          flexibleSpace: const LightNightModeWidget(),
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _userUid(),
-              _signOutButton(),
+              user != null ? _signOutButton() : _signInButton(),
             ],
           ),
         ),

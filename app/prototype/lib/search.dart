@@ -19,8 +19,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme:
-          Styles.search_theme_data(DarkThemePreferences().getTheme(), context),
+      theme: Styles.searchThemeData(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
