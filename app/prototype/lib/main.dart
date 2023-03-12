@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/widget_tree.dart';
+
+import 'consts/ theme_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,9 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'GameShare',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
+      theme: Styles.themeData(DarkThemePreferences().getTheme(),context),
       home: const WidgetTree(),
     );
   }
