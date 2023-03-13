@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       theme: Styles.themeData(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink,
+          backgroundColor: const Color(0xff1B274B),
           title: const Text('GameShare'),
           flexibleSpace: LightNightModeWidget(),
         ),
@@ -68,7 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
               currentIndex: _selected,
-              selectedItemColor: Colors.pink,
+              selectedItemColor: const Color(0xff08C076),
+              backgroundColor: const Color(0xff1B274B),
               onTap: (int index) {
                 switch (index) {
                   case 0:
