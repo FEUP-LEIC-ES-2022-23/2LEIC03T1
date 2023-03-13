@@ -3,8 +3,9 @@ import 'package:prototype/components/light_night_mode_widget.dart';
 import 'package:prototype/search.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
-import 'package:provider/provider.dart';
 import 'consts/theme_data.dart';
+import 'models/game_model.dart';
+import 'services/api_requests.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -31,28 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-      theme: Styles.themeData(DarkThemePreferences().getTheme(),context),
+      theme: Styles.themeData(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink,
           title: const Text('GameShare'),
           flexibleSpace: light_night_mode_widget(),
-          ),
+        ),
         body: Scaffold(
           body: Scaffold(
-
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    'Home',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                ],
-              ),
+            body: Column(
+              children: const <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: GameSection(title: 'Test'),
+                ),
+              ],
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -105,6 +100,83 @@ class _HomeScreenState extends State<HomeScreen> {
               }),
         ),
       ),
+    );
+  }
+}
+
+class GameSection extends StatefulWidget {
+  final String title;
+
+  const GameSection({Key? key, required this.title}) : super(key: key);
+
+  @override
+  State<GameSection> createState() => _GameSectionState();
+}
+
+class _GameSectionState extends State<GameSection> {
+  late Future<List<Game>> futureGames;
+
+  @override
+  void initState() {
+    super.initState();
+    futureGames = fetchGames();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget> [
+        Text(widget.title),
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 250,
+          child: FutureBuilder <List<Game>> (
+            future: futureGames,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty) {
+                  return const Text('No results found');
+                }
+                else {
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    children: [
+                      for (var game in snapshot.data!)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: <Widget> [
+                              Expanded(
+                                child: Image.network(
+                                  game.image,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text('${game.rating}'),
+                              const SizedBox(height: 10),
+                              Text(
+                                game.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                                style: const TextStyle (fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ]
+                  );
+                }
+              }
+              else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
+        ),
+      ],
     );
   }
 }

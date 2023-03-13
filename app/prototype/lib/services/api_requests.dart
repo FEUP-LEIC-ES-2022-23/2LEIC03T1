@@ -10,8 +10,7 @@ Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, Li
   final res = await http.get(Uri.parse(url));
 
   if (res.statusCode == 200) {
-    Map<String, dynamic> results = jsonDecode(res.body)['results'];
-
+    var results = jsonDecode(res.body)['results'];
     return [for(int i = 0; i < results.length; i++) Game.fromJson(results, i)];
   }
   else {
@@ -20,7 +19,7 @@ Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, Li
 }
 
 String buildUrl(int? page, int? pageSize, String? searchQuery, List<String>? genres) {
-  String url = '${dotenv.env['API_URL_BASE']}/key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+  String url = '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
   if (page != null) url += '&page=$page';
 
