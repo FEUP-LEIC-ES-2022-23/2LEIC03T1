@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
+import 'package:prototype/auth.dart';
 import 'package:prototype/user.dart';
 import 'package:prototype/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'components/light_night_mode_widget.dart';
 import 'consts/theme_data.dart';
@@ -15,7 +18,29 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   int _selected = 1;
+  final User? user = Auth().user;
   final TextEditingController controller = TextEditingController();
+  DatabaseReference ref = FirebaseDatabase.instance.ref();
+
+  // store the value of the test string in the database
+  Object? _testString;
+
+  void _loadTestString() async {
+    final snapshot = await ref.child('test').get();
+    setState(() {
+      if (snapshot.exists) {
+        _testString = snapshot.value;
+      } else {
+        _testString = 'No data';
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    _loadTestString();
+    super.initState();
+  }
 
   Widget _title(String title, Color themeColor) {
     return Text(
@@ -56,8 +81,17 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _submitButton() {
     return InkWell(
       onTap: () {
-        // print 'clicked' to console
-        print('clicked');
+        // submit controller text to database
+        ref.child('test').set(controller.text);
+
+        // clear controller text
+        controller.clear();
+
+        // navigate to home screen
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -112,6 +146,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     height: 20,
                   ),
                   _submitButton(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Database value: $_testString',
+                    style: TextStyle(
+                      color: DarkThemePreferences().getTheme()
+                          ? Colors.white
+                          : const Color(0xff1B274B),
+                    ),
+                  ),
                 ],
               ),
             ),
