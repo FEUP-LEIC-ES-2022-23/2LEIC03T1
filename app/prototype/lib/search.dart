@@ -15,26 +15,105 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   int _selected = 1;
+  final TextEditingController controller = TextEditingController();
+
+  Widget _title(String title, Color themeColor) {
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.bold,
+        color: themeColor,
+      ),
+    );
+  }
+
+  Widget _entryField(String title, Color themeColor) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _title(title, themeColor),
+          TextField(
+            style: TextStyle(color: themeColor),
+            cursorColor: themeColor,
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: 'send something to register in the database',
+              hintStyle: TextStyle(color: themeColor),
+              border: const OutlineInputBorder(),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: themeColor),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _submitButton() {
+    return InkWell(
+      onTap: () {
+        // print 'clicked' to console
+        print('clicked');
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(vertical: 13),
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Color(0xff1B274B),
+        ),
+        child: const Text(
+          'Send',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: Styles.searchThemeData(DarkThemePreferences().getTheme(), context),
+      theme: Styles.themeData(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('GameShare'),
           flexibleSpace: LightNightModeWidget(),
         ),
         body: Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
-                Text(
-                  'Search',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ],
+          body: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(
+                    height: 150,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      _entryField(
+                          'Input',
+                          DarkThemePreferences().getTheme()
+                              ? Colors.white
+                              : const Color(0xff1B274B)),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _submitButton(),
+                ],
+              ),
             ),
           ),
         ),
