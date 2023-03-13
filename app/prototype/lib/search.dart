@@ -22,7 +22,6 @@ class _SearchScreenState extends State<SearchScreen> {
       theme: Styles.searchThemeData(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink,
           title: const Text('GameShare'),
           flexibleSpace: LightNightModeWidget(),
         ),
@@ -55,7 +54,6 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ],
             currentIndex: _selected,
-            selectedItemColor: Colors.pink,
             onTap: (int index) {
               switch (index) {
                 case 0:

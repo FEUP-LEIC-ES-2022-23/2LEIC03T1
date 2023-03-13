@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-      scaffoldBackgroundColor: isDarkTheme ? const Color(0xff1F2D5A) : Colors.white,
+      scaffoldBackgroundColor:
+          isDarkTheme ? const Color(0xff1F2D5A) : Colors.white,
       primarySwatch: Colors.purple,
       primaryColor: isDarkTheme ? Colors.black : Colors.grey.shade300,
       indicatorColor:
@@ -24,7 +25,15 @@ class Styles {
               ? const ColorScheme.dark()
               : const ColorScheme.light()),
       appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xff1B274B),
         elevation: 0.0,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Color(0xff1B274B),
+        selectedItemColor: Color(0xff08C076),
+        unselectedItemColor: Color(0xff00B3FF),
+        selectedLabelStyle: TextStyle(color: Color(0xff08C076)),
+        unselectedLabelStyle: TextStyle(color: Color(0xff00B3FF)),
       ),
     );
   }
@@ -52,7 +61,15 @@ class Styles {
               ? const ColorScheme.dark()
               : const ColorScheme.light()),
       appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xff1B274B),
         elevation: 0.0,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Color(0xff1B274B),
+        selectedItemColor: Color(0xff08C076),
+        unselectedItemColor: Color(0xff00B3FF),
+        selectedLabelStyle: TextStyle(color: Color(0xff08C076)),
+        unselectedLabelStyle: TextStyle(color: Color(0xff00B3FF)),
       ),
     );
   }
