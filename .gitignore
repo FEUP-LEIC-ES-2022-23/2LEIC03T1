@@ -1,5 +1,8 @@
 ### https://raw.github.com/github/gitignore/80a8803b004013d17291196825a327b9e871f009/Android.gitignore
 
+# .env
+.env
+
 # Built application files
 *.apk
 *.ap_
@@ -36,12 +39,12 @@ captures/
 
 # IntelliJ
 *.iml
-.idea/workspace.xml
+**/.idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
 .idea/assetWizardSettings.xml
 .idea/dictionaries
-.idea/libraries
+**/.idea/libraries
 .idea/caches
 
 # Keystore files
@@ -252,3 +255,5 @@ google-services.json
 .flutter-plugins
 
 .DS_Store
+
+
