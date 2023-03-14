@@ -39,6 +39,7 @@ captures/
 
 # IntelliJ
 *.iml
+**/.idea/**
 **/.idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
@@ -253,6 +254,9 @@ GoogleService-Info.plist
 google-services.json
 # Plugins (already resolved through pubspec.yaml)
 .flutter-plugins
+**/.flutter-plugins-dependencies
+
+GeneratedPluginRegistrant.swift
 
 .DS_Store
 

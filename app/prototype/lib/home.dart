@@ -3,8 +3,7 @@ import 'package:prototype/components/light_night_mode_widget.dart';
 import 'package:prototype/search.dart';
 import 'package:prototype/services/dark_theme_prefs.dart';
 import 'package:prototype/user.dart';
-import 'package:provider/provider.dart';
-import 'consts/ theme_data.dart';
+import 'consts/theme_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -31,18 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
-      theme: Styles.themeData(DarkThemePreferences().getTheme(),context),
+      theme: Styles.themeData(DarkThemePreferences().getTheme(), context),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink,
           title: const Text('GameShare'),
-          flexibleSpace: light_night_mode_widget(),
-          ),
+          flexibleSpace: LightNightModeWidget(),
+        ),
         body: Scaffold(
           body: Scaffold(
-
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -71,30 +66,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
               currentIndex: _selected,
-              selectedItemColor: Colors.green,
+              selectedItemColor: const Color(0xff08C076),
+              backgroundColor: const Color(0xff1B274B),
               onTap: (int index) {
                 switch (index) {
                   case 0:
                     break;
                   case 1:
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => const SearchScreen(),
-                        transitionDuration: const Duration(seconds: 1),
-                        transitionsBuilder: (_, a, __, c) =>
-                            FadeTransition(opacity: a, child: c),
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen(),
                       ),
                     );
                     break;
                   case 2:
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
-                      PageRouteBuilder(
-                        pageBuilder: (_, __, ___) => const UserScreen(),
-                        transitionDuration: const Duration(seconds: 1),
-                        transitionsBuilder: (_, a, __, c) =>
-                            FadeTransition(opacity: a, child: c),
+                      MaterialPageRoute(
+                        builder: (context) => const UserScreen(),
                       ),
                     );
                     break;
