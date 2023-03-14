@@ -23,16 +23,15 @@ class _SearchScreenState extends State<SearchScreen> {
   DatabaseReference ref = FirebaseDatabase.instance.ref();
 
   // store the value of the test string in the database
-  Object? _testString;
+  String _testString = 'No data';
 
-  void _loadTestString() async {
-    final snapshot = await ref.child('test').get();
-    setState(() {
-      if (snapshot.exists) {
-        _testString = snapshot.value;
-      } else {
-        _testString = 'No data';
-      }
+  void _loadTestString() {
+    ref.child('test').get().then((DataSnapshot snapshot) {
+      setState(() {
+        if (snapshot.value != null) {
+          _testString = snapshot.value.toString();
+        }
+      });
     });
   }
 
@@ -87,11 +86,8 @@ class _SearchScreenState extends State<SearchScreen> {
         // clear controller text
         controller.clear();
 
-        // navigate to home screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
+        // reload test string
+        _loadTestString();
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
