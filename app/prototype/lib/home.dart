@@ -43,10 +43,19 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Scaffold(
           body: Scaffold(
             body: Column(
-              children: const <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: GameSection(title: 'Page 1 of all games'),
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView (
+                        children: const [
+                          GameSection(title: 'Page 1 of all games'),
+                          GameSection(title: 'Page 2 of all games', page: 2),
+                          GameSection(title: 'Page 1 of Mario games', searchQuery: 'Mario'),
+                          GameSection(title: 'Page 1 of Puzzle and Platform games', genres: ['puzzle', 'platform']),
+                        ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -107,8 +116,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class GameSection extends StatefulWidget {
   final String title;
+  final int? page;
+  final int? pageSize;
+  final String? searchQuery;
+  final List<String>? genres;
 
-  const GameSection({Key? key, required this.title}) : super(key: key);
+  const GameSection({
+    Key? key,
+    required this.title,
+    this.page,
+    this.pageSize,
+    this.searchQuery,
+    this.genres,
+  }) : super(key: key);
 
   @override
   State<GameSection> createState() => _GameSectionState();
@@ -122,7 +142,12 @@ class _GameSectionState extends State<GameSection> {
     super.initState();
     List<String> test = [];
     test.add('action');
-    futureGames = fetchGames(searchQuery: 'Mario', genres: test);
+    futureGames = fetchGames(
+        page: widget.page,
+        pageSize: widget.pageSize,
+        searchQuery: widget.searchQuery,
+        genres: widget.genres
+    );
   }
 
   @override
@@ -156,77 +181,7 @@ class _GameSectionState extends State<GameSection> {
                     scrollDirection: Axis.horizontal,
                     children: [
                       for (var game in snapshot.data!)
-                        Container(
-                          width: 300,
-                          margin: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 0.5),
-                            color: Colors.white,
-                            boxShadow: const <BoxShadow> [
-                              BoxShadow(
-                                color: Color(0x6fa4a4a2),
-                                offset: Offset(3, 3),
-                                blurRadius: 3,
-                                spreadRadius: 1,
-                              )
-                            ]
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget> [
-                              Expanded(
-                                flex: 7,
-                                child: FittedBox(
-                                  fit: BoxFit.fill,
-                                  child: CachedNetworkImage(
-                                    imageUrl: game.image,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Expanded (
-                                  flex: 2,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 10, right: 10),
-                                    child: Stack (
-                                        alignment: Alignment.centerRight,
-                                        children: [
-                                          Container(
-                                            color: Colors.green,
-                                            height: 35,
-                                            width: 35,
-                                          ),
-                                          Positioned(
-                                            right: 2,
-                                            child: Text(
-                                                '${game.rating}',
-                                                style: const TextStyle (
-                                                  color: Colors.white,
-                                                ),
-                                            ),
-                                          ),
-                                        ]
-                                    ),
-                                  )
-                              ),
-                              const SizedBox(height: 5),
-                              Expanded(
-                                flex: 3,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10, right: 10),
-                                  child: Text(
-                                    game.name,
-                                    textAlign: TextAlign.left,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: const TextStyle (fontSize: 22, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        GameCard(game: game),
                     ]
                   ),
                 );
@@ -241,6 +196,90 @@ class _GameSectionState extends State<GameSection> {
           },
         ),
       ],
+    );
+  }
+}
+
+class GameCard extends StatelessWidget {
+  const GameCard({
+    super.key,
+    required this.game,
+  });
+
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 300,
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5),
+        color: Colors.white,
+        boxShadow: const <BoxShadow> [
+          BoxShadow(
+            color: Color(0x6fa4a4a2),
+            offset: Offset(3, 3),
+            blurRadius: 3,
+            spreadRadius: 1,
+          )
+        ]
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget> [
+          Expanded(
+            flex: 7,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: CachedNetworkImage(
+                imageUrl: game.image,
+              ),
+            ),
+          ),
+          const SizedBox(height: 5),
+          Expanded (
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Stack (
+                    alignment: Alignment.centerRight,
+                    children: [
+                      Container(
+                        color: Colors.green,
+                        height: 35,
+                        width: 35,
+                      ),
+                      Positioned(
+                        right: 2,
+                        child: Text(
+                            '${game.rating}',
+                            style: const TextStyle (
+                              color: Colors.white,
+                            ),
+                        ),
+                      ),
+                    ]
+                ),
+              )
+          ),
+          const SizedBox(height: 5),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Text(
+                game.name,
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: const TextStyle (fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
