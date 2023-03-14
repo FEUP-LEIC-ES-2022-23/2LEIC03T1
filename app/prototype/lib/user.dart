@@ -28,10 +28,10 @@ class _UserScreenState extends State<UserScreen> {
       textAlign: TextAlign.center,
       text: TextSpan(
           text: user?.email ?? 'No User',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: DarkThemePreferences().getTheme() ? Colors.white : Colors.black,
           )),
     );
   }
@@ -50,9 +50,9 @@ class _UserScreenState extends State<UserScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            border: Border.all(color: Colors.white, width: 2)),
-        child: const Text('Sign in',
-            style: TextStyle(fontSize: 20, color: Colors.white)),
+            border: Border.all(color: DarkThemePreferences().getTheme() ? Colors.white : Colors.black, width: 2)),
+        child: Text('Sign in',
+            style: TextStyle(fontSize: 20, color: DarkThemePreferences().getTheme() ? Colors.white : Colors.black)),
       ),
     );
   }
@@ -73,9 +73,9 @@ class _UserScreenState extends State<UserScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            border: Border.all(color: Colors.white, width: 2)),
-        child: const Text('Sign out',
-            style: TextStyle(fontSize: 20, color: Colors.white)),
+            border: Border.all(color: DarkThemePreferences().getTheme() ? Colors.white : Colors.black, width: 2)),
+        child: Text('Sign out',
+            style: TextStyle(fontSize: 20, color: DarkThemePreferences().getTheme() ? Colors.white : Colors.black)),
       ),
     );
   }
@@ -94,11 +94,9 @@ class _UserScreenState extends State<UserScreen> {
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  Text(
-                    'Home',
-                    style: TextStyle(fontSize: 30),
-                  ),
+                children: <Widget>[
+                  _userUid(),
+                  user != null ? _signOutButton() : _signInButton(),
                 ],
               ),
             ),

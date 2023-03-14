@@ -1,7 +1,7 @@
 ### https://raw.github.com/github/gitignore/80a8803b004013d17291196825a327b9e871f009/Android.gitignore
 
-# .env
-.env
+
+GeneratedPluginRegistrant.swift
 
 # Built application files
 *.apk
@@ -257,6 +257,7 @@ google-services.json
 **/.flutter-plugins-dependencies
 
 GeneratedPluginRegistrant.swift
+
 
 .DS_Store
 

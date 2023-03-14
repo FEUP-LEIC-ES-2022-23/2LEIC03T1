@@ -62,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
         children: <Widget>[
           _title(title),
           TextField(
+            style: const TextStyle(color: Colors.black),
             obscureText: isPassword,
             controller: isPassword ? passwordController : emailController,
             decoration: InputDecoration(

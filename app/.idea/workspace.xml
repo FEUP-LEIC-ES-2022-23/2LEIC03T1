@@ -10,17 +10,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5037ab26-b367-472e-994c-bd8260c5dedd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prototype/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prototype/lib/components/App_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/lib/components/light_night_mode_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prototype/lib/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/lib/home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prototype/lib/search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/lib/search.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prototype/lib/services/dark_theme_prefs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/prototype/lib/services/dark_theme_prefs.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/prototype/android/build.gradle">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
