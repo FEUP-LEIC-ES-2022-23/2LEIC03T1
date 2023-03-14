@@ -48,19 +48,19 @@ In our vertical prototype we developed several simple features:
 
 - **Light/Dark mode**: We styled each component to have a light mode and a dark mode design that changes by tapping the button on the top right corner. In the project we will be implementing this feature in a better way since, in this prototype, we didn't take full advantage of the ThemeData in the MaterialApp (by using theme.of(context)).
 
-![WhiteMode](../images/architecture-and-design/home-page-white-mode.jpeg)
+![WhiteMode](../images/architecture-and-design/home-page-white-mode.png)
 
-![DarkMode](../images/architecture-and-design/home-page-dark-mode.jpeg)
+![DarkMode](../images/architecture-and-design/home-page-dark-mode.png)
 
 - **User authentication**: We developed a simple Login/Register page in which the user can create an account and log into the app. The user is logged in the user page shows a sign out button with the email of the user. If he isn't logged in the page shows a sign in button the redirects to the login/register form. The form isn't fully operatable since it always redirects the user to the home page if the submit button is tapped. However, if the user didn't type valid credentials, they won't be logged in.
 
-![LoginPage](../images/architecture-and-design/login-page.jpeg)
+![LoginPage](../images/architecture-and-design/login-page.png)
 
-![RegisterPage](../images/architecture-and-design/register-page.jpeg)
+![RegisterPage](../images/architecture-and-design/register-page.png)
 
-![NonLoggedUser](../images/architecture-and-design/non-logged-user.jpeg)
+![NonLoggedUser](../images/architecture-and-design/non-logged-user.png)
 
-![LoggedUser](../images/architecture-and-design/logged-user.jpeg)
+![LoggedUser](../images/architecture-and-design/logged-user.png)
 
 - **Using the API**: We have explored the endpoints of the RAWG API that we intend to use in this project: the get all games endpoint that takes as optional parameters the number of games it returns, the page it returns (if the number of games it returns is 10, if we specify the page as 1 it will return the first 10 games. If we specify the page as 2 it will return the 11th to the 20th game...), the search query (being search query "Mario", it would return games that have a similar name to Mario), and the genres. To explore the API's functionality we developed a service that calls the endpoint and a model that parses the json that is returned. To parse the json we used the http package.
 
@@ -70,6 +70,6 @@ In our vertical prototype we developed several simple features:
 
 - **Firebase Database**: We explored the surface of the Firebase's realtime database by writing and reading to the database. Although we got it to work in a session, for some reason that we are still trying to figure out, the changes don't reflect in the Firebase's console. Because of that, all data written is lost when the user exits the application. We ill be looking further into that when developing the final product. 
 
-![BeforeTest](../images/architecture-and-design/database-before-test.jpeg)
+![BeforeTest](../images/architecture-and-design/database-before-test.png)
 
-![AfterTest](../images/architecture-and-design/database-after-test.jpeg)
+![AfterTest](../images/architecture-and-design/database-after-test.png)
