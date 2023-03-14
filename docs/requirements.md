@@ -62,10 +62,38 @@ At the end, it is good to add a rough indication of the value of the user story 
 
 ### Domain model
 
-To better understand the context of the software system, it is very useful to have a simple UML class diagram with all the key concepts (names, attributes) and relationships involved of the problem domain addressed by your module. 
-Also provide a short textual description of each class. 
+![DomainModel](../images/architecture-and-design/domain-model.png)
 
-Example:
- <p align="center" justify="center">
-  <img src="https://github.com/FEUP-LEIC-ES-2022-23/templates/blob/main/images/DomainModel.png"/>
-</p>
+**User**
+
+    The user interface represents a user of the app, that is, an entity which has access to some or all the features of the app.
+    Even though, at the moment, we only have 2 user types with no overlapping attributes, we still added this interface to make it easier to add other user types (i.e. premium user) in the future, if so is decided. 
+    This goes accordingly to the open-closed principle of SOLID.
+
+**Non-logged User**
+    
+    The non-logged user is a concrete entity that does not have a user profile and therefore cannot access it, as well as some other features such as writing reviews or liking/disliking them.
+
+**Logged User**
+
+    The logged user is a concrete entity that has an associated account. 
+    This user has an email linked to the account, as well as a username, a bio and an avatar. 
+    This type of user has access to all the app features (at the moment).
+
+**Game**
+
+    The Game class is the core class of our app. 
+    It is used to represent the games which will be reviewed by the users, and has the following attributes:
+    - Name
+    - Description
+    - Rating
+    - Image
+    - Platforms
+    - Genre
+
+**Review**
+
+    This class represents a review made to a game, and it is editable and deletable by its author.
+    It contains a comment, a numeric rating (evaluating the game) and two for likes and dislikes (evaluation of the review by other users).
+    The review is associated with an entity that implements the User interface, which is the review's author. 
+    It is also associated with an element of the Game class, the game which the review is about.
