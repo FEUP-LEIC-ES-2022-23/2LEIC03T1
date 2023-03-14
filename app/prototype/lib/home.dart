@@ -6,6 +6,7 @@ import 'package:prototype/user.dart';
 import 'consts/theme_data.dart';
 import 'models/game_model.dart';
 import 'services/api_requests.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: const <Widget>[
                 Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: GameSection(title: 'Test'),
+                  child: GameSection(title: 'Page 1 of all games'),
                 ),
               ],
             ),
@@ -119,7 +120,9 @@ class _GameSectionState extends State<GameSection> {
   @override
   void initState() {
     super.initState();
-    futureGames = fetchGames();
+    List<String> test = [];
+    test.add('action');
+    futureGames = fetchGames(searchQuery: 'Mario', genres: test);
   }
 
   @override
@@ -127,54 +130,115 @@ class _GameSectionState extends State<GameSection> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget> [
-        Text(widget.title),
+        Container(
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          width: 350,
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.black)),
+          ),
+          child: Text(
+              widget.title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          ),
+        ),
         const SizedBox(height: 10),
-        SizedBox(
-          height: 250,
-          child: FutureBuilder <List<Game>> (
-            future: futureGames,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data!.isEmpty) {
-                  return const Text('No results found');
-                }
-                else {
-                  return ListView(
+        FutureBuilder <List<Game>> (
+          future: futureGames,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return const Text('No results found');
+              }
+              else {
+                return SizedBox(
+                  height: 300,
+                  child: ListView(
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.only(left: 5, right: 5),
                     children: [
                       for (var game in snapshot.data!)
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        Container(
+                          width: 300,
+                          margin: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 0.5),
+                            color: Colors.white,
+                            boxShadow: const <BoxShadow> [
+                              BoxShadow(
+                                color: Color(0x6fa4a4a2),
+                                offset: Offset(3, 3),
+                                blurRadius: 3,
+                                spreadRadius: 1,
+                              )
+                            ]
+                          ),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget> [
                               Expanded(
-                                child: Image.network(
-                                  game.image,
+                                flex: 7,
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: CachedNetworkImage(
+                                    imageUrl: game.image,
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              Text('${game.rating}'),
-                              const SizedBox(height: 10),
-                              Text(
-                                game.name,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                                style: const TextStyle (fontSize: 16, fontWeight: FontWeight.bold),
+                              const SizedBox(height: 5),
+                              Expanded (
+                                  flex: 2,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10, right: 10),
+                                    child: Stack (
+                                        alignment: Alignment.centerRight,
+                                        children: [
+                                          Container(
+                                            color: Colors.green,
+                                            height: 35,
+                                            width: 35,
+                                          ),
+                                          Positioned(
+                                            right: 2,
+                                            child: Text(
+                                                '${game.rating}',
+                                                style: const TextStyle (
+                                                  color: Colors.white,
+                                                ),
+                                            ),
+                                          ),
+                                        ]
+                                    ),
+                                  )
+                              ),
+                              const SizedBox(height: 5),
+                              Expanded(
+                                flex: 3,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10, right: 10),
+                                  child: Text(
+                                    game.name,
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: const TextStyle (fontSize: 22, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
                         ),
                     ]
-                  );
-                }
+                  ),
+                );
               }
-              else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
+            }
+            else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const Center(
+                child: CircularProgressIndicator(),
+            );
+          },
         ),
       ],
     );

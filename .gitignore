@@ -3,6 +3,8 @@
 # env file
 .env
 
+GeneratedPluginRegistrant.swift
+
 # Built application files
 *.apk
 *.ap_
