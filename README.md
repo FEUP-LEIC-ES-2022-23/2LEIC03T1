@@ -1,6 +1,6 @@
-_[your product name]_ Development Report
+GameShare Development Report
 
-Welcome to the documentation pages of the _[your product name]_!
+Welcome to the documentation pages of the GameShare!
 
 You can find here details about the product (or mini-app or module), from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by discipline (as of Rational Unified Process): 
 
@@ -26,7 +26,11 @@ Please contact us!
 
 Thank you!
 
-*team members names*
+Daniel Ferreira
+José António
+Francisco Cardoso
+Marco Vilas Boas
+José Quintas
 
 ---
 
