@@ -1,4 +1,4 @@
-GameShare Development Report
+## <b>GameShare</b> Development Report
 
 Welcome to the documentation pages of the GameShare!
 
@@ -26,11 +26,13 @@ Please contact us!
 
 Thank you!
 
-Daniel dos Santos Ferreira (up202108771)
-José António Pereira Martins (up202108794)
-Francisco Miguel Correia Mariano Pinheiro Cardoso (up202108793)
-Marco FIlipe Gonçalves Vilas Boas (up202108774)
-José Nuno BArbosa Quintas (up202108712)
+Our team:
+
+- Daniel dos Santos Ferreira (up202108771)
+- José António Pereira Martins (up202108794)
+- Francisco Miguel Correia Mariano Pinheiro Cardoso (up202108793)
+- Marco FIlipe Gonçalves Vilas Boas (up202108774)
+- José Nuno Barbosa Quintas (up202108712)
 
 ---
 
