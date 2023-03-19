@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../model/game.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void fetchGames({int? page, int? pageSize, String? searchQuery, List<String>? genres}) async {
+Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, List<String>? genres}) async {
   String url = buildUrl(page, pageSize, searchQuery, genres);
 
   final res = await http.get(Uri.parse(url));
 
   if (res.statusCode == 200) {
     var results = jsonDecode(res.body)['results'];
+    return [for(int i = 0; i < results.length; i++) Game.fromJson(results, i)];
   }
   else {
     throw Exception('Failed to load games (Error ${res.statusCode})');
