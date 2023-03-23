@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gameshare/main.dart';
+import 'package:gameshare/providers/themeProvider.dart';
 
-import 'package:provider/provider.dart';
+import '../../services/themePrefs.dart';
 
-import '../../providers/darkThemeProvider.dart';
-import '../../services/darkThemePrefs.dart';
 
 class lightDarkModeButton extends StatefulWidget {
-  const lightDarkModeButton({super.key});
+
 
   @override
   State<lightDarkModeButton> createState() => _lightDarkModeButton();
 }
 
 class _lightDarkModeButton extends State<lightDarkModeButton> {
+  ThemeProvider themeProv= ThemeProvider();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -23,27 +25,21 @@ class _lightDarkModeButton extends State<lightDarkModeButton> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    final themeState = Provider.of<DarkThemeProvider>(context);
-    return SafeArea(
+    return  SafeArea(
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Container(
+          child: TextButton(
+            child: Icon(themeProv.isDarkMode()? Icons.dark_mode_outlined:Icons.light_mode_outlined),
+            onPressed: () {
+              setState(() {
+                themeProv.toggleTheme();
+              });
 
-        child:SafeArea(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              child: TextButton(
-                child: Icon(DarkThemePreferences().getTheme()? Icons.dark_mode_outlined:Icons.light_mode_outlined),
-                onPressed: () {
-                  setState(() {
-                    themeState.darkTheme=!DarkThemePreferences().getTheme();
-                  });
-
-                },
-
-
-              ),
-            ),
+            },
           ),
-        )
+        ),
+      ),
     );
 
   }

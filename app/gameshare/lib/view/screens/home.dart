@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../consts/themeData.dart';
-import '../../services/darkThemePrefs.dart';
 import '../components/lightDarkModeButton.dart';
 
 
@@ -27,31 +24,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-        appBar: AppBar(
-          title: const Text('GameShare'),
-          flexibleSpace: lightDarkModeButton(),
-        ),
-        body: Scaffold(
-          body: Scaffold(
-
-            body: Center(
+    return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:  <Widget>[
                   Text(
                     'Home',
-                    style:TextStyle(fontSize: 30,
+                    style:TextStyle(
+                      fontSize: 30,
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ],
               ),
-            ),
-          ),
-        )
-    );
+            );
 
   }
 }
