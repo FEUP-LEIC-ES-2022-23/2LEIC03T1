@@ -29,18 +29,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> signUp() async {
-    try {
-      await Auth().signUpsignInEmailPassword(
-        userController.text,
-        passwordController.text,
-      );
-      errorMessage = null;
-    } on FirebaseAuthException catch (e) {
-      setState(() => errorMessage = e.message);
-    }
-  }
-
   Widget _title(String title) {
     return Text(
       title,
@@ -212,6 +200,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _whitespace(double height) {
+    return SizedBox(
+      height: height,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -225,26 +219,16 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                height: 200,
-              ),
+              _whitespace(200),
               _emailPasswordWidget(),
               _forgotPassword(),
-              const SizedBox(
-                height: 20,
-              ),
+              _whitespace(20),
               _errorMessage(),
-              const SizedBox(
-                height: 20,
-              ),
+              _whitespace(20),
               _submitButton(),
-              const SizedBox(
-                height: 30,
-              ),
+              _whitespace(30),
               _rememberMe(),
-              const SizedBox(
-                height: 20,
-              ),
+              _whitespace(20),
               _createAccountLabel(),
             ],
           ),

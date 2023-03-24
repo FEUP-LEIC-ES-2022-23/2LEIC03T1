@@ -11,7 +11,7 @@ class Auth {
     await _auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<void> signUpsignInEmailPassword(String email, String password) async {
+  Future<void> signUpEmailPassword(String email, String password) async {
     await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
   }
