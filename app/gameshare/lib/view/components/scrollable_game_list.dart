@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
-import '../../constants.dart' as constants;
 
 class ScrollableGameList extends StatefulWidget {
   final int? page;
@@ -124,27 +123,7 @@ class GameCard extends StatelessWidget {
                 ),
               const SizedBox(width: 5),
               if (game.uniquePlatformsIcons.length > 3)
-                SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        color: const Color(0xff2a2a2a),
-                        height: 30,
-                        width: 30,
-                      ),
-                      Text(
-                        '+ ${game.uniquePlatformsIcons.length - 3}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        )
-                      )
-                    ],
-                  )
-                ),
+                MorePlatformsNumber(game: game),
               GameCardRating(game: game),
             ],
           ),
@@ -152,6 +131,40 @@ class GameCard extends StatelessWidget {
           GameCardName(game: game),
         ],
       ),
+    );
+  }
+}
+
+class MorePlatformsNumber extends StatelessWidget {
+  const MorePlatformsNumber({
+    super.key,
+    required this.game,
+  });
+
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 35,
+      width: 35,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            color: const Color(0xff2a2a2a),
+            height: 30,
+            width: 30,
+          ),
+          Text(
+            '+ ${game.uniquePlatformsIcons.length - 3}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )
+          )
+        ],
+      )
     );
   }
 }
@@ -204,7 +217,10 @@ class GameCardRating extends StatelessWidget {
               alignment: Alignment.centerRight,
               children: [
                 Container(
-                  color: const Color(0xff13d772),
+                  decoration: const BoxDecoration(
+                    color: Color(0xff13d772),
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                  ),
                   height: 35,
                   width: 35,
                 ),
