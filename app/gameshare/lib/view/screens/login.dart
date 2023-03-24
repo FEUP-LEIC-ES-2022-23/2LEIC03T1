@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/home.dart';
 
@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? errorMessage;
 
+  bool _selectedRememberMe = false;
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -103,14 +104,6 @@ class _LoginPageState extends State<LoginPage> {
         alignment: Alignment.center,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Color(0xffd9d9d9),
-              offset: Offset(2, 4),
-              blurRadius: 5,
-              spreadRadius: 2,
-            ),
-          ],
           gradient: LinearGradient(
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
@@ -124,7 +117,8 @@ class _LoginPageState extends State<LoginPage> {
           'Login',
           style: TextStyle(
             fontFamily: 'MontserratAlternates',
-            fontSize: 20,
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
             color: Colors.white,
           ),
         ),
@@ -158,7 +152,58 @@ class _LoginPageState extends State<LoginPage> {
           'Forgot Password ?',
           style: TextStyle(
             fontFamily: 'MontserratAlternates',
-            fontSize: 14,
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            color: Color(0xff5E5BFF),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _rememberMe() {
+    return Row(
+      children: <Widget>[
+        const Text(
+          'Remember me',
+          style: TextStyle(
+            fontFamily: 'MontserratAlternates',
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        // checkbox
+        Checkbox(
+          value: _selectedRememberMe,
+          onChanged: (bool? value) {
+            setState(() => _selectedRememberMe = value!);
+          },
+          shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _createAccountLabel() {
+    return InkWell(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RegisterPage(),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        alignment: Alignment.centerLeft,
+        child: const Text(
+          "Don't have an account? Create one",
+          style: TextStyle(
+            fontFamily: 'MontserratAlternates',
+            fontSize: 16,
             fontWeight: FontWeight.w800,
             color: Color(0xff5E5BFF),
           ),
@@ -171,7 +216,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 40,
+        ),
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
@@ -192,8 +239,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
               _submitButton(),
               const SizedBox(
+                height: 30,
+              ),
+              _rememberMe(),
+              const SizedBox(
                 height: 20,
               ),
+              _createAccountLabel(),
             ],
           ),
         ),
