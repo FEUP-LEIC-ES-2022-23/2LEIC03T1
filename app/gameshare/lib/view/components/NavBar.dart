@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+
+import '../screens/home.dart';
+import '../screens/login.dart';
+import '../screens/search.dart';
+
+
+class NavBar extends StatefulWidget {
+  const NavBar(
+      {Key? key}) : super(key: key);
+
+  @override
+  State<NavBar> createState() => _NavBarState();
+}
+
+class _NavBarState extends State<NavBar> {
+
+  int _selected = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'User',
+          ),
+        ],
+        currentIndex: _selected,
+        selectedItemColor: const Color(0xff08C076),
+        backgroundColor: const Color(0xff1B274B),
+        onTap: (int index) {
+          switch (index) {
+            case 0:
+              if (_selected == 0) {
+                _scrollToTop();
+                break;
+              }
+              _selected = 0;
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+              break;
+            case 1:
+              if (_selected == 1) {
+                _scrollToTop();
+                break;
+              }
+              _selected = 1;
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchPage(),
+                ),
+              );
+              break;
+            case 2:
+              if (_selected == 2) {
+                _scrollToTop();
+                break;
+              }
+              _selected = 2;
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              );
+              break;
+            }
+      }
+    );
+  }
+}
+
+
+//TODO fazer a função que faz com que ao tocar no nome volte ao topo da pagina
+void _scrollToTop() {
+
+}
