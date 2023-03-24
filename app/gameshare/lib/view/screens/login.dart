@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       style: const TextStyle(
         fontFamily: 'MontserratAlternates',
         fontSize: 30,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w900,
       ),
     );
   }
@@ -58,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _title(title),
+          const SizedBox(height: 20),
           TextField(
             style: const TextStyle(color: Colors.black),
             obscureText: isPassword,
@@ -114,14 +115,15 @@ class _LoginPageState extends State<LoginPage> {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
             colors: <Color>[
-              Color(0xff00bfa5),
-              Color(0xff00acc1),
+              Color(0xff00FFDD),
+              Color(0xff00ddff),
             ],
           ),
         ),
         child: const Text(
           'Login',
           style: TextStyle(
+            fontFamily: 'MontserratAlternates',
             fontSize: 20,
             color: Colors.white,
           ),
@@ -144,6 +146,27 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Widget _forgotPassword() {
+    return InkWell(
+      onTap: () {
+        // TODO: Forgot Password
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        alignment: Alignment.centerRight,
+        child: const Text(
+          'Forgot Password ?',
+          style: TextStyle(
+            fontFamily: 'MontserratAlternates',
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
+            color: Color(0xff5E5BFF),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,13 +179,10 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(
-                height: 150,
-              ),
-              _title('Login Page'),
-              const SizedBox(
-                height: 80,
+                height: 200,
               ),
               _emailPasswordWidget(),
+              _forgotPassword(),
               const SizedBox(
                 height: 20,
               ),
