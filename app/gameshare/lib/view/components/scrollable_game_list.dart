@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
+import '../../constants.dart' as constants;
 
 class ScrollableGameList extends StatefulWidget {
   final int? page;
@@ -112,7 +113,18 @@ class GameCard extends StatelessWidget {
         children: <Widget> [
           GameCardImage(game: game),
           const SizedBox(height: 5),
-          GameCardRating(game: game),
+          Row(
+            children: [
+              const SizedBox(width: 5),
+              for (int i = 0; i < 3 && i < game.platforms.length; i++)
+                SizedBox(
+                    height: 35,
+                    width: 35,
+                    child: Icon(constants.platformToIcon[game.platforms[i]])
+                ),
+              GameCardRating(game: game),
+            ],
+          ),
           const SizedBox(height: 5),
           GameCardName(game: game),
         ],
