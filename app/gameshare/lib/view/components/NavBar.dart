@@ -13,9 +13,10 @@ class NavBar extends StatefulWidget {
   State<NavBar> createState() => _NavBarState();
 }
 
+int _selected = 0;
+
 class _NavBarState extends State<NavBar> {
 
-  int _selected = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,9 @@ class _NavBarState extends State<NavBar> {
               _selected = 0;
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
+                PageRouteBuilder(
+                  pageBuilder: (_,__,____) => const HomePage(),
+                  transitionDuration: const Duration(seconds: 0),
                 ),
               );
               break;
@@ -61,8 +63,9 @@ class _NavBarState extends State<NavBar> {
               _selected = 1;
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const SearchPage(),
+                PageRouteBuilder(
+                  pageBuilder: (_,__,____) => const SearchPage(),
+                  transitionDuration: const Duration(seconds: 0),
                 ),
               );
               break;
@@ -74,8 +77,9 @@ class _NavBarState extends State<NavBar> {
               _selected = 2;
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
+                PageRouteBuilder(
+                  pageBuilder: (_,__,____) => const SearchPage(),
+                  transitionDuration: const Duration(seconds: 0),
                 ),
               );
               break;
