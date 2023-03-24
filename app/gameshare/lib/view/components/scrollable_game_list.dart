@@ -112,20 +112,43 @@ class GameCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget> [
           GameCardImage(game: game),
-          const SizedBox(height: 5),
+          const SizedBox(height: 10),
           Row(
             children: [
               const SizedBox(width: 5),
-              for (int i = 0; i < 3 && i < game.platforms.length; i++)
+              for (int i = 0; i < 3 && i < game.uniquePlatformsIcons.length; i++)
                 SizedBox(
                     height: 35,
                     width: 35,
-                    child: Icon(constants.platformToIcon[game.platforms[i]])
+                    child: Icon(game.uniquePlatformsIcons[i])
+                ),
+              const SizedBox(width: 5),
+              if (game.uniquePlatformsIcons.length > 3)
+                SizedBox(
+                  height: 35,
+                  width: 35,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        color: const Color(0xff2a2a2a),
+                        height: 30,
+                        width: 30,
+                      ),
+                      Text(
+                        '+ ${game.uniquePlatformsIcons.length - 3}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )
+                      )
+                    ],
+                  )
                 ),
               GameCardRating(game: game),
             ],
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 10),
           GameCardName(game: game),
         ],
       ),
@@ -181,7 +204,7 @@ class GameCardRating extends StatelessWidget {
               alignment: Alignment.centerRight,
               children: [
                 Container(
-                  color: Colors.green,
+                  color: const Color(0xff13d772),
                   height: 35,
                   width: 35,
                 ),
@@ -191,6 +214,7 @@ class GameCardRating extends StatelessWidget {
                     game.rating.toStringAsFixed(2),
                     style: const TextStyle (
                       color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
