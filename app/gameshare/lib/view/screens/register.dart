@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/screens/login.dart';
+import 'package:gameshare/model/input.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,18 +15,28 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   String? errorMessage;
 
-  bool _selectedRememberMe = false;
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController userController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final Entry email = Entry('Email', TextEditingController());
+  final Entry username = Entry('Username', TextEditingController());
+  final Entry password = Entry('Password', TextEditingController(), hide: true);
+  final Entry confirmPassword =
+      Entry('Confirm Password', TextEditingController(), hide: true);
+
+  final List<Entry> entries = <Entry>[];
+
+  @override
+  void initState() {
+    super.initState();
+    entries.add(email);
+    entries.add(username);
+    entries.add(password);
+    entries.add(confirmPassword);
+  }
 
   Future<void> signIn() async {
     try {
       await Auth().signInEmailPassword(
-        userController.text,
-        passwordController.text,
+        email.controller.text,
+        password.controller.text,
       );
     } on FirebaseAuthException catch (e) {
       setState(() => errorMessage = e.message);
@@ -33,66 +44,19 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> signUp() async {
-    if (passwordController.text != confirmPasswordController.text) {
+    if (password.controller.text != confirmPassword.controller.text) {
       setState(() => errorMessage = 'Passwords do not match');
       return;
     }
     try {
       await Auth().signUpEmailPassword(
-        emailController.text,
-        passwordController.text,
+        email.controller.text,
+        password.controller.text,
       );
       errorMessage = null;
     } on FirebaseAuthException catch (e) {
       setState(() => errorMessage = e.message);
     }
-  }
-
-  Widget _title(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontFamily: 'MontserratAlternates',
-        fontSize: 30,
-        fontWeight: FontWeight.w900,
-      ),
-    );
-  }
-
-  Widget _entryField(String title, TextEditingController controller,
-      {bool isPassword = false}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _title(title),
-          const SizedBox(height: 20),
-          TextField(
-            style: const TextStyle(color: Colors.black),
-            obscureText: isPassword,
-            controller: controller,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              fillColor: Color(0xfff3f3f4),
-              filled: true,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _paramsWidget() {
-    return Column(
-      children: <Widget>[
-        _entryField('Email', emailController),
-        _entryField('Username', userController),
-        _entryField('Password', passwordController, isPassword: true),
-        _entryField('Confirm Password', confirmPasswordController,
-            isPassword: true),
-      ],
-    );
   }
 
   Widget _submitButton() {
@@ -151,84 +115,6 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Widget _forgotPassword() {
-    return InkWell(
-      onTap: () {
-        // TODO: Forgot Password
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.centerRight,
-        child: const Text(
-          'Forgot Password ?',
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Color(0xff5E5BFF),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _rememberMe() {
-    return Row(
-      children: <Widget>[
-        const Text(
-          'Remember me',
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-        // checkbox
-        Checkbox(
-          value: _selectedRememberMe,
-          onChanged: (bool? value) {
-            setState(() => _selectedRememberMe = value!);
-          },
-          shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _createAccountLabel() {
-    return InkWell(
-      onTap: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const RegisterPage(),
-          ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.centerLeft,
-        child: const Text(
-          "Don't have an account? Create one",
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Color(0xff5E5BFF),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _whitespace(double height) {
-    return SizedBox(
-      height: height,
-    );
-  }
-
   Widget _loginPageLabel() {
     return InkWell(
       onTap: () {
@@ -268,13 +154,13 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _whitespace(100),
-              _paramsWidget(),
-              _whitespace(20),
+              whitespace(100),
+              entryFieldList(entries),
+              whitespace(20),
               _errorMessage(),
-              _whitespace(20),
+              whitespace(20),
               _submitButton(),
-              _whitespace(20),
+              whitespace(20),
               _loginPageLabel(),
             ],
           ),
