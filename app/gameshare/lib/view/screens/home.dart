@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/TopBar.dart';
 
+import '../../services/providers/ScrollProvider.dart';
 import '../components/NavBar.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,8 +14,20 @@ class HomePage extends StatelessWidget {
       appBar: TopBar(),
 
       body: Container(
-        child: Text("hello"),
+
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          controller: ScrollProvider().controller,
+            children: [
+            Container(
+              child: Text("hello"),
+              height: 2000,
+            ),
+
+          ],
       ),
+
+        ),
 
       bottomNavigationBar: NavBar(),
 

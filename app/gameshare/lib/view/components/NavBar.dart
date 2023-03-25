@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gameshare/services/providers/ScrollProvider.dart';
 
 import '../screens/home.dart';
 import '../screens/login.dart';
@@ -15,7 +16,7 @@ class NavBar extends StatefulWidget {
 int _selected = 0;
 
 class _NavBarState extends State<NavBar> {
-
+  ScrollController scrollController= ScrollProvider().controller;
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +87,13 @@ class _NavBarState extends State<NavBar> {
       }
     );
   }
+  void _scrollToTop() {
+    scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 200), curve: Curves.linear);
+
+  }
 }
 
 
 //TODO fazer a função que faz com que ao tocar no "GameShare" volte ao topo da pagina
-void _scrollToTop() {
 
-}
