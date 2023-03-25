@@ -4,7 +4,6 @@ import '../screens/home.dart';
 import '../screens/login.dart';
 import '../screens/search.dart';
 
-
 class NavBar extends StatefulWidget {
   const NavBar(
       {Key? key}) : super(key: key);
