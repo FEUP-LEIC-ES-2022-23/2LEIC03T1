@@ -13,7 +13,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  String? errorMessage;
+  String? error;
 
   final Entry email = Entry('Email', TextEditingController());
   final Entry username = Entry('Username', TextEditingController());
@@ -32,20 +32,9 @@ class _RegisterPageState extends State<RegisterPage> {
     entries.add(confirmPassword);
   }
 
-  Future<void> signIn() async {
-    try {
-      await Auth().signInEmailPassword(
-        email.controller.text,
-        password.controller.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() => errorMessage = e.message);
-    }
-  }
-
   Future<void> signUp() async {
     if (password.controller.text != confirmPassword.controller.text) {
-      setState(() => errorMessage = 'Passwords do not match');
+      setState(() => error = 'Passwords do not match');
       return;
     }
     try {
@@ -53,90 +42,17 @@ class _RegisterPageState extends State<RegisterPage> {
         email.controller.text,
         password.controller.text,
       );
-      errorMessage = null;
+      error = null;
     } on FirebaseAuthException catch (e) {
-      setState(() => errorMessage = e.message);
+      setState(() => error = e.message);
     }
   }
 
-  Widget _submitButton() {
-    return InkWell(
-      onTap: () async {
-        errorMessage = null;
-        await signUp();
-        if (errorMessage == null && context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
-        }
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: <Color>[
-              Color(0xff00FFDD),
-              Color(0xff00ddff),
-            ],
-          ),
-        ),
-        child: const Text(
-          'Register',
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _errorMessage() {
-    if (errorMessage != null) {
-      return Text(
-        errorMessage!,
-        style: const TextStyle(
-          color: Colors.red,
-          fontSize: 13,
-        ),
-      );
-    } else {
-      return const SizedBox();
-    }
-  }
-
-  Widget _loginPageLabel() {
-    return InkWell(
-      onTap: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginPage(),
-          ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.centerRight,
-        child: const Text(
-          "Already have an account? Login",
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Color(0xff5E5BFF),
-          ),
-        ),
+  void _goToLogin(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(),
       ),
     );
   }
@@ -157,11 +73,15 @@ class _RegisterPageState extends State<RegisterPage> {
               whitespace(100),
               entryFieldList(entries),
               whitespace(20),
-              _errorMessage(),
+              displayError(error),
               whitespace(20),
-              _submitButton(),
+              submitButton('Register', error, () => signUp(), context),
               whitespace(20),
-              _loginPageLabel(),
+              label(
+                "Already have an account? Login",
+                () => _goToLogin(context),
+                left: false,
+              ),
             ],
           ),
         ),

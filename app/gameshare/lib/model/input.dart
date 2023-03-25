@@ -61,3 +61,75 @@ Widget whitespace(double height) {
     height: height,
   );
 }
+
+Widget label(String text, Function() onTap, {bool left = true}) {
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      alignment: left ? Alignment.centerLeft : Alignment.centerRight,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: _font,
+          fontSize: 16,
+          fontWeight: FontWeight.w800,
+          color: Color(0xff5E5BFF),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget displayError(String? error) {
+  return Text(
+    error ?? '',
+    style: const TextStyle(
+      color: Colors.red,
+      fontSize: 13,
+    ),
+  );
+}
+
+Widget submitButton(
+    String text, String? error, Function() onTap, BuildContext context) {
+  return InkWell(
+    onTap: () async {
+      error = null;
+      await onTap();
+      if (error == null && context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomePage(),
+          ),
+        );
+      }
+    },
+    child: Container(
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(vertical: 13),
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: <Color>[
+            Color(0xff00FFDD),
+            Color(0xff00ddff),
+          ],
+        ),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontFamily: _font,
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  );
+}

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/model/input.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,62 +15,27 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? errorMessage;
 
-  bool _selectedRememberMe = false;
-  final TextEditingController userController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  bool _rememberMe = false;
+  final Entry user = Entry('Email/Username', TextEditingController());
+  final Entry password = Entry('Password', TextEditingController(), hide: true);
+  final List<Entry> entries = <Entry>[];
+
+  @override
+  void initState() {
+    super.initState();
+    entries.add(user);
+    entries.add(password);
+  }
 
   Future<void> signIn() async {
     try {
       await Auth().signInEmailPassword(
-        userController.text,
-        passwordController.text,
+        user.controller.text,
+        password.controller.text,
       );
     } on FirebaseAuthException catch (e) {
       setState(() => errorMessage = e.message);
     }
-  }
-
-  Widget _title(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontFamily: 'MontserratAlternates',
-        fontSize: 30,
-        fontWeight: FontWeight.w900,
-      ),
-    );
-  }
-
-  Widget _entryField(String title, {bool isPassword = false}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _title(title),
-          const SizedBox(height: 20),
-          TextField(
-            style: const TextStyle(color: Colors.black),
-            obscureText: isPassword,
-            controller: isPassword ? passwordController : userController,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              fillColor: Color(0xfff3f3f4),
-              filled: true,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _emailPasswordWidget() {
-    return Column(
-      children: <Widget>[
-        _entryField('Email/Username'),
-        _entryField('Password', isPassword: true),
-      ],
-    );
   }
 
   Widget _submitButton() {
@@ -149,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _rememberMe() {
+  Widget _rememberMeBox() {
     return Row(
       children: <Widget>[
         const Text(
@@ -162,9 +128,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
         // checkbox
         Checkbox(
-          value: _selectedRememberMe,
+          value: _rememberMe,
           onChanged: (bool? value) {
-            setState(() => _selectedRememberMe = value!);
+            setState(() => _rememberMe = value!);
           },
           shape: ContinuousRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -200,12 +166,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _whitespace(double height) {
-    return SizedBox(
-      height: height,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,16 +179,16 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _whitespace(200),
-              _emailPasswordWidget(),
+              whitespace(200),
+              entryFieldList(entries),
               _forgotPassword(),
-              _whitespace(20),
+              whitespace(20),
               _errorMessage(),
-              _whitespace(20),
+              whitespace(20),
               _submitButton(),
-              _whitespace(30),
-              _rememberMe(),
-              _whitespace(20),
+              whitespace(30),
+              _rememberMeBox(),
+              whitespace(20),
               _createAccountLabel(),
             ],
           ),
