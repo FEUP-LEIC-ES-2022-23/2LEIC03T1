@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String? errorMessage;
+  String? error;
 
   bool _rememberMe = false;
   final Entry user = Entry('Email/Username', TextEditingController());
@@ -34,63 +34,7 @@ class _LoginPageState extends State<LoginPage> {
         password.controller.text,
       );
     } on FirebaseAuthException catch (e) {
-      setState(() => errorMessage = e.message);
-    }
-  }
-
-  Widget _submitButton() {
-    return InkWell(
-      onTap: () async {
-        errorMessage = null;
-        await signIn();
-        if (errorMessage == null && context.mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
-        }
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(vertical: 13),
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: <Color>[
-              Color(0xff00FFDD),
-              Color(0xff00ddff),
-            ],
-          ),
-        ),
-        child: const Text(
-          'Login',
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _errorMessage() {
-    if (errorMessage != null) {
-      return Text(
-        errorMessage!,
-        style: const TextStyle(
-          color: Colors.red,
-          fontSize: 13,
-        ),
-      );
-    } else {
-      return const SizedBox();
+      setState(() => error = e.message);
     }
   }
 
@@ -140,28 +84,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _createAccountLabel() {
-    return InkWell(
-      onTap: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const RegisterPage(),
-          ),
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.centerLeft,
-        child: const Text(
-          "Don't have an account? Create one",
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Color(0xff5E5BFF),
-          ),
-        ),
+  void _goToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
       ),
     );
   }
@@ -183,13 +110,16 @@ class _LoginPageState extends State<LoginPage> {
               entryFieldList(entries),
               _forgotPassword(),
               whitespace(20),
-              _errorMessage(),
+              displayError(error),
               whitespace(20),
-              _submitButton(),
+              submitButton("Login", error, () => signIn(), context),
               whitespace(30),
               _rememberMeBox(),
               whitespace(20),
-              _createAccountLabel(),
+              label(
+                "Don't have an account? Create one",
+                () => _goToHome(),
+              ),
             ],
           ),
         ),
