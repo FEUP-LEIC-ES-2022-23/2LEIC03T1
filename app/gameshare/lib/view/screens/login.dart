@@ -13,6 +13,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+
+      appBar: TopBar(),
+
+      body: Text("It's time to log in!"),
+
+      bottomNavigationBar: NavBar(),
+
+    );
   }
 }

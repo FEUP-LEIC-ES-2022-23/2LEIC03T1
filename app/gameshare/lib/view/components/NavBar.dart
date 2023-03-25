@@ -78,7 +78,7 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_,__,____) => const SearchPage(),
+                  pageBuilder: (_,__,____) => const LoginPage(),
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );
@@ -90,7 +90,7 @@ class _NavBarState extends State<NavBar> {
 }
 
 
-//TODO fazer a função que faz com que ao tocar no nome volte ao topo da pagina
+//TODO fazer a função que faz com que ao tocar no "GameShare" volte ao topo da pagina
 void _scrollToTop() {
 
 }
