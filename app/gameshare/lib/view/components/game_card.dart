@@ -14,6 +14,7 @@ class GameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
+      height: 300,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           border: Border.all(width: 0.5),

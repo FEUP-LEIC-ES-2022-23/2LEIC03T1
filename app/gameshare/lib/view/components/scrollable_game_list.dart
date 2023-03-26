@@ -4,6 +4,7 @@ import '../../services/api_requests.dart';
 import 'game_card.dart';
 
 class ScrollableGameList extends StatefulWidget {
+  final bool scrollHorizontally;
   final int? page;
   final int? pageSize;
   final String? searchQuery;
@@ -11,6 +12,7 @@ class ScrollableGameList extends StatefulWidget {
 
   const ScrollableGameList({
     Key? key,
+    required this.scrollHorizontally,
     this.page,
     this.pageSize,
     this.searchQuery,
@@ -27,8 +29,6 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
   @override
   void initState() {
     super.initState();
-    List<String> test = [];
-    test.add('action');
     futureGames = fetchGames(
         page: widget.page,
         pageSize: widget.pageSize,
@@ -47,15 +47,12 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
             return const Text('No results found');
           }
           else {
-            return SizedBox(
-              height: 300,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (var game in snapshot.data!)
-                    GameCard(game: game),
-                ],
-              ),
+            return ListView(
+              scrollDirection: widget.scrollHorizontally ? Axis.horizontal : Axis.vertical,
+              children: [
+                for (var game in snapshot.data!)
+                  GameCard(game: game),
+              ],
             );
           }
         }
@@ -63,15 +60,11 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
           return Text('${snapshot.error}');
         }
         return Center(
-          child: SizedBox(
-              height: 300,
-              width: 275,
-              child: Transform.scale(
-                  scale: 0.2,
-                  child: const CircularProgressIndicator(
-                    strokeWidth: 20,
-                    color: Color(0xff1F2D5A),
-                  )
+          child: Transform.scale(
+              scale: 2,
+              child: const CircularProgressIndicator(
+                strokeWidth: 1.5,
+                color: Color(0xff1F2D5A),
               )
           ),
         );

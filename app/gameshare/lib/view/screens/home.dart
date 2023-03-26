@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/scrollable_game_list.dart';
 
-import '../../platform_icons_icons.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -15,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             Column(
@@ -23,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: <Widget> [
                 Container(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  width: 350,
+                  width: MediaQuery.of(context).size.width - 10,
                   decoration: const BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
@@ -38,8 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            const ScrollableGameList(),
-            const Icon( size: 0, PlatformIcons.android),
+            const SizedBox(height: 300, child: ScrollableGameList(scrollHorizontally: true)),
           ],
         ),
       )
