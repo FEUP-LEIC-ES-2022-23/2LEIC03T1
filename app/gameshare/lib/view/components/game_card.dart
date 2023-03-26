@@ -74,15 +74,22 @@ class MorePlatformsNumber extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              color: const Color(0xff2a2a2a),
               height: 30,
               width: 30,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(100)),
+                border: Border.all(
+                  width: 2.2,
+                )
+              ),
             ),
             Text(
-                '+ ${game.uniquePlatformsIcons.length - 3}',
+                '+${game.uniquePlatformsIcons.length - 3}',
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
                 )
             )
           ],
@@ -141,7 +148,7 @@ class GameCardRating extends StatelessWidget {
                 Container(
                   decoration: const BoxDecoration(
                     color: Color(0xff13d772),
-                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                   height: 35,
                   width: 35,
