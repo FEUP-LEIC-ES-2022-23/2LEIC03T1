@@ -52,8 +52,9 @@ class _LoginPageState extends State<LoginPage> {
   void _goToRegister() {
     Navigator.push(
       context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const RegisterPage(),
+      PageRouteBuilder(
+        pageBuilder: (_, __, ____) => const RegisterPage(),
+        transitionDuration: const Duration(seconds: 0),
       ),
     );
   }
@@ -61,8 +62,9 @@ class _LoginPageState extends State<LoginPage> {
   void _goToHome() {
     Navigator.push(
       context,
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => const HomePage(),
+      PageRouteBuilder(
+        pageBuilder: (_, __, ____) => const HomePage(),
+        transitionDuration: const Duration(seconds: 0),
       ),
     );
   }
@@ -102,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const TopBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 40,
@@ -128,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+      bottomNavigationBar: const NavBar(),
     );
   }
 }

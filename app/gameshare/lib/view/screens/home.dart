@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:gameshare/view/components/TopBar.dart';
-
 import '../../services/providers/ScrollProvider.dart';
 import '../components/NavBar.dart';
 

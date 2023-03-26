@@ -5,6 +5,8 @@ import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/model/input.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/model/helper_widgets.dart';
+import 'package:gameshare/view/components/NavBar.dart';
+import 'package:gameshare/view/components/TopBar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -70,8 +72,9 @@ class _RegisterPageState extends State<RegisterPage> {
   void _goToLogin(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-        builder: (context) => const LoginPage(),
+      PageRouteBuilder(
+        pageBuilder: (_, __, ____) => const LoginPage(),
+        transitionDuration: const Duration(seconds: 0),
       ),
     );
   }
@@ -93,6 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const TopBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 40,
@@ -116,6 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ),
+      bottomNavigationBar: const NavBar(),
     );
   }
 }
