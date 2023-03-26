@@ -5,9 +5,11 @@ import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/model/input.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/model/helper_widgets.dart';
+import 'package:gameshare/view/components/NavBar.dart';
+import 'package:gameshare/view/components/TopBar.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
