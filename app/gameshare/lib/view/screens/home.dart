@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/scrollable_game_list.dart';
 
+import '../components/section_title.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -18,22 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget> [
-                Container(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  width: MediaQuery.of(context).size.width - 10,
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    'Test',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  ),
-                ),
+              children: const <Widget> [
+                SectionTitle(title: 'Test'),
               ],
             ),
             const SizedBox(height: 300, child: ScrollableGameList(scrollHorizontally: true)),
@@ -43,3 +31,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
