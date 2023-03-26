@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/model/input.dart';
+import 'package:gameshare/view/screens/home.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -12,7 +13,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  String? error;
+  String? _error;
 
   final Entry email = Entry('Email', TextEditingController());
   final Entry username = Entry('Username', TextEditingController());
@@ -38,18 +39,33 @@ class _RegisterPageState extends State<RegisterPage> {
         username.controller.text,
         password.controller.text,
       );
-      error = null;
     } on FirebaseAuthException catch (e) {
-      setState(() => error = e.message);
+      setState(() => _error = e.message);
     }
   }
 
   Future<void> signUp() async {
     if (password.controller.text != confirmPassword.controller.text) {
-      setState(() => error = 'Passwords do not match');
+      setState(() => _error = 'Passwords do not match');
       return;
     }
+
+    setState(() => _error = null);
+
     await _signUp();
+
+    if (_error == null && context.mounted) {
+      _goToHome(context);
+    }
+  }
+
+  void _goToHome(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
   }
 
   void _goToLogin(BuildContext context) {
@@ -92,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
               whitespace(100),
               entryFieldList(entries),
               whitespace(20),
-              displayError(error),
+              displayError(_error),
               whitespace(20),
               _registerButton(),
               whitespace(20),
