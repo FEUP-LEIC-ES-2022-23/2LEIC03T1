@@ -4,6 +4,7 @@ import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/model/input.dart';
 import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/model/helper_widgets.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -21,15 +22,15 @@ class _RegisterPageState extends State<RegisterPage> {
   final Entry confirmPassword =
       Entry('Confirm Password', TextEditingController(), hide: true);
 
-  final List<Entry> entries = <Entry>[];
+  final List<Entry> _entries = <Entry>[];
 
   @override
   void initState() {
     super.initState();
-    entries.add(email);
-    entries.add(username);
-    entries.add(password);
-    entries.add(confirmPassword);
+    _entries.add(email);
+    _entries.add(username);
+    _entries.add(password);
+    _entries.add(confirmPassword);
   }
 
   Future<void> _signUp() async {
@@ -54,9 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     await _signUp();
 
-    if (_error == null && context.mounted) {
-      _goToHome(context);
-    }
+    if (_error == null && context.mounted) _goToHome(context);
   }
 
   void _goToHome(BuildContext context) {
@@ -78,17 +77,16 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _loginLabel() {
-    return label(
-      "Already have an account? Login",
-      () => _goToLogin(context),
-      left: false,
+    return InkWell(
+      onTap: () => _goToLogin(context),
+      child: const MyLabel('Already have an account', left: true),
     );
   }
 
   Widget _registerButton() {
     return InkWell(
       onTap: () => signUp(),
-      child: submitButton('Register', context),
+      child: SubmitButton('Register', context),
     );
   }
 
@@ -104,12 +102,12 @@ class _RegisterPageState extends State<RegisterPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            entryFieldList(entries),
-            whitespace(20),
-            displayError(_error),
-            whitespace(10),
+            EntryFieldList(_entries),
+            const WhiteSpace(),
+            DisplayError(_error),
+            const WhiteSpace(),
             _registerButton(),
-            whitespace(20),
+            const WhiteSpace(),
             _loginLabel(),
           ],
         ),
