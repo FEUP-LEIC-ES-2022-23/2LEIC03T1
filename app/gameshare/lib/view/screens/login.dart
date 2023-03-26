@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/model/input.dart';
+import 'package:gameshare/view/screens/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String? error;
+  String? _error;
 
   bool _rememberMe = false;
   final Entry user = Entry('Email/Username', TextEditingController());
@@ -26,14 +27,29 @@ class _LoginPageState extends State<LoginPage> {
     entries.add(password);
   }
 
-  Future<void> signIn() async {
+  Future<void> _signIn() async {
     try {
       await Auth().signInEmailPassword(
         user.controller.text,
         password.controller.text,
       );
     } on FirebaseAuthException catch (e) {
-      setState(() => error = e.message);
+      setState(() => _error = e.message);
+    }
+  }
+
+  Future<void> signIn(BuildContext context) async {
+    setState(() => _error = null);
+
+    await _signIn();
+
+    if (_error == null && context.mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
     }
   }
 
@@ -93,6 +109,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _loginButton() {
+    return InkWell(
+      onTap: () => signIn(context),
+      child: submitButton('Login', context),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,9 +133,9 @@ class _LoginPageState extends State<LoginPage> {
               entryFieldList(entries),
               _forgotPassword(),
               whitespace(20),
-              displayError(error),
+              displayError(_error),
               whitespace(20),
-              submitButton("Login", error, () => signIn(), context),
+              _loginButton(),
               whitespace(30),
               _rememberMeBox(),
               whitespace(20),

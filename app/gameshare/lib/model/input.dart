@@ -95,42 +95,27 @@ Widget displayError(String? error) {
   );
 }
 
-Widget submitButton(
-    String text_, String? error, Function() onTap, BuildContext context) {
-  return InkWell(
-    onTap: () async {
-      error = null;
-      await onTap();
-      if (error == null && context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ),
-        );
-      }
-    },
-    child: Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.symmetric(vertical: 13),
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: <Color>[
-            Color(0xff00FFDD),
-            Color(0xff00ddff),
-          ],
-        ),
+Widget submitButton(String text_, BuildContext context) {
+  return Container(
+    width: MediaQuery.of(context).size.width,
+    padding: const EdgeInsets.symmetric(vertical: 13),
+    alignment: Alignment.center,
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(5)),
+      gradient: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: <Color>[
+          Color(0xff00FFDD),
+          Color(0xff00ddff),
+        ],
       ),
-      child: text(
-        text_,
-        size: 20,
-        weight: FontWeight.w800,
-        color: Colors.white,
-      ),
+    ),
+    child: text(
+      text_,
+      size: 20,
+      weight: FontWeight.w800,
+      color: Colors.white,
     ),
   );
 }

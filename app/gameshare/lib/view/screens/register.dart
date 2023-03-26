@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/services/auth.dart';
-import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/model/input.dart';
 
@@ -32,14 +31,11 @@ class _RegisterPageState extends State<RegisterPage> {
     entries.add(confirmPassword);
   }
 
-  Future<void> signUp() async {
-    if (password.controller.text != confirmPassword.controller.text) {
-      setState(() => error = 'Passwords do not match');
-      return;
-    }
+  Future<void> _signUp() async {
     try {
       await Auth().signUpEmailPassword(
         email.controller.text,
+        username.controller.text,
         password.controller.text,
       );
       error = null;
@@ -48,12 +44,35 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  Future<void> signUp() async {
+    if (password.controller.text != confirmPassword.controller.text) {
+      setState(() => error = 'Passwords do not match');
+      return;
+    }
+    await _signUp();
+  }
+
   void _goToLogin(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => const LoginPage(),
       ),
+    );
+  }
+
+  Widget _loginLabel() {
+    return label(
+      "Already have an account? Login",
+      () => _goToLogin(context),
+      left: false,
+    );
+  }
+
+  Widget _registerButton() {
+    return InkWell(
+      onTap: () => signUp(),
+      child: submitButton('Register', context),
     );
   }
 
@@ -75,13 +94,9 @@ class _RegisterPageState extends State<RegisterPage> {
               whitespace(20),
               displayError(error),
               whitespace(20),
-              submitButton('Register', error, () => signUp(), context),
+              _registerButton(),
               whitespace(20),
-              label(
-                "Already have an account? Login",
-                () => _goToLogin(context),
-                left: false,
-              ),
+              _loginLabel(),
             ],
           ),
         ),
