@@ -98,18 +98,22 @@ class _RegisterPageState extends State<RegisterPage> {
           horizontal: 40,
         ),
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            EntryFieldList(_entries),
-            const WhiteSpace(),
-            DisplayError(_error),
-            const WhiteSpace(),
-            _registerButton(),
-            const WhiteSpace(),
-            _loginLabel(),
-          ],
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                EntryFieldList(_entries),
+                const WhiteSpace(),
+                DisplayError(_error),
+                const WhiteSpace(),
+                _registerButton(),
+                const WhiteSpace(),
+                _loginLabel(),
+              ],
+            ),
+          ),
         ),
       ),
     );

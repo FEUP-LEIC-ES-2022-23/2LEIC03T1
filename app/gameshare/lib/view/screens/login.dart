@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () {
         // TODO: Forgot Password
       },
-      child: const MyLabel('Forgot Password?'),
+      child: const MyLabel('Forgot Password?', left: false),
     );
   }
 
@@ -105,21 +105,25 @@ class _LoginPageState extends State<LoginPage> {
           horizontal: 40,
         ),
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            EntryFieldList(_entries),
-            _forgotPasswordLabel(),
-            const WhiteSpace(),
-            DisplayError(_error),
-            const WhiteSpace(),
-            _loginButton(),
-            const WhiteSpace(),
-            _rememberMeBox(),
-            const WhiteSpace(),
-            _createAccountLabel(),
-          ],
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                EntryFieldList(_entries),
+                _forgotPasswordLabel(),
+                const WhiteSpace(),
+                DisplayError(_error),
+                const WhiteSpace(),
+                _loginButton(),
+                const WhiteSpace(),
+                _rememberMeBox(),
+                const WhiteSpace(),
+                _createAccountLabel(),
+              ],
+            ),
+          ),
         ),
       ),
     );
