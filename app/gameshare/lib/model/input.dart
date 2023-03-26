@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gameshare/services/auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:gameshare/view/screens/home.dart';
-import 'package:gameshare/view/screens/login.dart';
 
-const String _font = 'MontserratAlternates';
+TextStyle _font = GoogleFonts.montserratAlternates();
 const double _titleSize = 30;
 const FontWeight _titleWeight = FontWeight.w900;
 
@@ -19,10 +17,21 @@ class Entry {
 Widget _title(String title) {
   return Text(
     title,
-    style: const TextStyle(
-      fontFamily: _font,
+    style: _font.copyWith(
       fontSize: _titleSize,
       fontWeight: _titleWeight,
+    ),
+  );
+}
+
+Widget text(String text,
+    {double size = 16, FontWeight weight = FontWeight.w400, Color? color}) {
+  return Text(
+    text,
+    style: _font.copyWith(
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
     ),
   );
 }
@@ -62,37 +71,32 @@ Widget whitespace(double height) {
   );
 }
 
-Widget label(String text, Function() onTap, {bool left = true}) {
+Widget label(String text_, Function() onTap, {bool left = true}) {
   return InkWell(
     onTap: onTap,
     child: Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       alignment: left ? Alignment.centerLeft : Alignment.centerRight,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontFamily: _font,
-          fontSize: 16,
-          fontWeight: FontWeight.w800,
-          color: Color(0xff5E5BFF),
-        ),
+      child: text(
+        text_,
+        size: 16,
+        weight: FontWeight.w800,
+        color: const Color(0xff5E5BFF),
       ),
     ),
   );
 }
 
 Widget displayError(String? error) {
-  return Text(
+  return text(
     error ?? '',
-    style: const TextStyle(
-      color: Colors.red,
-      fontSize: 13,
-    ),
+    size: 13,
+    color: Colors.red,
   );
 }
 
 Widget submitButton(
-    String text, String? error, Function() onTap, BuildContext context) {
+    String text_, String? error, Function() onTap, BuildContext context) {
   return InkWell(
     onTap: () async {
       error = null;
@@ -121,14 +125,11 @@ Widget submitButton(
           ],
         ),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontFamily: _font,
-          fontSize: 24,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-        ),
+      child: text(
+        text_,
+        size: 20,
+        weight: FontWeight.w800,
+        color: Colors.white,
       ),
     ),
   );

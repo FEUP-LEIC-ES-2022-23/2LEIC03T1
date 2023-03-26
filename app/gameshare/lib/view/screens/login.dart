@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/services/auth.dart';
-import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/model/input.dart';
 
 class LoginPage extends StatefulWidget {
@@ -46,14 +45,11 @@ class _LoginPageState extends State<LoginPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         alignment: Alignment.centerRight,
-        child: const Text(
-          'Forgot Password ?',
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 16,
-            fontWeight: FontWeight.w800,
-            color: Color(0xff5E5BFF),
-          ),
+        child: text(
+          'Forgot Password?',
+          size: 16,
+          weight: FontWeight.w800,
+          color: const Color(0xff5E5BFF),
         ),
       ),
     );
@@ -62,13 +58,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _rememberMeBox() {
     return Row(
       children: <Widget>[
-        const Text(
+        text(
           'Remember me',
-          style: TextStyle(
-            fontFamily: 'MontserratAlternates',
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-          ),
+          size: 18,
+          weight: FontWeight.w800,
         ),
         // checkbox
         Checkbox(
@@ -84,12 +77,19 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _goToHome() {
-    Navigator.pushReplacement(
+  void _goToRegister() {
+    Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const HomePage(),
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const RegisterPage(),
       ),
+    );
+  }
+
+  Widget _createAccountLabel() {
+    return label(
+      "Don't have an account? Create one",
+      () => _goToRegister(),
     );
   }
 
@@ -116,10 +116,7 @@ class _LoginPageState extends State<LoginPage> {
               whitespace(30),
               _rememberMeBox(),
               whitespace(20),
-              label(
-                "Don't have an account? Create one",
-                () => _goToHome(),
-              ),
+              _createAccountLabel(),
             ],
           ),
         ),
