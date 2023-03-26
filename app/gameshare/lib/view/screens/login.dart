@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? _error;
 
-  bool _rememberMe = false;
   final Entry user = Entry('Email/Username', TextEditingController());
   final Entry password = Entry('Password', TextEditingController(), hide: true);
   final List<Entry> entries = <Entry>[];
@@ -79,16 +78,7 @@ class _LoginPageState extends State<LoginPage> {
           size: 18,
           weight: FontWeight.w800,
         ),
-        // checkbox
-        Checkbox(
-          value: _rememberMe,
-          onChanged: (bool? value) {
-            setState(() => _rememberMe = value!);
-          },
-          shape: ContinuousRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+        const MyCheckBox(),
       ],
     );
   }
@@ -141,6 +131,25 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MyCheckBox extends StatefulWidget {
+  const MyCheckBox({super.key});
+
+  @override
+  State<MyCheckBox> createState() => _MyCheckBoxState();
+}
+
+class _MyCheckBoxState extends State<MyCheckBox> {
+  bool _rememberMe = false;
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      value: _rememberMe,
+      onChanged: (bool? value) => setState(() => _rememberMe = value!),
+      shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );
   }
 }
