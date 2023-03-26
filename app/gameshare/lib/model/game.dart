@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gameshare/constants.dart';
+import 'package:gameshare/constants/platform_to_icon.dart';
 
 class Game {
   final int gameId;

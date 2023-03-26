@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gameshare/platform_icons_icons.dart';
+import 'package:gameshare/constants/platform_icons.dart';
 
 const Map<String, IconData> platformToIcon = {
   'pc': PlatformIcons.pc,
