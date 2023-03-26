@@ -37,7 +37,6 @@ class _NavBarState extends State<NavBar> {
           ),
         ],
         currentIndex: _selected,
-        selectedItemColor: const Color(0xff08C076),
         backgroundColor: const Color(0xff1B274B),
         onTap: (int index) {
           switch (index) {
@@ -50,7 +49,7 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_,__,____) => const HomePage(),
+                  pageBuilder: (_,__,____) => const HomeScreen(),
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );
@@ -89,7 +88,7 @@ class _NavBarState extends State<NavBar> {
   }
   void _scrollToTop() {
     scrollController.animateTo(0,
-        duration: const Duration(milliseconds: 200), curve: Curves.linear);
+        duration: const Duration(milliseconds: 300), curve: Curves.linear);
 
   }
 }

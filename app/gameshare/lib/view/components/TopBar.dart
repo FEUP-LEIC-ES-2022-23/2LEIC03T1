@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gameshare/view/components/lightDarkModeButton.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
@@ -15,7 +16,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: const Color(0xff1B274B),
-
+      flexibleSpace: lightDarkModeButton(),
       leading:Container(
         child: Image.asset(
           'assets/images/logo.png',
