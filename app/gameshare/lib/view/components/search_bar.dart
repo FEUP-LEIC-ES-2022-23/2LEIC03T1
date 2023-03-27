@@ -1,53 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter/material.dart';
-import 'scrollable_game_list.dart';
 
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+  final ValueChanged<String> onSearch;
+
+  const SearchBar({Key? key, required this.onSearch}) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
 }
 
 class _SearchBarState extends State<SearchBar> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
+  final _controller = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    _searchController.addListener(() {
-      setState(() {
-        _searchQuery = _searchController.text;
-      });
-    });
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TextField(
+        controller: _controller,
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.search),
+          hintText: 'Search',
+          border: InputBorder.none,
+        ),
+        onChanged: widget.onSearch,
+      ),
+    );
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
+    _controller.dispose();
     super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search...',
-                border: OutlineInputBorder(), // possivelmente adicionar um icon de lupa aqui?
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text('You wrote: $_searchQuery'),
-          ScrollableGameList(scrollHorizontally: false, page: 1,searchQuery: _searchQuery),
-        ],
-      );
   }
 }
