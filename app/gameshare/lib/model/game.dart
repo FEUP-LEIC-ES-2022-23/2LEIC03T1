@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:gameshare/constants/platform_to_icon.dart';
+
 class Game {
   final int gameId;
   double rating = 0;
@@ -25,6 +28,9 @@ class Game {
       name: result['name'],
     );
   }
+  List<IconData?> get uniquePlatformsIcons => {
+    for (var platform in platforms) platformToIcon[platform]
+  }.toList();
 }
 
 
