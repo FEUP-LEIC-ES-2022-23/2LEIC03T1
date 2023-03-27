@@ -1,16 +1,15 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:gameshare/consts/MyAppColors.dart';
+import 'package:gameshare/consts/app_colors.dart';
 
-import '../services/themePrefs.dart';
+
 
 ThemeData lightTheme=ThemeData(
   brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
   primaryColor: MyAppColors.midnightBlue,
+  backgroundColor: Colors.white,
 
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     elevation: 0.0,
     backgroundColor: MyAppColors.darkBlue,
     titleTextStyle: TextStyle(
@@ -20,16 +19,22 @@ ThemeData lightTheme=ThemeData(
 
   ),
 
-  textButtonTheme: TextButtonThemeData(
+  textButtonTheme: const TextButtonThemeData(
     style: ButtonStyle(
       iconColor: MaterialStatePropertyAll<Color>(MyAppColors.lightGreen),
       iconSize: MaterialStatePropertyAll<double>(30),
   )
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     selectedItemColor:  MyAppColors.lightGreen,
     unselectedItemColor:  MyAppColors.lightBlue,
-  )
+  ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: MyAppColors.lightGreen,
+    ),
+  shadowColor: MyAppColors.lightGrey,
+
+
 
 );
 
@@ -37,7 +42,8 @@ ThemeData darkTheme=ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: MyAppColors.midnightBlue ,
   primaryColor: Colors.white ,
-  appBarTheme: AppBarTheme(
+  backgroundColor: MyAppColors.darkBlue,
+  appBarTheme: const AppBarTheme(
     elevation: 0.0,
     backgroundColor: MyAppColors.darkBlue,
     titleTextStyle: TextStyle(
@@ -47,15 +53,19 @@ ThemeData darkTheme=ThemeData(
 
   ),
 
-  textButtonTheme: TextButtonThemeData(
+  textButtonTheme: const TextButtonThemeData(
     style: ButtonStyle(
       iconColor: MaterialStatePropertyAll<Color>(MyAppColors.lightGreen),
       iconSize: MaterialStatePropertyAll<double>(30),
     )
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     selectedItemColor:  MyAppColors.lightGreen,
     unselectedItemColor:  MyAppColors.lightBlue,
-  )
+  ),
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: MyAppColors.lightGreen,
+  ),
+  shadowColor: MyAppColors.darkGrey,
 
 );

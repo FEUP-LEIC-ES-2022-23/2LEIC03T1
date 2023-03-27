@@ -39,7 +39,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
+
   google_fonts: ^4.0.3
+
+  cached_network_image: ^3.2.3
+
 
 dev_dependencies:
   flutter_test:
@@ -96,3 +100,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: PlatformIcons
+      fonts:
+        - asset: fonts/PlatformIcons.ttf

@@ -1,19 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gameshare/main.dart';
-import 'package:gameshare/services/providers/themeProvider.dart';
+import 'package:gameshare/services/providers/theme_provider.dart';
 
-import '../../services/themePrefs.dart';
-
-
-class lightDarkModeButton extends StatefulWidget {
-
+class LightDarkModeButton extends StatefulWidget {
+  const LightDarkModeButton({super.key});
 
   @override
-  State<lightDarkModeButton> createState() => _lightDarkModeButton();
+  State<LightDarkModeButton> createState() => _LightDarkModeButton();
 }
 
-class _lightDarkModeButton extends State<lightDarkModeButton> {
+class _LightDarkModeButton extends State<LightDarkModeButton> {
   ThemeProvider themeProv= ThemeProvider();
 
   @override
@@ -28,8 +23,7 @@ class _lightDarkModeButton extends State<lightDarkModeButton> {
     return  SafeArea(
       child: Align(
         alignment: Alignment.centerRight,
-        child: Container(
-          child: TextButton(
+        child: TextButton(
             child: Icon(themeProv.isDarkMode()? Icons.dark_mode_outlined:Icons.light_mode_outlined),
             onPressed: () {
               setState(() {
@@ -37,7 +31,6 @@ class _lightDarkModeButton extends State<lightDarkModeButton> {
               });
 
             },
-          ),
         ),
       ),
     );

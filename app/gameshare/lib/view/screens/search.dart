@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../components/NavBar.dart';
-import '../components/TopBar.dart';
+import '../components/nav_bar.dart';
+import '../components/top_bar.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
 
       appBar: TopBar(),
 

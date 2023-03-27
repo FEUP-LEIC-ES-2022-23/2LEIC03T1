@@ -1,4 +1,4 @@
-import 'package:gameshare/services/themePrefs.dart';
+import 'package:gameshare/services/theme_prefs.dart';
 
 class ThemeProvider {
    static ThemePreferences themePreferences=ThemePreferences();
