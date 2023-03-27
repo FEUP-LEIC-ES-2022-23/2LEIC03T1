@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:gameshare/view/components/top_bar.dart';
 import '../../services/providers/scroll_provider.dart';
 import '../components/nav_bar.dart';
@@ -7,14 +8,16 @@ import 'package:gameshare/view/components/scrollable_game_list.dart';
 
 import '../components/section_title.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +39,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: const NavBar(),
     );
-
   }
 }
-

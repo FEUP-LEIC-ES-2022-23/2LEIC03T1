@@ -32,7 +32,11 @@ ThemeData lightTheme=ThemeData(
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: MyAppColors.lightGreen,
     ),
-  shadowColor: MyAppColors.lightGrey,
+  shadowColor: MyAppColors.grey,
+  inputDecorationTheme: const InputDecorationTheme(
+    fillColor: MyAppColors.lightGrey,
+  ),
+  accentColor: MyAppColors.purple,
 
 
 
@@ -67,5 +71,9 @@ ThemeData darkTheme=ThemeData(
     color: MyAppColors.lightGreen,
   ),
   shadowColor: MyAppColors.darkGrey,
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: MyAppColors.darkBlue,
+    ),
+  accentColor: MyAppColors.lightGreen,
 
 );

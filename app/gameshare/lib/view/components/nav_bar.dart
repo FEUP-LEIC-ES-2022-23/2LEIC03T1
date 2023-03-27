@@ -6,8 +6,7 @@ import '../screens/login.dart';
 import '../screens/search.dart';
 
 class NavBar extends StatefulWidget {
-  const NavBar(
-      {Key? key}) : super(key: key);
+  const NavBar({Key? key}) : super(key: key);
 
   @override
   State<NavBar> createState() => _NavBarState();
@@ -16,7 +15,7 @@ class NavBar extends StatefulWidget {
 int _selected = 0;
 
 class _NavBarState extends State<NavBar> {
-  ScrollController scrollController= ScrollProvider().controller;
+  ScrollController scrollController = ScrollProvider().controller;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,6 @@ class _NavBarState extends State<NavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
@@ -49,7 +47,7 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_,__,____) => const HomeScreen(),
+                  pageBuilder: (_, __, ____) => const HomePage(),
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );
@@ -63,7 +61,7 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_,__,____) => const SearchPage(),
+                  pageBuilder: (_, __, ____) => const SearchPage(),
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );
@@ -77,19 +75,18 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_,__,____) => const LoginPage(),
+                  pageBuilder: (_, __, ____) => const LoginPage(),
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );
               break;
-            }
-      }
-    );
+          }
+        });
   }
+
   void _scrollToTop() {
     scrollController.animateTo(0,
         duration: const Duration(milliseconds: 300), curve: Curves.linear);
-
   }
 }
 
