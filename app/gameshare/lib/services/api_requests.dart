@@ -39,7 +39,7 @@ String buildUrl(int? page, int? pageSize, String? searchQuery, List<String>? gen
 
   if (page != null) url += '&page=$page';
 
-  if (pageSize != null) url += '&page_size=&pageSize';
+  if (pageSize != null) url += '&page_size=$pageSize';
 
   if (searchQuery != null) url += '&search=$searchQuery';
 
