@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'view/components/game_list.dart';
+import 'view/components/search_bar.dart';
+import 'view/components/scrollable_game_list.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -14,8 +15,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'teste pesquisa',
-      home: const SearchBar(),
-    );
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Search Page Test'),
+        ),
+        body: const SearchBar(),
+
+        ) ,
+      );
   }
 
 }

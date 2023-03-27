@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
+import 'scrollable_game_list.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -31,11 +32,7 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Page Test'),
-      ),
-      body: Column(
+    return Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -49,8 +46,8 @@ class _SearchBarState extends State<SearchBar> {
           ),
           const SizedBox(height: 16),
           Text('You wrote: $_searchQuery'),
+          ScrollableGameList(scrollHorizontally: false, page: 1,searchQuery: _searchQuery),
         ],
-      ),
-    );
+      );
   }
 }
