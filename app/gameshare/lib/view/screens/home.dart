@@ -4,6 +4,7 @@ import 'package:gameshare/view/components/circular_progress.dart';
 import 'package:gameshare/view/components/top_bar.dart';
 import '../../model/genre.dart';
 import '../../services/providers/scroll_provider.dart';
+import '../components/api_error_message.dart';
 import '../components/nav_bar.dart';
 import 'package:gameshare/view/components/scrollable_game_list.dart';
 import '../components/section_title.dart';
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }
               else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
+                return APIErrorMessage(errMessage: snapshot.error.toString());
               }
             }
             return const Center(child: CircularProgressBar());

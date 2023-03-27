@@ -30,7 +30,7 @@ class Game {
       result['id'],
       // Hard-coded placeholder image in case the game has no background image
       // TODO: Change the placeholder image to a more suitable one
-      result['background_image'] ?? 'https://fastly.picsum.photos/id/237/3500/2095.jpg?hmac=y2n_cflHFKpQwLOL1SSCtVDqL8NmOnBzEW7LYKZ-z_o',
+      result['background_image'] ?? 'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
       [for (var el in result['platforms']) el['platform']['slug']],
       result['name'],
     );
