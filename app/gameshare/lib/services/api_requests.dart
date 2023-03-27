@@ -13,7 +13,7 @@ Future<List<Genre>> fetchGenres() async {
 
   if (res.statusCode == 200) {
     var results = jsonDecode(res.body)['results'];
-    return [for (int i = 0; i < results.lenght; i++) Genre.fromJson(results, i)];
+    return [for (int i = 0; i < results.length; i++) Genre.fromJson(results, i)];
   }
   else {
     throw Exception('Failed to load genres (Error ${res.statusCode})');
