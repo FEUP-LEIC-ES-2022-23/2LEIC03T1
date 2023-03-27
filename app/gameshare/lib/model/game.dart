@@ -33,4 +33,3 @@ class Game {
     for (var platform in platforms) platformToIcon[platform]
   }.toList();
 }
-
