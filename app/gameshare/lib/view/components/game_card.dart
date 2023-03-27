@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:gameshare/consts/app_colors.dart';
 import '../../model/game.dart';
 
 class GameCard extends StatelessWidget {
@@ -14,19 +15,20 @@ class GameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
+
       height: 300,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          border: Border.all(width: 0.5),
-          color: Colors.white,
-          boxShadow: const <BoxShadow> [
-            BoxShadow(
-              color: Color(0x6fa4a4a2),
-              offset: Offset(3, 3),
-              blurRadius: 3,
-              spreadRadius: 1,
-            )
-          ]
+        border: Border.all(width: 0.5),
+        boxShadow:  <BoxShadow> [
+          BoxShadow(
+            color: Theme.of(context).shadowColor,
+            offset: const Offset(3, 3),
+            blurRadius: 4,
+            spreadRadius: 3,
+          )
+        ],
+        color: Theme.of(context).backgroundColor,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -77,17 +79,17 @@ class MorePlatformsNumber extends StatelessWidget {
               height: 30,
               width: 30,
               decoration: BoxDecoration(
-                  color: Colors.white,
+                // color: Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(100)),
                   border: Border.all(
                     width: 2.2,
+                    color: Theme.of(context).primaryColor,
                   )
               ),
             ),
             Text(
                 '+${game.uniquePlatformsIcons.length - 3}',
                 style: const TextStyle(
-                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
                 )
@@ -120,7 +122,6 @@ class GameCardName extends StatelessWidget {
           style: const TextStyle (
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
           ),
         ),
       ),
@@ -147,7 +148,7 @@ class GameCardRating extends StatelessWidget {
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                    color: Color(0xff13d772),
+                    color: MyAppColors.lightGreen,
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                   height: 35,
