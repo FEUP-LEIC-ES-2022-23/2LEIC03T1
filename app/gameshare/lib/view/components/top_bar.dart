@@ -20,11 +20,11 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: const Color(0xff1B274B),
       flexibleSpace: const LightDarkModeButton(),
       leading:Container(
+        margin: const EdgeInsets.only(left:10.0, right:0.0, top:0.0, bottom: 0.0),
         child: Image.asset(
           'assets/images/logo.png',
           scale: 1,
         ),
-       margin: const EdgeInsets.only(left:10.0, right:0.0, top:0.0, bottom: 0.0),
 
       ),
 

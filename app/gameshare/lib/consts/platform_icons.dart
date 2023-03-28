@@ -18,6 +18,6 @@ class PlatformIcons {
   static const IconData sega = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData threedo = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData web = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData neogeo = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData nintendo = IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData neogeo = IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
