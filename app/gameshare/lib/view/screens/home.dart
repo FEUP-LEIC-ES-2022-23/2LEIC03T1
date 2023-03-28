@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
                 SectionTitle(title: 'Test'),
               ],
             ),
-            const SizedBox(height: 300, child: ScrollableGameList(scrollHorizontally: true)),
+             SizedBox(height: 300, child: ScrollableGameList(scrollHorizontally: true)),
           ],
         ),
       ),

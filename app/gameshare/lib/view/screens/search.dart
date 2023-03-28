@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import '../components/nav_bar.dart';
-import '../components/top_bar.dart';
-import 'package:gameshare/view/components/scrollable_game_list.dart';
-import 'package:gameshare/view/components/nav_bar.dart';
-import 'package:gameshare/view/components/top_bar.dart';
 import 'package:gameshare/view/components/search_bar.dart';
+import 'package:gameshare/view/components/scrollable_game_list.dart';
+import 'package:gameshare/view/components/top_bar.dart';
+import '../components/nav_bar.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -24,8 +21,6 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +31,12 @@ class _SearchPageState extends State<SearchPage> {
             onSearch: _onSearch,
           ),
           Expanded(
-            child: ScrollableGameList(
+            child: SizedBox(
+              width: 350,
+              child: ScrollableGameList(
                 scrollHorizontally: false,
-                searchQuery: _searchQuery
+                searchQuery: _searchQuery,
+              ),
             ),
           ),
         ],
@@ -46,4 +44,6 @@ class _SearchPageState extends State<SearchPage> {
       bottomNavigationBar: const NavBar(),
     );
   }
+
 }
+
