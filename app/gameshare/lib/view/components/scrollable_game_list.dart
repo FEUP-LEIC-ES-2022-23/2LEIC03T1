@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
+import 'circular_progress.dart';
 import 'game_card.dart';
 
 class ScrollableGameList extends StatefulWidget {
@@ -58,16 +59,12 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
         else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
-        return Center(
-          child: Transform.scale(
-              scale: 2,
-              child: const CircularProgressIndicator(
-                strokeWidth: 1.5,
-                color: Color(0xff1F2D5A),
-              )
-          ),
-        );
+        return const CircularProgressBar();
       },
     );
   }
 }
+
+
+
+

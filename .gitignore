@@ -247,7 +247,8 @@ DerivedData/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-
+#prototype
+app/prototype/**
 ## Custom
 # Google API key and other resources
 GoogleService-Info.plist

@@ -1,6 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/search_bar.dart';
 import 'package:gameshare/view/components/scrollable_game_list.dart';
+import 'package:gameshare/view/components/top_bar.dart';
+
+import '../components/nav_bar.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -27,11 +31,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:  Text(_searchQuery),
-        centerTitle: true,
-        elevation: 0,
-      ),
+      appBar: const TopBar(),
       body: Column(
         children: [
           SearchBar(
@@ -39,10 +39,19 @@ class _SearchPageState extends State<SearchPage> {
 
           ),
           Expanded(
-            child: SizedBox( child:ScrollableGameList(scrollHorizontally: false,searchQuery: _searchQuery,),width: 350, ),
+            child: SizedBox(
+              width: 350,
+              child: ScrollableGameList(
+                scrollHorizontally: false,
+                searchQuery: _searchQuery,
+              ),
+            ),
           ),
         ],
       ),
+      bottomNavigationBar: const NavBar(),
     );
   }
+
 }
+
