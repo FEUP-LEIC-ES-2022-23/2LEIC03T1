@@ -28,15 +28,15 @@ class _SearchBarState extends State<SearchBar> {
         children: [Expanded(
           child: TextField(
           controller: _controller,
-          decoration:  InputDecoration(
+          decoration:  const InputDecoration(
             hintText: "Search",
             border: InputBorder.none,
           ),
           onSubmitted: widget.onSearch,
       ),
         ),
-          TextButton(onPressed: (){widget.onSearch;}, child: Icon(Icons.search),style: TextButton.styleFrom(padding: EdgeInsets.only(left: 15),tapTargetSize: MaterialTapTargetSize.shrinkWrap,minimumSize: Size(10, 10)),),
-          TextButton(onPressed: (){widget.onSearch;}, child: Icon(Icons.tune),style: TextButton.styleFrom(padding: EdgeInsets.zero,tapTargetSize: MaterialTapTargetSize.shrinkWrap)),
+          TextButton(onPressed: (){widget.onSearch(_controller.text);},style: TextButton.styleFrom(padding: EdgeInsets.only(left: 15),tapTargetSize: MaterialTapTargetSize.shrinkWrap,minimumSize: Size(10, 10)), child: Icon(Icons.search),),
+          TextButton(onPressed: (){},style: TextButton.styleFrom(padding: EdgeInsets.zero,tapTargetSize: MaterialTapTargetSize.shrinkWrap), child: Icon(Icons.tune)),
       ]
       )
     );

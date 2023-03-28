@@ -68,7 +68,17 @@ class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isEmpty && snapshot.connectionState == ConnectionState.done) {
-            return const Text('No results found');
+            return const Padding(
+              padding: EdgeInsets.only(bottom: 95.0),
+              child: Center(
+                child: Text(
+                  'No results found',
+                  style: TextStyle(
+                    fontSize: 30,
+                  )
+                )
+              ),
+            );
           }
           else {
             return ListView.builder(
