@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
+import 'package:gameshare/view/screens/search.dart';
 
 import '../screens/home.dart';
 import '../screens/login.dart';

@@ -19,16 +19,16 @@ class GameCard extends StatelessWidget {
       height: 300,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          border: Border.all(width: 0.5),
-          boxShadow:  <BoxShadow> [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              offset: const Offset(3, 3),
-              blurRadius: 4,
-              spreadRadius: 3,
-            )
-          ],
-          color: Theme.of(context).backgroundColor,
+        border: Border.all(width: 0.5),
+        boxShadow:  <BoxShadow> [
+          BoxShadow(
+            color: Theme.of(context).shadowColor,
+            offset: const Offset(3, 3),
+            blurRadius: 4,
+            spreadRadius: 3,
+          )
+        ],
+        color: Theme.of(context).backgroundColor,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -80,11 +80,11 @@ class MorePlatformsNumber extends StatelessWidget {
               width: 30,
               decoration: BoxDecoration(
                 // color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(100)),
-                border: Border.all(
-                  width: 2.2,
-                  color: Theme.of(context).primaryColor,
-                )
+                  borderRadius: const BorderRadius.all(Radius.circular(100)),
+                  border: Border.all(
+                    width: 2.2,
+                    color: Theme.of(context).primaryColor,
+                  )
               ),
             ),
             Text(

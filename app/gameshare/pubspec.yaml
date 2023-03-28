@@ -39,13 +39,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
+  cached_network_image: ^3.2.3
+
 
   firebase_auth: ^4.3.0
   firebase_core: ^2.8.0
 
   google_fonts: ^4.0.3
 
-  cached_network_image: ^3.2.3
 
 
 dev_dependencies:
