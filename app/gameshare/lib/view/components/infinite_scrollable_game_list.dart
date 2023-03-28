@@ -60,14 +60,14 @@ class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
 
   @override
   Widget build(BuildContext context) {
-    // var searchState = context.watch<_SearchPageState>();
     if (widget.page == 1) futureGames.clear();
+
     test = fetch();
     return FutureBuilder <List<Game>> (
       future: test,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data!.isEmpty) {
+          if (snapshot.data!.isEmpty && snapshot.connectionState == ConnectionState.done) {
             return const Text('No results found');
           }
           else {
