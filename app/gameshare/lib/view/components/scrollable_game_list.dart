@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
-import 'circular_progress.dart';
 import 'game_card.dart';
 
 class ScrollableGameList extends StatefulWidget {
@@ -28,42 +27,13 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
 
   late Future<List<Game>> futureGames;
 
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      futureGames = fetchGames(
-          page: widget.page,
-          pageSize: widget.pageSize,
-          searchQuery: widget.searchQuery,
-          genres: widget.genres
-      );
-    });
+  void fetch(){
+    futureGames=  fetchGames(
+        page: widget.page,
+        pageSize: widget.pageSize,
+        searchQuery: widget.searchQuery,
+        genres: widget.genres);
   }
-
-  void didUpdatedWidget(ScrollableGameList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.searchQuery != widget.searchQuery) {
-      setState(() {
-        futureGames = fetchGames(
-            page: widget.page,
-            pageSize: widget.pageSize,
-            searchQuery: widget.searchQuery,
-            genres: widget.genres
-        );
-      });
-    }
-  }
-
- void fetch(){
-   futureGames=  fetchGames(
-       page: widget.page,
-       pageSize: widget.pageSize,
-       searchQuery: widget.searchQuery,
-       genres: widget.genres);
- }
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,12 +58,16 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
         else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
-        return const CircularProgressBar();
+        return Center(
+          child: Transform.scale(
+              scale: 2,
+              child: const CircularProgressIndicator(
+                strokeWidth: 1.5,
+                color: Color(0xff1F2D5A),
+              )
+          ),
+        );
       },
     );
   }
 }
-
-
-
-

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gameshare/view/components/infinite_scrollable_game_list.dart';
 import 'package:gameshare/view/components/search_bar.dart';
-import 'package:gameshare/view/components/scrollable_game_list.dart';
 import 'package:gameshare/view/components/top_bar.dart';
 import '../components/nav_bar.dart';
 
@@ -12,8 +12,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late String _searchQuery = ' ';
-  int _pageSize = 20;
+  late String _searchQuery = '';
 
   void _onSearch(String query) {
     setState(() {
@@ -33,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
           Expanded(
             child: SizedBox(
               width: 350,
-              child: ScrollableGameList(
+              child: InfiniteScrollableGameList(
                 scrollHorizontally: false,
                 searchQuery: _searchQuery,
               ),
