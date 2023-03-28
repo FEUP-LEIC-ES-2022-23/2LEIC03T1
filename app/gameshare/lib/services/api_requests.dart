@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:gameshare/model/APIError.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,6 +13,10 @@ Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, Li
   if (res.statusCode == 200) {
     var results = jsonDecode(res.body)['results'];
     return [for(int i = 0; i < results.length; i++) Game.fromJson(results, i)];
+  }
+  // Already retrieved all games
+  else if (res.statusCode == 404) {
+    return [];
   }
   else {
     throw Exception('Failed to load games (Error ${res.statusCode})');
