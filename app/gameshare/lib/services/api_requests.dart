@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,7 +24,7 @@ String buildUrl(int? page, int? pageSize, String? searchQuery, List<String>? gen
 
   if (page != null) url += '&page=$page';
 
-  if (pageSize != null) url += '&page_size=&pageSize';
+  if (pageSize != null) url += '&page_size=$pageSize';
 
   if (searchQuery != null) url += '&search=$searchQuery';
 

@@ -30,12 +30,28 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
   @override
   void initState() {
     super.initState();
-    futureGames = fetchGames(
-        page: widget.page,
-        pageSize: widget.pageSize,
-        searchQuery: widget.searchQuery,
-        genres: widget.genres
-    );
+    setState(() {
+      futureGames = fetchGames(
+          page: widget.page,
+          pageSize: widget.pageSize,
+          searchQuery: widget.searchQuery,
+          genres: widget.genres
+      );
+    });
+  }
+
+  void didUpdatedWidget(ScrollableGameList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.searchQuery != widget.searchQuery) {
+      setState(() {
+        futureGames = fetchGames(
+            page: widget.page,
+            pageSize: widget.pageSize,
+            searchQuery: widget.searchQuery,
+            genres: widget.genres
+        );
+      });
+    }
   }
 
   @override
