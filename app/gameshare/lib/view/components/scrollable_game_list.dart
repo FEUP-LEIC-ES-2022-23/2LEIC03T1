@@ -5,12 +5,12 @@ import 'game_card.dart';
 
 class ScrollableGameList extends StatefulWidget {
   final bool scrollHorizontally;
-  final int? page;
-  final int? pageSize;
-  final String? searchQuery;
-  final List<String>? genres;
+  int? page;
+  int? pageSize;
+  String? searchQuery;
+  List<String>? genres;
 
-  const ScrollableGameList({
+  ScrollableGameList({
     Key? key,
     required this.scrollHorizontally,
     this.page,
@@ -24,21 +24,20 @@ class ScrollableGameList extends StatefulWidget {
 }
 
 class _ScrollableGameListState extends State<ScrollableGameList> {
+
   late Future<List<Game>> futureGames;
 
-  @override
-  void initState() {
-    super.initState();
-    futureGames = fetchGames(
-        page: widget.page,
-        pageSize: widget.pageSize,
-        searchQuery: widget.searchQuery,
-        genres: widget.genres
-    );
-  }
+ void fetch(){
+   futureGames=  fetchGames(
+       page: widget.page,
+       pageSize: widget.pageSize,
+       searchQuery: widget.searchQuery,
+       genres: widget.genres);
+ }
 
   @override
   Widget build(BuildContext context) {
+    fetch();
     return FutureBuilder <List<Game>> (
       future: futureGames,
       builder: (context, snapshot) {
