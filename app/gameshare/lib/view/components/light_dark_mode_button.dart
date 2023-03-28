@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gameshare/consts/app_colors.dart';
 import 'package:gameshare/services/providers/theme_provider.dart';
 
 class LightDarkModeButton extends StatefulWidget {
@@ -24,7 +25,7 @@ class _LightDarkModeButton extends State<LightDarkModeButton> {
       child: Align(
         alignment: Alignment.centerRight,
         child: TextButton(
-            child: Icon(themeProv.isDarkMode()? Icons.dark_mode_outlined:Icons.light_mode_outlined),
+            child: Icon(themeProv.isDarkMode()? Icons.dark_mode_outlined:Icons.light_mode_outlined, color: MyAppColors.lightGreen,),
             onPressed: () {
               setState(() {
                 themeProv.toggleTheme();

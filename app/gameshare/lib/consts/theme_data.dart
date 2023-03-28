@@ -21,7 +21,7 @@ ThemeData lightTheme=ThemeData(
 
   textButtonTheme: const TextButtonThemeData(
     style: ButtonStyle(
-      iconColor: MaterialStatePropertyAll<Color>(MyAppColors.lightGreen),
+      iconColor: MaterialStatePropertyAll<Color>(MyAppColors.lightBlue),
       iconSize: MaterialStatePropertyAll<double>(30),
   )
   ),
@@ -30,7 +30,7 @@ ThemeData lightTheme=ThemeData(
     unselectedItemColor:  MyAppColors.lightBlue,
   ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
-      color: MyAppColors.lightGreen,
+      color: MyAppColors.lightBlue,
     ),
   shadowColor: MyAppColors.grey,
   inputDecorationTheme: const InputDecorationTheme(
