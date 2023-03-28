@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 class SearchBar extends StatefulWidget {
   final ValueChanged<String> onSearch;
@@ -16,20 +16,29 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 25),
+      padding: EdgeInsets.only(left: 20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: Color(0x22000000)),
       ),
-      child: TextField(
-        controller: _controller,
-        decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.search),
-          hintText: 'Search',
-          border: InputBorder.none,
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [Expanded(
+          child: TextField(
+          controller: _controller,
+          decoration:  InputDecoration(
+            hintText: "Search",
+            border: InputBorder.none,
+          ),
+          onSubmitted: widget.onSearch,
+      ),
         ),
-        onChanged: widget.onSearch,
-      ),
+          TextButton(onPressed: (){widget.onSearch;}, child: Icon(Icons.search),style: TextButton.styleFrom(padding: EdgeInsets.only(left: 15),tapTargetSize: MaterialTapTargetSize.shrinkWrap,minimumSize: Size(10, 10)),),
+          TextButton(onPressed: (){widget.onSearch;}, child: Icon(Icons.tune),style: TextButton.styleFrom(padding: EdgeInsets.zero,tapTargetSize: MaterialTapTargetSize.shrinkWrap)),
+      ]
+      )
     );
   }
 
