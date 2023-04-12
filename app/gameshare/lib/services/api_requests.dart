@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:gameshare/model/APIError.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
