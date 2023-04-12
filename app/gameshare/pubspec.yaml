@@ -48,6 +48,7 @@ dependencies:
   firebase_core: ^2.9.0
 
   google_fonts: ^4.0.3
+  test: ^1.22.0
 
 
 
