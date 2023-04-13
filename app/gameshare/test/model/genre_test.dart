@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'package:gameshare/model/genre.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Crating a genre object', () {
+  test('Crating a genre instance', () {
     const List<dynamic> data = [{'name': 'Action', 'slug': 'action'}, {'name': 'Puzzle', 'slug': 'puzzle'}];
 
     Genre genreAction = Genre.fromJson(data, 0);
