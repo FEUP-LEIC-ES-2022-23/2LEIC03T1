@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
 import 'api_error_message.dart';
-import 'circular_progress.dart';
 import 'game_card.dart';
 
 class ScrollableGameList extends StatefulWidget {
