@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:gameshare/model/api_exception.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import '../model/genre.dart';
 
 Future<List<Genre>> fetchGenres() async {
@@ -16,12 +16,12 @@ Future<List<Genre>> fetchGenres() async {
     return [for (int i = 0; i < results.length; i++) Genre.fromJson(results, i)];
   }
   else {
-    throw Exception('Failed to load genres (Error ${res.statusCode})');
+    throw ApiException('Failed to load genres', res.statusCode);
   }
 }
 
 Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, List<String>? genres}) async {
-  String url = buildUrl(page, pageSize, searchQuery, genres);
+  String url = buildGameUrl(page, pageSize, searchQuery, genres);
 
   final res = await http.get(Uri.parse(url));
 
@@ -34,11 +34,11 @@ Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, Li
     return [];
   }
   else {
-    throw Exception('Failed to load games (Error ${res.statusCode})');
+    throw ApiException('Failed to load games', res.statusCode);
   }
 }
 
-String buildUrl(int? page, int? pageSize, String? searchQuery, List<String>? genres) {
+String buildGameUrl(int? page, int? pageSize, String? searchQuery, List<String>? genres) {
   String url = '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
   if (page != null) url += '&page=$page';
