@@ -24,13 +24,13 @@ Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, Li
   String url = buildGameUrl(page, pageSize, searchQuery, genres);
 
   final res = await http.get(Uri.parse(url));
+  var decodedJson = jsonDecode(res.body);
 
   if (res.statusCode == 200) {
-    var results = jsonDecode(res.body)['results'];
-    return [for(int i = 0; i < results.length; i++) Game.fromJson(results, i)];
+    return [for(int i = 0; i < decodedJson.length; i++) Game.fromJson(decodedJson['results'], i)];
   }
   // Already retrieved all games
-  else if (res.statusCode == 404) {
+  else if (res.statusCode == 404 && decodedJson['detail'] == 'Invalid page.') {
     return [];
   }
   else {
