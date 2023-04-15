@@ -8,6 +8,7 @@ import '../components/api_error_message.dart';
 import '../components/nav_bar.dart';
 import 'package:gameshare/view/components/scrollable_game_list.dart';
 import '../components/section_title.dart';
+import 'package:http/io_client.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    allGenres = fetchGenres();
+    allGenres = fetchGenres(IOClient());
   }
 
   @override

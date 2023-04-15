@@ -3,6 +3,7 @@ import '../../model/game.dart';
 import '../../services/api_requests.dart';
 import 'api_error_message.dart';
 import 'game_card.dart';
+import 'package:http/io_client.dart';
 
 class ScrollableGameList extends StatefulWidget {
   final bool scrollHorizontally;
@@ -30,10 +31,11 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
 
   void fetch(){
     futureGames = fetchGames(
-        page: widget.page,
-        pageSize: widget.pageSize,
-        searchQuery: widget.searchQuery,
-        genres: widget.genres);
+      IOClient(),
+      page: widget.page,
+      pageSize: widget.pageSize,
+      searchQuery: widget.searchQuery,
+      genres: widget.genres);
   }
 
   @override
