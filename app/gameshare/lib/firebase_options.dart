@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '484257032456',
     projectId: 'gameshare-a0890',
     authDomain: 'gameshare-a0890.firebaseapp.com',
+    databaseURL: 'https://gameshare-a0890-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gameshare-a0890.appspot.com',
     measurementId: 'G-RQY1E17V2Y',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:484257032456:android:4b634fc4bca8f1aa2d24bd',
     messagingSenderId: '484257032456',
     projectId: 'gameshare-a0890',
+    databaseURL: 'https://gameshare-a0890-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gameshare-a0890.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:484257032456:ios:d7238c7014a5993c2d24bd',
     messagingSenderId: '484257032456',
     projectId: 'gameshare-a0890',
+    databaseURL: 'https://gameshare-a0890-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gameshare-a0890.appspot.com',
     iosClientId: '484257032456-smuei9if5a78ensqj31jlh8pfeko8bm8.apps.googleusercontent.com',
     iosBundleId: 'com.example.gameshare',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:484257032456:ios:d7238c7014a5993c2d24bd',
     messagingSenderId: '484257032456',
     projectId: 'gameshare-a0890',
+    databaseURL: 'https://gameshare-a0890-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'gameshare-a0890.appspot.com',
     iosClientId: '484257032456-smuei9if5a78ensqj31jlh8pfeko8bm8.apps.googleusercontent.com',
     iosBundleId: 'com.example.gameshare',
