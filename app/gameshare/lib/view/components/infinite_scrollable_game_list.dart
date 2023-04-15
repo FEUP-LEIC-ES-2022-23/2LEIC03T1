@@ -3,6 +3,7 @@ import '../../model/game.dart';
 import '../../services/api_requests.dart';
 import 'circular_progress.dart';
 import 'game_card.dart';
+import 'package:http/io_client.dart';
 
 class InfiniteScrollableGameList extends StatefulWidget {
   final bool scrollHorizontally;
@@ -43,10 +44,11 @@ class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
 
   Future<List<Game>> fetch() async {
     futureGames.addAll(await fetchGames(
-        page: widget.page,
-        pageSize: widget.pageSize,
-        searchQuery: widget.searchQuery,
-        genres: widget.genres
+      IOClient(),
+      page: widget.page,
+      pageSize: widget.pageSize,
+      searchQuery: widget.searchQuery,
+      genres: widget.genres
     ));
     return futureGames;
   }

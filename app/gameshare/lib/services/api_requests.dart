@@ -6,10 +6,10 @@ import '../model/game.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../model/genre.dart';
 
-Future<List<Genre>> fetchGenres() async {
+Future<List<Genre>> fetchGenres(http.Client client) async {
   final String url = '${dotenv.env['API_URL_BASE']}/genres?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
-  final res = await http.get(Uri.parse(url));
+  final res = await client.get(Uri.parse(url));
 
   if (res.statusCode == 200) {
     var results = jsonDecode(res.body)['results'];
@@ -20,14 +20,14 @@ Future<List<Genre>> fetchGenres() async {
   }
 }
 
-Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, List<String>? genres}) async {
+Future<List<Game>> fetchGames(http.Client client, {int? page, int? pageSize, String? searchQuery, List<String>? genres}) async {
   String url = buildGameUrl(page, pageSize, searchQuery, genres);
 
-  final res = await http.get(Uri.parse(url));
+  final res = await client.get(Uri.parse(url));
   var decodedJson = jsonDecode(res.body);
 
   if (res.statusCode == 200) {
-    return [for(int i = 0; i < decodedJson.length; i++) Game.fromJson(decodedJson['results'], i)];
+    return [for (int i = 0; i < decodedJson.length; i++) Game.fromJson(decodedJson['results'], i)];
   }
   // Already retrieved all games
   else if (res.statusCode == 404 && decodedJson['detail'] == 'Invalid page.') {
