@@ -10,7 +10,6 @@ import 'package:gameshare/view/components/helper_widgets.dart';
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -23,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
 
   final Entry _user = Entry('Email/Username', TextEditingController());
   final Entry _password =
-      Entry('Password', TextEditingController(), hide: true,);
+      Entry('Password', TextEditingController(), hide: true);
   final List<Entry> _entries = <Entry>[];
 
   @override
@@ -77,21 +76,29 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () {
         // TODO: Forgot Password
       },
-      child: const MyLabel('Forgot Password?', left: false,size: 15),
+      child: const MyLabel('Forgot Password?', left: false, size: 15),
     );
   }
 
   Widget _createAccountLabel() {
     return InkWell(
       onTap: _goToRegister,
-      child: const MyLabel("Don't have an account? Create one",size: 15,),
+      child: const MyLabel(
+        "Don't have an account? Create one",
+        size: 15,
+      ),
     );
   }
 
   Widget _rememberMeBox() {
     return Row(
-      children:  <Widget>[
-        MyText('Remember me', size: 15, weight: FontWeight.w800,color: Theme.of(context).primaryColor,),
+      children: <Widget>[
+        MyText(
+          'Remember me',
+          size: 15,
+          weight: FontWeight.w800,
+          color: Theme.of(context).primaryColor,
+        ),
         MyCheckBox(),
       ],
     );
@@ -106,8 +113,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return  Scaffold(
+    return Scaffold(
       appBar: const TopBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -123,11 +129,9 @@ class _LoginPageState extends State<LoginPage> {
                 EntryFieldList(_entries),
                 _forgotPasswordLabel(),
                 DisplayError(_error),
-
                 _loginButton(),
                 const WhiteSpace(),
                 _rememberMeBox(),
-
                 _createAccountLabel(),
               ],
             ),
@@ -135,7 +139,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       bottomNavigationBar: const NavBar(),
-
     );
   }
 }
