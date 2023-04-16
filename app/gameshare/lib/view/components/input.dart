@@ -13,26 +13,40 @@ class Entry {
   final bool hide;
 }
 
-Widget _entryField(Entry entry,context) {
-  return Container(
-    margin: const EdgeInsets.symmetric(vertical: 10),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        MyText(entry.title, size: _size, weight: _weight,color: Theme.of(context).primaryColor,),
-        const SizedBox(height: 20),
-        TextField(
-          obscureText: entry.hide,
-          controller: entry.controller,
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            filled: true,
+class EntryField extends StatelessWidget {
+  const EntryField(
+    this.entry, {
+    Key? key,
+  }) : super(key: key);
 
+  final Entry entry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          MyText(
+            entry.title,
+            size: _size,
+            weight: _weight,
+            color: Theme.of(context).primaryColor,
           ),
-        ),
-      ],
-    ),
-  );
+          const SizedBox(height: 20),
+          TextField(
+            obscureText: entry.hide,
+            controller: entry.controller,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              filled: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class EntryFieldList extends StatelessWidget {
@@ -46,7 +60,7 @@ class EntryFieldList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: entries.map((Entry entry) => _entryField(entry,context)).toList(),
+      children: entries.map((Entry entry) => EntryField(entry)).toList(),
     );
   }
 }

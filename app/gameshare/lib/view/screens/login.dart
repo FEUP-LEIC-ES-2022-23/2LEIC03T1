@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/view/screens/register.dart';
@@ -38,8 +36,8 @@ class _LoginPageState extends State<LoginPage> {
         _user.controller.text,
         _password.controller.text,
       );
-    } on FirebaseAuthException catch (e) {
-      setState(() => _error = e.message);
+    } on FirebaseAuthException {
+      setState(() => _error = 'Invalid email or password');
     }
   }
 
@@ -99,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
           weight: FontWeight.w800,
           color: Theme.of(context).primaryColor,
         ),
-        MyCheckBox(),
+        const MyCheckBox(),
       ],
     );
   }
