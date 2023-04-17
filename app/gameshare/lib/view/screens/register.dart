@@ -48,7 +48,11 @@ class _RegisterPageState extends State<RegisterPage> {
       _username.controller.text,
       _password.controller.text,
     );
-    if (!res) setState(() => _error = 'Invalid email or password');
+    if (!res) {
+      setState(() => _error = 'Invalid field');
+    } else {
+      setState(() => _error = null);
+    }
   }
 
   Future<void> signUp() async {
@@ -71,8 +75,8 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _goToLogin(BuildContext context) {
-    Navigator.pushReplacement(
+  void _goToLogin() {
+    Navigator.push(
       context,
       PageRouteBuilder(
         pageBuilder: (_, __, ____) => LoginPage(),
@@ -83,12 +87,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _loginLabel() {
     return InkWell(
-      onTap: () => _goToLogin(context),
-      child: const MyLabel(
-        'Already have an account',
-        left: true,
-        size: 15,
-      ),
+      onTap: _goToLogin,
+      child: const MyLabel('Already have an account', left: true, size: 15),
     );
   }
 

@@ -12,4 +12,13 @@ class MockAuth extends Mock implements Auth {
     if (email == 'good_email' && password == 'good_pwd') return true;
     return false;
   }
+
+  @override
+  Future<bool> signUpEmailPassword(
+      String email, String username, String password) async {
+    if (email == 'good_email' &&
+        username == 'good_username' &&
+        password == 'good_pwd') return true;
+    return false;
+  }
 }

@@ -43,7 +43,11 @@ class _LoginPageState extends State<LoginPage> {
       _user.controller.text,
       _password.controller.text,
     );
-    if (!result) setState(() => _error = 'Invalid email or password');
+    if (!result) {
+      setState(() => _error = 'Invalid email or password');
+    } else {
+      setState(() => _error = null);
+    }
   }
 
   Future<void> signIn() async {
