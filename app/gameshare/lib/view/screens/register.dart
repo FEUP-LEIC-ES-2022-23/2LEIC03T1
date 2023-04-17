@@ -9,7 +9,6 @@ import 'package:gameshare/view/components/helper_widgets.dart';
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -75,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const LoginPage(),
+        pageBuilder: (_, __, ____) => LoginPage(),
         transitionDuration: const Duration(seconds: 0),
       ),
     );
@@ -84,7 +83,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _loginLabel() {
     return InkWell(
       onTap: () => _goToLogin(context),
-      child: const MyLabel('Already have an account', left: true,size: 15,),
+      child: const MyLabel(
+        'Already have an account',
+        left: true,
+        size: 15,
+      ),
     );
   }
 
@@ -112,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: <Widget>[
                 EntryFieldList(_entries),
                 DisplayError(_error),
-                 const WhiteSpace(),
+                const WhiteSpace(),
                 _registerButton(),
                 _loginLabel(),
               ],

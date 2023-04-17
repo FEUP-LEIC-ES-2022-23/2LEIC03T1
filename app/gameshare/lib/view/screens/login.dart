@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/services/auth.dart';
-import 'package:gameshare/view/components/input.dart';
+import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Auth? auth, Key? key})
+      : auth = auth ?? Auth(),
+        super(key: key);
+
+  final Auth? auth;
+  Auth get authInstance => auth!;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -18,9 +22,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? _error;
 
+  Auth get _auth => widget.authInstance;
   final Entry _user = Entry('Email/Username', TextEditingController());
-  final Entry _password =
-      Entry('Password', TextEditingController(), hide: true);
+  final Entry _password = Entry(
+    'Password',
+    TextEditingController(),
+    hide: true,
+  );
   final List<Entry> _entries = <Entry>[];
 
   @override
@@ -31,22 +39,16 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _signIn() async {
-    try {
-      await Auth().signInEmailPassword(
-        _user.controller.text,
-        _password.controller.text,
-      );
-    } on FirebaseAuthException {
-      setState(() => _error = 'Invalid email or password');
-    }
+    bool result = await _auth.signInEmailPassword(
+      _user.controller.text,
+      _password.controller.text,
+    );
+    if (!result) setState(() => _error = 'Invalid email or password');
   }
 
   Future<void> signIn() async {
-    setState(() => _error = null);
-
     await _signIn();
-
-    if (_error == null && context.mounted) _goToHome();
+    if (_auth.user != null) _goToHome();
   }
 
   void _goToRegister() {
@@ -81,10 +83,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _createAccountLabel() {
     return InkWell(
       onTap: _goToRegister,
-      child: const MyLabel(
-        "Don't have an account? Create one",
-        size: 15,
-      ),
+      child: const MyLabel("Don't have an account? Create one", size: 15),
     );
   }
 

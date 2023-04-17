@@ -16,7 +16,7 @@ class MyText extends StatelessWidget {
   final String text;
   final double size;
   final FontWeight weight;
-   final Color? color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,8 @@ class MyLabel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       alignment: left ? Alignment.centerLeft : Alignment.centerRight,
-      child: MyText(text, size: size, weight: weight, color: Theme.of(context).accentColor),
+      child: MyText(text,
+          size: size, weight: weight, color: Theme.of(context).accentColor),
     );
   }
 }
