@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/components/input.dart';
@@ -10,7 +9,12 @@ import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  RegisterPage({Auth? auth, Key? key})
+      : auth = auth ?? Auth(),
+        super(key: key);
+
+  final Auth? auth;
+  Auth get authInstance => auth!;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -18,11 +22,13 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   String? _error;
+  Auth get _auth => widget.authInstance;
 
-  final Entry email = Entry('Email', TextEditingController());
-  final Entry username = Entry('Username', TextEditingController());
-  final Entry password = Entry('Password', TextEditingController(), hide: true);
-  final Entry confirmPassword =
+  final Entry _email = Entry('Email', TextEditingController());
+  final Entry _username = Entry('Username', TextEditingController());
+  final Entry _password =
+      Entry('Password', TextEditingController(), hide: true);
+  final Entry _confirmPassword =
       Entry('Confirm Password', TextEditingController(), hide: true);
 
   final List<Entry> _entries = <Entry>[];
@@ -30,42 +36,37 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    _entries.add(email);
-    _entries.add(username);
-    _entries.add(password);
-    _entries.add(confirmPassword);
+    _entries.add(_email);
+    _entries.add(_username);
+    _entries.add(_password);
+    _entries.add(_confirmPassword);
   }
 
   Future<void> _signUp() async {
-    try {
-      await Auth().signUpEmailPassword(
-        email.controller.text,
-        username.controller.text,
-        password.controller.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() => _error = e.message);
-    }
+    bool res = await _auth.signUpEmailPassword(
+      _email.controller.text,
+      _username.controller.text,
+      _password.controller.text,
+    );
+    if (!res) setState(() => _error = 'Invalid email or password');
   }
 
   Future<void> signUp() async {
-    if (password.controller.text != confirmPassword.controller.text) {
+    if (_password.controller.text != _confirmPassword.controller.text) {
       setState(() => _error = 'Passwords do not match');
       return;
     }
 
-    setState(() => _error = null);
-
     await _signUp();
-
-    if (_error == null && context.mounted) _goToHome(context);
+    if (_auth.user != null) _goToHome();
   }
 
-  void _goToHome(BuildContext context) {
-    Navigator.pushReplacement(
+  void _goToHome() {
+    Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const HomePage(),
+      PageRouteBuilder(
+        pageBuilder: (_, __, ____) => const HomePage(),
+        transitionDuration: const Duration(seconds: 0),
       ),
     );
   }
