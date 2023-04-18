@@ -28,7 +28,7 @@ class GameCard extends StatelessWidget {
             spreadRadius: 3,
           )
         ],
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.primaryContainer,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +83,7 @@ class MorePlatformsNumber extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(100)),
                   border: Border.all(
                     width: 2.2,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
                   )
               ),
             ),

@@ -4,11 +4,8 @@ import 'package:gameshare/consts/app_colors.dart';
 
 
 ThemeData lightTheme=ThemeData(
-  //Remover?
-  brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
   primaryColor: MyAppColors.midnightBlue,
-  backgroundColor: Colors.white,
 
   appBarTheme: const AppBarTheme(
     elevation: 0.0,
@@ -38,11 +35,11 @@ ThemeData lightTheme=ThemeData(
   inputDecorationTheme: const InputDecorationTheme(
     fillColor: MyAppColors.lightGrey,
   ),
-  accentColor: MyAppColors.purple, //Remover
-  colorScheme: ColorScheme(
+
+  colorScheme: const ColorScheme(
       brightness: Brightness.light,
 
-      primary: MyAppColors.darkBlue,
+      primary: Colors.white,
       onPrimary: MyAppColors.lightGreen,
 
       secondary: MyAppColors.purple,
@@ -57,9 +54,6 @@ ThemeData lightTheme=ThemeData(
       surface: Colors.white, //mudar possivelmente
       onSurface: Colors.black, //mudar possivelmente
 
-      //Não Obrigatorios
-      shadow: MyAppColors.grey,
-      primaryContainer: Colors.white,
       onPrimaryContainer: Colors.black,
   )
 
@@ -67,11 +61,8 @@ ThemeData lightTheme=ThemeData(
 );
 
 ThemeData darkTheme=ThemeData(
-  //Remover?
-  brightness: Brightness.dark,
   scaffoldBackgroundColor: MyAppColors.midnightBlue ,
   primaryColor: Colors.white ,
-  backgroundColor: MyAppColors.darkBlue,
 
   appBarTheme: const AppBarTheme(
     elevation: 0.0,
@@ -100,14 +91,14 @@ ThemeData darkTheme=ThemeData(
     inputDecorationTheme: InputDecorationTheme(
       fillColor: MyAppColors.darkBlue,
     ),
-  accentColor: MyAppColors.lightGreen, //Remover
-  colorScheme: ColorScheme(
+
+  colorScheme: const ColorScheme(
       brightness: Brightness.dark,
 
       primary: MyAppColors.darkBlue,
       onPrimary: MyAppColors.lightGreen,
 
-      secondary: MyAppColors.purple,
+      secondary: MyAppColors.lightGreen,
       onSecondary: Colors.white,
 
       error: Colors.red, //mudar possivelmente
@@ -119,13 +110,6 @@ ThemeData darkTheme=ThemeData(
       surface: MyAppColors.midnightBlue, //mudar possivelmente
       onSurface: Colors.white, //mudar possivelmente
 
-
-      //Não Obrigatórios
-      shadow: MyAppColors.grey,
-      primaryContainer: MyAppColors.midnightBlue,
       onPrimaryContainer: Colors.white,
-
-      secondaryContainer: MyAppColors.lightGreen,
-      onSecondaryContainer: Colors.white
-  )
+  ),
 );
