@@ -53,17 +53,18 @@ class _GamePage extends State<GamePage> {
                       EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 10),
                   child: Row(
                     children: [
-                      for (int i = 0;
-                          i < 3 && i < game.uniquePlatformsIcons.length;
-                          i++)
+                      SizedBox(width: 10,height: 0,),
+                      for (int i = 0;i < 3 && i < game.uniquePlatformsIcons.length; i++)
                         SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: Icon(game.uniquePlatformsIcons[i])),
+                            height: 40,
+                            width: 40,
+                            child: Icon(game.uniquePlatformsIcons[i],size: 30,)
+                        ),
                       const SizedBox(width: 5),
                       if (game.uniquePlatformsIcons.length > 3)
                         MorePlatformsNumber(game: game),
                       GameCardRating(game: game, size: 50),
+                      SizedBox(width: 10,height: 0,),
                     ],
                   ),
                 ),

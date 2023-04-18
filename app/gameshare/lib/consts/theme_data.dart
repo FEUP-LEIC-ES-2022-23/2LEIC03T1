@@ -40,7 +40,7 @@ ThemeData lightTheme=ThemeData(
 
   elevatedButtonTheme:  ElevatedButtonThemeData(
     style: ButtonStyle(
-      minimumSize: MaterialStatePropertyAll<Size >(Size(100,30)),
+      minimumSize: MaterialStatePropertyAll<Size >(Size(140,40)),
       backgroundColor: MaterialStatePropertyAll<Color>(MyAppColors.aquaBlue),
     )
   )
@@ -84,7 +84,7 @@ ThemeData darkTheme=ThemeData(
   accentColor: MyAppColors.lightGreen,
     elevatedButtonTheme:  const ElevatedButtonThemeData(
         style: ButtonStyle(
-          minimumSize: MaterialStatePropertyAll<Size >(Size(100,30)),
+          minimumSize: MaterialStatePropertyAll<Size >(Size(140,40)),
           backgroundColor: MaterialStatePropertyAll<Color>(MyAppColors.aquaGreen),
         )
     )

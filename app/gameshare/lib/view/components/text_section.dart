@@ -53,12 +53,9 @@ class _TextSection extends State<TextSection>{
       buttonText="Show less";
     }
     else{
-      mainText= text.substring(0,300);
+      mainText= text.substring(0,300)+"...";
       buttonText="Show More";
     }
-
-
-
     return [
       Text(
           Html(mainText),
@@ -70,20 +67,17 @@ class _TextSection extends State<TextSection>{
             setState(() {
               showMore=!showMore;
             });
-
           },
-
           child:Text(buttonText,textAlign: TextAlign.center),
         style: ButtonStyle(
           alignment: Alignment.center,
-          // backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).accentColor),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              )
+          ),
           padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.only(left: 40,right: 40,top:5,bottom: 5)),
-          // animationDuration: Duration(seconds: 10),
-
-
         ),
-
-
       )
     ];
   }
