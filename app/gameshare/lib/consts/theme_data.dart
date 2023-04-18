@@ -38,6 +38,13 @@ ThemeData lightTheme=ThemeData(
   ),
   accentColor: MyAppColors.purple,
 
+  elevatedButtonTheme:  ElevatedButtonThemeData(
+    style: ButtonStyle(
+      minimumSize: MaterialStatePropertyAll<Size >(Size(100,30)),
+      backgroundColor: MaterialStatePropertyAll<Color>(MyAppColors.aquaBlue),
+    )
+  )
+
 
 
 );
@@ -75,5 +82,11 @@ ThemeData darkTheme=ThemeData(
       fillColor: MyAppColors.darkBlue,
     ),
   accentColor: MyAppColors.lightGreen,
+    elevatedButtonTheme:  const ElevatedButtonThemeData(
+        style: ButtonStyle(
+          minimumSize: MaterialStatePropertyAll<Size >(Size(100,30)),
+          backgroundColor: MaterialStatePropertyAll<Color>(MyAppColors.aquaGreen),
+        )
+    )
 
 );
