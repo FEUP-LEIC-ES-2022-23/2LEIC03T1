@@ -38,7 +38,13 @@ Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, Li
     throw Exception('Failed to load games (Error ${res.statusCode})');
   }
 }
+Future<String> getGameDescription(int? id) async {
+  String url = '${dotenv.env['API_URL_BASE']}/games/$id?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+  final res = await http.get(Uri.parse(url));
+  var results= jsonDecode(res.body);
 
+  return results['description'];
+}
 String buildUrl(int? page, int? pageSize, String? searchQuery, List<String>? genres) {
   String url = '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
