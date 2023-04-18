@@ -187,6 +187,7 @@ class GameCardImage extends StatelessWidget {
         fit: BoxFit.fill,
         child: CachedNetworkImage(
           imageUrl: game.image,
+          errorWidget: (context, url, error) => Image.network('https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg'),
         ),
       ),
     );

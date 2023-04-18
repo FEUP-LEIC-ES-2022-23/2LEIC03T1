@@ -1,45 +1,44 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:gameshare/model/APIError.dart';
+import 'package:gameshare/model/api_exception.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import '../model/genre.dart';
 
-Future<List<Genre>> fetchGenres() async {
+Future<List<Genre>> fetchGenres(http.Client client) async {
   final String url = '${dotenv.env['API_URL_BASE']}/genres?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
-  final res = await http.get(Uri.parse(url));
+  final res = await client.get(Uri.parse(url));
 
   if (res.statusCode == 200) {
     var results = jsonDecode(res.body)['results'];
     return [for (int i = 0; i < results.length; i++) Genre.fromJson(results, i)];
   }
   else {
-    throw Exception('Failed to load genres (Error ${res.statusCode})');
+    throw ApiException('Failed to load genres', res.statusCode);
   }
 }
 
-Future<List<Game>> fetchGames({int? page, int? pageSize, String? searchQuery, List<String>? genres}) async {
-  String url = buildUrl(page, pageSize, searchQuery, genres);
+Future<List<Game>> fetchGames(http.Client client, {int? page, int? pageSize, String? searchQuery, List<String>? genres}) async {
+  String url = buildGameUrl(page, pageSize, searchQuery, genres);
 
-  final res = await http.get(Uri.parse(url));
+  final res = await client.get(Uri.parse(url));
+  var decodedJson = jsonDecode(res.body);
 
   if (res.statusCode == 200) {
-    var results = jsonDecode(res.body)['results'];
-    return [for(int i = 0; i < results.length; i++) Game.fromJson(results, i)];
+    return [for (int i = 0; i < decodedJson.length; i++) Game.fromJson(decodedJson['results'], i)];
   }
   // Already retrieved all games
-  else if (res.statusCode == 404) {
+  else if (res.statusCode == 404 && decodedJson['detail'] == 'Invalid page.') {
     return [];
   }
   else {
-    throw Exception('Failed to load games (Error ${res.statusCode})');
+    throw ApiException('Failed to load games', res.statusCode);
   }
 }
 
-String buildUrl(int? page, int? pageSize, String? searchQuery, List<String>? genres) {
+String buildGameUrl(int? page, int? pageSize, String? searchQuery, List<String>? genres) {
   String url = '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
   if (page != null) url += '&page=$page';
