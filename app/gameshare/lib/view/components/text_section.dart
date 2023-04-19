@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gameshare/consts/app_colors.dart';
 import 'package:gameshare/view/components/section_title.dart';
-import "dart:convert";
+
+import '../../services/utils.dart';
 
 
 
@@ -29,18 +29,6 @@ class _TextSection extends State<TextSection>{
   void initState() {
     super.initState();
   }
-
-  String Html(String html){
-    String withBreaks = html.replaceAll("<br />", '\n');
-    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
-    String withoutElements = withBreaks.replaceAll(exp, ' ');
-    String withApostrophe = withoutElements.replaceAll("&#39;", "'");
-    const utf= Utf8Decoder();
-
-    String withoutSpecialChars= utf.convert(withApostrophe.runes.toList());
-    return withoutSpecialChars;
-  }
-
   final String title;
   final String text;
   late bool showMore=false;
