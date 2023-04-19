@@ -36,6 +36,7 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
       pageSize: widget.pageSize,
       searchQuery: widget.searchQuery,
       genres: widget.genres);
+
   }
 
   @override
