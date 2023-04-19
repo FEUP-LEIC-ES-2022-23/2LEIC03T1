@@ -11,6 +11,7 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
+@visibleForTesting
 class _SearchPageState extends State<SearchPage> {
   late String _searchQuery = '';
 

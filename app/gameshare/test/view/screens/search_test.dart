@@ -12,59 +12,82 @@ import 'package:gameshare/model/game.dart';
 
 
 void main() {
-  testWidgets('Search bar calls onSearch function when search button is pressed', (WidgetTester tester ) async {
-    //Arrange
-    String searchText = '';
-    await tester.pumpWidget(
+  group('Inputting text into the search bar', () {
+    testWidgets('Search bar calls onSearch function when search button is pressed', (WidgetTester tester ) async {
+      //Arrange
+      String searchText = '';
+      await tester.pumpWidget(
         MaterialApp(
-          home: SearchBar(
-            onSearch: (searchQuery) => searchText = searchQuery,
+          home: Scaffold(
+            body: SearchBar(
+              onSearch: (searchQuery) => searchText = searchQuery,
+            ),
           ),
-        )
-    );
+        ),
+      );
+      final searchBarTextField = find.byType(TextField);
+      expect(searchBarTextField, findsOneWidget);
 
-    final searchBarTextField = find.byType(TextField);
-    expect(searchBarTextField, findsOneWidget);
+      final searchButton = find.byIcon(Icons.search);
+      expect(searchBarTextField, findsOneWidget);
 
-    final searchButton = find.byIcon(Icons.search);
-    expect(searchBarTextField, findsOneWidget);
+      //Act
+      await tester.enterText(searchBarTextField, 'test');
+      await tester.tap(searchButton);
+      await tester.pump();
 
-    //Act
-    await tester.enterText(searchBarTextField, 'test');
-    await tester.tap(searchButton);
-    await tester.pump();
+      //Assert
+      expect(searchText, 'test');
+    }); //End testWidget
 
-    //Assert
-    expect(searchText, 'test');
+    //To finish
+    testWidgets('Search Page updates the searchQuery when the onSearch function is called', (WidgetTester tester) async {
+      //Arrange
+      final searchPage =  SearchPage();
+      await tester.pumpWidget(searchPage);
 
-  });
+      final searchBarTextField = find.byType(TextField);
+      expect(searchBarTextField, findsOneWidget);
 
-  testWidgets('Search Page updates the searchQuery when the onSearch function is called', (WidgetTester tester) async {
-    //Arrange
-    await tester.pumpWidget(const MaterialApp(
-      home: SearchPage(),
-    ));
+      final searchButton = find.widgetWithIcon(TextButton, Icons.search);
+      expect(searchButton, findsOneWidget);
 
-    final searchBarTextField = find.byType(TextField);
-    expect(searchBarTextField, findsOneWidget);
+      final searchBar = find.byType(SearchBar);
+      expect(searchBar, findsOneWidget);
 
-    final searchButton = find.byIcon(Icons.search);
-    expect(searchButton, findsOneWidget);
+      late String searchText = '';
 
-    final searchBar = find.byType(SearchBar);
-    expect(searchBar, findsOneWidget);
+      //Act
+      await tester.enterText(searchBarTextField, 'test');
+      await tester.tap(searchButton);
+      await tester.pumpAndSettle();
 
-    final searchPage = find.byType(SearchPage);
+      final _SearchPageState searchPageState = tester.state(find.byType(SearchPage));
+      //Assert
+      expect(searchPageState. 'test');
+    });
 
+    //Alternative Test (To finish)
+    test('Search page updates the searchQuery when the onSearch function is called', () {
+      //Arrange
+      const searchPage = SearchPage();
+      final element = searchPage.createElement();
+      final searchPageState = element.;
+      searchPageState.
+    });
+  }); //End group
 
-    //Act
-    await tester.enterText(searchBarTextField, 'test');
-    await tester.tap(searchButton);
-    await tester.pump();
+  group('Games requested by API with different search queries', () {
+    test('Search query contains the full name of a game', () {
 
-    final searchPageState = tester.state<_SearchPageState>(find.byType(SearchPage));
+    });
 
-    //Assert
-    expect(searchPageState._searchQuery, 'test');
+    test('Search query contains part of the name of a game', () {
+
+    });
+
+    test('Search query contains the full name of a game', () {
+
+    });
   });
 }
