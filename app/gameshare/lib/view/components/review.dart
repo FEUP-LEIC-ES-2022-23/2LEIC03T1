@@ -17,9 +17,8 @@ const Review({
   Widget build(BuildContext context) {
 
     return Container(
-      width: 300,
-
-      height: 300,
+      width: MediaQuery.of(context).size.width,
+      
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(width: 0.5),
@@ -122,27 +121,74 @@ class ReviewRating extends StatelessWidget {
   }
 }
 
-class ReviewText extends StatelessWidget {
-  const ReviewText({
+class ReviewText extends StatefulWidget {
+    const ReviewText({
     Key? key,
     required this.review,
     }) : super(key: key);
 
   final String review;
 
+
+
+  @override
+  State<ReviewText> createState() => _ReviewTextState();
+}
+
+
+class _ReviewTextState extends State<ReviewText> {
+
+  late bool showMore = false;
+  late String buttonText = 'Show more';
+  String mainText = '';
+  
+  List<Widget> getText(){
+  
+    if(!showMore){
+      mainText = widget.review.substring(0, 400) + '...';
+      buttonText = 'Show more';
+    }
+    else{
+      mainText  = widget.review;
+      buttonText = 'Show less';
+    }
+
+    return [
+      Container(
+        margin: const EdgeInsets.all(10),
+        child: Text(
+          mainText,
+          
+          ),
+        
+      ),  
+      ElevatedButton(
+        onPressed: (){
+          setState(() {
+            showMore=!showMore;
+          });
+        },
+        style: ButtonStyle(
+          alignment: Alignment.center,
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+              )
+          ),
+          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.only(left: 40,right: 40,top:5,bottom: 5)),
+        ),
+        child: Text(buttonText,textAlign: TextAlign.center),
+      
+      ), 
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: Text(
-        review,
-        maxLines: 5,
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.left,
-        style: const TextStyle(
-          fontSize: 15,
-          ),
-        ),
+    return Column(
+
+      children: getText(),
+      
     );
   }
 }
