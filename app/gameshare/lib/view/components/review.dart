@@ -45,9 +45,14 @@ const Review({
           ReviewRating(
             rating: rating,
           ),
+
+          SizedBox(height: 10),
+
           ReviewText(
             review: review,
           ),
+
+          SizedBox(height: 10),
         ],
       ),
     );
@@ -114,7 +119,26 @@ class ReviewRating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
 
+          children: [
+            for(int i = 0; i < rating; i++)
+              Icon(
+                Icons.videogame_asset,
+                color:Colors.green,
+                size: MediaQuery.of(context).size.width/7,
+              ),
+            for(int i = 0; i < 5-rating; i++)
+              Icon(
+                Icons.videogame_asset,
+                color:Colors.grey,
+                size: MediaQuery.of(context).size.width/7,
+              ),
+
+          ],
+
+        ),
 
 
     );
@@ -141,45 +165,58 @@ class _ReviewTextState extends State<ReviewText> {
   late bool showMore = false;
   late String buttonText = 'Show more';
   String mainText = '';
+  late bool longText = true;
   
   List<Widget> getText(){
-  
-    if(!showMore){
-      mainText = widget.review.substring(0, 400) + '...';
+
+    if (widget.review.length <= 200) {
+      longText = false;
+      mainText = widget.review;
+    }
+    else if(!showMore){
+      longText = true;
+      mainText = widget.review.substring(0, 200) + '...';
       buttonText = 'Show more';
     }
     else{
+      longText = true;
       mainText  = widget.review;
       buttonText = 'Show less';
     }
 
     return [
       Container(
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(15),
         child: Text(
           mainText,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            decoration: TextDecoration.none,
+          )
           
           ),
         
-      ),  
-      ElevatedButton(
-        onPressed: (){
-          setState(() {
-            showMore=!showMore;
-          });
-        },
-        style: ButtonStyle(
-          alignment: Alignment.center,
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              )
+      ),
+      if (longText)
+        ElevatedButton(
+          onPressed: (){
+            setState(() {
+              showMore=!showMore;
+            });
+          },
+          style: ButtonStyle(
+            alignment: Alignment.center,
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                )
+            ),
+            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.only(left: 40,right: 40,top:5,bottom: 5)),
           ),
-          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.only(left: 40,right: 40,top:5,bottom: 5)),
+          child: Text(buttonText,textAlign: TextAlign.center),
+
         ),
-        child: Text(buttonText,textAlign: TextAlign.center),
-      
-      ), 
     ];
   }
 
