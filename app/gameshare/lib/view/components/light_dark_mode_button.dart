@@ -10,7 +10,7 @@ class LightDarkModeButton extends StatefulWidget {
 }
 
 class _LightDarkModeButton extends State<LightDarkModeButton> {
-  ThemeProvider themeProv= ThemeProvider();
+  ThemeProvider themeProv = ThemeProvider();
 
   @override
   void initState() {
@@ -21,21 +21,26 @@ class _LightDarkModeButton extends State<LightDarkModeButton> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  SafeArea(
+    return SafeArea(
       child: Align(
         alignment: Alignment.centerRight,
         child: TextButton(
-            child: Icon(themeProv.isDarkMode()? Icons.dark_mode_outlined:Icons.light_mode_outlined, color: MyAppColors.lightGreen,),
-            onPressed: () {
-              setState(() {
-                themeProv.toggleTheme();
-              });
-
-            },
+          key: const Key("ThemeMode"),
+          child: themeProv.isDarkMode()
+              ? Icon(
+                  Icons.dark_mode_outlined,
+                  color: MyAppColors.lightGreen,
+                  key: Key("darkMode"),
+                )
+              : Icon(Icons.light_mode_outlined,
+                  color: MyAppColors.lightGreen, key: Key("lightMode")),
+          onPressed: () {
+            setState(() {
+              themeProv.toggleTheme();
+            });
+          },
         ),
       ),
     );
-
   }
 }
-

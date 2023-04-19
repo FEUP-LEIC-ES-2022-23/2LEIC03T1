@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemePreferences with ChangeNotifier{
-  static var isDarkTheme;
+  static bool isDarkTheme=false;
   static ThemeMode _themeMode= ThemeMode.light;
 
 
@@ -13,6 +13,6 @@ class ThemePreferences with ChangeNotifier{
   get themeMode => _themeMode;
 
   bool getTheme() {
-    return isDarkTheme ?? false;
+    return isDarkTheme;
   }
 }

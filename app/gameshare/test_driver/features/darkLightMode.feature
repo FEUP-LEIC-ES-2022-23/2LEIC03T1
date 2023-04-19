@@ -1,11 +1,17 @@
-
 Feature: Dark Mode Light Mode
   The theme should change when the button is pressed
 
-  Scenario : Switching between modes
+  Scenario Outline: Switching between modes
     Given I enter the app
-    When  I tap on the mode icon 1 time
-    Then  I switch to the "dark".
+    When  I tap on the mode icon <n> time
+    Then  I switch to the <mode>.
+    Examples:
+      | n | mode |
+      | 0 | "light" |
+      | 1 | "dark" |
+      | 2 | "light" |
+      | 3 | "dark" |
+
 
 
 
