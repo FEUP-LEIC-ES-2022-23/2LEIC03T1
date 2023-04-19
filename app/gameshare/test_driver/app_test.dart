@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
-import 'steps/steps.dart';
+import 'steps/auth_steps.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()

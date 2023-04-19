@@ -7,7 +7,7 @@ Feature: Register
         And I fill in "username_field_register" with "test_user"
         And I fill in "password_field_register" with "test12345"
         And I fill in "confirm_password_field_register" with "test12345"
-        When I tap the "Register" button
+        And I tap the "Register" button
         Then I should see the home page
     
     Scenario: Register with invalid email
@@ -16,7 +16,7 @@ Feature: Register
         And I fill in "username_field_register" with "test_user"
         And I fill in "password_field_register" with "test12345"
         And I fill in "confirm_password_field_register" with "test12345"
-        When I tap the "Register" button
+        And I tap the "Register" button
         Then I should see "Invalid field"
     
     Scenario: Passwords don't match
@@ -25,5 +25,5 @@ Feature: Register
         And I fill in "username_field_register" with "test_user"
         And I fill in "password_field_register" with "test12345"
         And I fill in "confirm_password_field_register" with "test123122"
-        When I tap the "Register" button
+        And I tap the "Register" button
         Then I should see "Passwords do not match"
