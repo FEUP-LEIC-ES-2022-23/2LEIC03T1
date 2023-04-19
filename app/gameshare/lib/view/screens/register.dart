@@ -24,12 +24,28 @@ class _RegisterPageState extends State<RegisterPage> {
   String? _error;
   Auth get _auth => widget.authInstance;
 
-  final Entry _email = Entry('Email', TextEditingController());
-  final Entry _username = Entry('Username', TextEditingController());
-  final Entry _password =
-      Entry('Password', TextEditingController(), hide: true);
-  final Entry _confirmPassword =
-      Entry('Confirm Password', TextEditingController(), hide: true);
+  final Entry _email = Entry(
+        'email_field_register',
+        'Email',
+        TextEditingController(),
+      ),
+      _username = Entry(
+        'username_field_register',
+        'Username',
+        TextEditingController(),
+      ),
+      _password = Entry(
+        'password_field_register',
+        'Password',
+        TextEditingController(),
+        hide: true,
+      ),
+      _confirmPassword = Entry(
+        'confirm_password_field_register',
+        'Confirm Password',
+        TextEditingController(),
+        hide: true,
+      );
 
   final List<Entry> _entries = <Entry>[];
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 const double _size = 20;
 const FontWeight _weight = FontWeight.w900;
 
 class Entry {
-  const Entry(this.title, this.controller, {this.hide = false});
+  const Entry(this.key, this.title, this.controller, {this.hide = false});
 
+  final String key;
   final String title;
   final TextEditingController controller;
   final bool hide;
@@ -60,7 +60,12 @@ class EntryFieldList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: entries.map((Entry entry) => EntryField(entry)).toList(),
+      children: entries
+          .map((Entry entry) => EntryField(
+                entry,
+                key: Key(entry.key),
+              ))
+          .toList(),
     );
   }
 }

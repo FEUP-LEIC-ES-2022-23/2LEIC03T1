@@ -23,25 +23,32 @@ class _LoginPageState extends State<LoginPage> {
   String? _error;
 
   Auth get _auth => widget.authInstance;
-  final Entry _user = Entry('Email/Username', TextEditingController());
-  final Entry _password = Entry(
-    'Password',
-    TextEditingController(),
-    hide: true,
-  );
+
+  final Entry user = Entry(
+        'email_field_login',
+        'Email/Username',
+        TextEditingController(),
+      ),
+      password = Entry(
+        'password_field_login',
+        'Password',
+        TextEditingController(),
+        hide: true,
+      );
+
   final List<Entry> _entries = <Entry>[];
 
   @override
   void initState() {
     super.initState();
-    _entries.add(_user);
-    _entries.add(_password);
+    _entries.add(user);
+    _entries.add(password);
   }
 
   Future<void> _signIn() async {
     bool result = await _auth.signInEmailPassword(
-      _user.controller.text,
-      _password.controller.text,
+      user.controller.text,
+      password.controller.text,
     );
     if (!result) {
       setState(() => _error = 'Invalid email or password');
