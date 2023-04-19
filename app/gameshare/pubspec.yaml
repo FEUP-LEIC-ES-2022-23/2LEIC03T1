@@ -32,6 +32,9 @@ dependencies:
     sdk: flutter
   provider: ^6.0.5
   shared_preferences: ^2.0.18
+  flutter_gherkin: ^2.0.0
+  gherkin: ^2.0.2
+  glob: ^2.1.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -57,6 +60,8 @@ dependencies:
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
