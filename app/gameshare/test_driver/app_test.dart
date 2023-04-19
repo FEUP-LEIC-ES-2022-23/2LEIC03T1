@@ -14,11 +14,11 @@ Future<void> main() {
     ..hooks = []
     ..stepDefinitions = [
       inLoginPage(),
-      fillInEmail(),
-      fillInPassword(),
-      tapLoginButton(),
+      fillInField(),
+      tapButton(),
       seeHomePage(),
       seeError(),
+      inRegisterPage(),
     ]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true

@@ -17,35 +17,21 @@ StepDefinitionGeneric inLoginPage() {
   );
 }
 
-StepDefinitionGeneric fillInEmail() {
-  return given1<String, FlutterWorld>(
-    'I fill in email with {string}',
-    (email, context) async {
-      final emailField = find.byValueKey('email_field_login');
+StepDefinitionGeneric fillInField() {
+  return given2<String, String, FlutterWorld>(
+    'I fill in {string} with {string}',
+    (key, value, context) async {
+      final field = find.byValueKey(key);
       await FlutterDriverUtils.enterText(
         context.world.driver,
-        emailField,
-        email,
+        field,
+        value,
       );
     },
   );
 }
 
-StepDefinitionGeneric fillInPassword() {
-  return given1<String, FlutterWorld>(
-    'I fill in password with {string}',
-    (password, context) async {
-      final passwordField = find.byValueKey('password_field_login');
-      await FlutterDriverUtils.enterText(
-        context.world.driver,
-        passwordField,
-        password,
-      );
-    },
-  );
-}
-
-StepDefinitionGeneric tapLoginButton() {
+StepDefinitionGeneric tapButton() {
   return when1<String, FlutterWorld>(
     'I tap the {string} button',
     (text, context) async {
@@ -86,6 +72,24 @@ StepDefinitionGeneric seeError() {
       final finder = find.text(error);
       context.expectMatch(
         await FlutterDriverUtils.isPresent(context.world.driver, finder),
+        true,
+      );
+    },
+  );
+}
+
+StepDefinitionGeneric inRegisterPage() {
+  return given<FlutterWorld>(
+    'I am in the register page',
+    (context) async {
+      final goToLogin = find.text('User');
+      await FlutterDriverUtils.tap(context.world.driver, goToLogin);
+      final goToRegister = find.text("Don't have an account? Create one");
+      await FlutterDriverUtils.tap(context.world.driver, goToRegister);
+      final registerButton = find.text('Register');
+      context.expectMatch(
+        await FlutterDriverUtils.isPresent(
+            context.world.driver, registerButton),
         true,
       );
     },
