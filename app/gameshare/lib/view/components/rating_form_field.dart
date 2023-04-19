@@ -9,39 +9,21 @@ class RatingFormField extends StatelessWidget {
     required this.validator,
   });
 
-  Widget buildStar(BuildContext context, int index) {
-    Icon icon;
-    if (index >= rating) {
-      icon = const Icon(
-        Icons.star_border,
-        color: Colors.green,
-      );
-    }
-    else {
-      icon = const Icon(
-        Icons.star,
-        color: Colors.green, // TODO: Change colors
-      );
-    }
-    return InkResponse(
-      onTap: () {},
-      child: icon,
-    );
-  }
-
   Widget getIcon(int index, int rating) {
     Icon icon;
 
     if (index >= rating) {
-      icon = const Icon(
-        Icons.star_border,
-        color: Colors.green,
+      icon = Icon(
+        Icons.videogame_asset_outlined,
+        color: Colors.green.shade400,  // TODO: Use themeData
+        size: 50,
       );
     }
     else {
-      icon = const Icon(
-        Icons.star,
-        color: Colors.green, // TODO: Change colors
+      icon = Icon(
+        Icons.videogame_asset,
+        color: Colors.green.shade400, // TODO: Use themeData
+        size: 50,
       );
     }
 
@@ -58,6 +40,7 @@ class RatingFormField extends StatelessWidget {
         return Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 for (int i = 0; i < 5; i++) 
                   InkResponse(
