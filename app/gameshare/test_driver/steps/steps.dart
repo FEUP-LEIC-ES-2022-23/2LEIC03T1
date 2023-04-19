@@ -16,3 +16,17 @@ StepDefinitionGeneric inLoginPage() {
     },
   );
 }
+
+// Step definition to fill in the email field
+StepDefinitionGeneric<dynamic> fillInEmail() {
+  return given1<String, FlutterWorld>(
+    'I fill in the email field with {string}',
+    (context, email) async {
+      final emailField = find.byType('EntryField');
+      await FlutterDriverUtils.enterText(
+        emailField,
+        email,
+      );
+    },
+  );
+}
