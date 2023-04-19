@@ -5,7 +5,7 @@ import 'steps/steps.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-    ..features = [RegExp('features/*.feature')]
+    ..features = [RegExp('test_driver/features/[a-zA-Z_]+.feature')]
     ..reporters = [
       ProgressReporter(),
       TestRunSummaryReporter(),
@@ -14,6 +14,11 @@ Future<void> main() {
     ..hooks = []
     ..stepDefinitions = [
       inLoginPage(),
+      fillInEmail(),
+      fillInPassword(),
+      tapLoginButton(),
+      seeHomePage(),
+      seeError(),
     ]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true
