@@ -30,7 +30,7 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
   late Future<List<Game>> futureGames;
 
   void fetch(){
-    futureGames=  fetchGames(
+    futureGames = fetchGames(
         page: widget.page,
         pageSize: widget.pageSize,
         searchQuery: widget.searchQuery,
