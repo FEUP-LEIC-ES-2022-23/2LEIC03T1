@@ -1,18 +1,19 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/services/auth.dart';
-import 'package:gameshare/view/components/input.dart';
+import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
-
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Auth? auth, Key? key})
+      : auth = auth ?? Auth(),
+        super(key: key);
+
+  final Auth? auth;
+  Auth get authInstance => auth!;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -21,42 +22,51 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? _error;
 
-  final Entry _user = Entry('Email/Username', TextEditingController());
-  final Entry _password =
-      Entry('Password', TextEditingController(), hide: true,);
+  Auth get _auth => widget.authInstance;
+
+  final Entry user = Entry(
+        'email_field_login',
+        'Email/Username',
+        TextEditingController(),
+      ),
+      password = Entry(
+        'password_field_login',
+        'Password',
+        TextEditingController(),
+        hide: true,
+      );
+
   final List<Entry> _entries = <Entry>[];
 
   @override
   void initState() {
     super.initState();
-    _entries.add(_user);
-    _entries.add(_password);
+    _entries.add(user);
+    _entries.add(password);
   }
 
   Future<void> _signIn() async {
-    try {
-      await Auth().signInEmailPassword(
-        _user.controller.text,
-        _password.controller.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() => _error = e.message);
+    bool result = await _auth.signInEmailPassword(
+      user.controller.text,
+      password.controller.text,
+    );
+    if (!result) {
+      setState(() => _error = 'Invalid email or password');
+    } else {
+      setState(() => _error = null);
     }
   }
 
   Future<void> signIn() async {
-    setState(() => _error = null);
-
     await _signIn();
-
-    if (_error == null && context.mounted) _goToHome();
+    if (_auth.user != null) _goToHome();
   }
 
   void _goToRegister() {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const RegisterPage(),
+        pageBuilder: (_, __, ____) => RegisterPage(),
         transitionDuration: const Duration(seconds: 0),
       ),
     );
@@ -77,22 +87,27 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () {
         // TODO: Forgot Password
       },
-      child: const MyLabel('Forgot Password?', left: false,size: 15),
+      child: const MyLabel('Forgot Password?', left: false, size: 15),
     );
   }
 
   Widget _createAccountLabel() {
     return InkWell(
       onTap: _goToRegister,
-      child: const MyLabel("Don't have an account? Create one",size: 15,),
+      child: const MyLabel("Don't have an account? Create one", size: 15),
     );
   }
 
   Widget _rememberMeBox() {
     return Row(
-      children:  <Widget>[
-        MyText('Remember me', size: 15, weight: FontWeight.w800,color: Theme.of(context).primaryColor,),
-        MyCheckBox(),
+      children: <Widget>[
+        MyText(
+          'Remember me',
+          size: 15,
+          weight: FontWeight.w800,
+          color: Theme.of(context).primaryColor,
+        ),
+        const MyCheckBox(),
       ],
     );
   }
@@ -106,8 +121,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return  Scaffold(
+    return Scaffold(
       appBar: const TopBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -123,11 +137,9 @@ class _LoginPageState extends State<LoginPage> {
                 EntryFieldList(_entries),
                 _forgotPasswordLabel(),
                 DisplayError(_error),
-
                 _loginButton(),
                 const WhiteSpace(),
                 _rememberMeBox(),
-
                 _createAccountLabel(),
               ],
             ),
@@ -135,7 +147,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       bottomNavigationBar: const NavBar(),
-
     );
   }
 }
