@@ -94,7 +94,6 @@ class MorePlatformsNumber extends StatelessWidget {
               height: 50,
               width: 50,
               decoration: BoxDecoration(
-                // color: Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(100)),
                   border: Border.all(
                     width: 2.2,

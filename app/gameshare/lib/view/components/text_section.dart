@@ -30,8 +30,7 @@ class _TextSection extends State<TextSection>{
     super.initState();
   }
 
-  Html(String html){
-
+  String Html(String html){
     String withBreaks = html.replaceAll("<br />", '\n');
     RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
     String withoutElements = withBreaks.replaceAll(exp, ' ');

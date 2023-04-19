@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/consts/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 
@@ -43,6 +44,9 @@ ThemeData lightTheme=ThemeData(
       minimumSize: MaterialStatePropertyAll<Size >(Size(140,40)),
       backgroundColor: MaterialStatePropertyAll<Color>(MyAppColors.aquaBlue),
     )
+  ),
+  textTheme: TextTheme(
+    bodyMedium: GoogleFonts.montserratAlternates(),
   )
 
 
@@ -87,6 +91,10 @@ ThemeData darkTheme=ThemeData(
           minimumSize: MaterialStatePropertyAll<Size >(Size(140,40)),
           backgroundColor: MaterialStatePropertyAll<Color>(MyAppColors.aquaGreen),
         )
-    )
+    ),
+
+    textTheme: TextTheme(
+      bodyMedium: GoogleFonts.montserratAlternates(),
+)
 
 );
