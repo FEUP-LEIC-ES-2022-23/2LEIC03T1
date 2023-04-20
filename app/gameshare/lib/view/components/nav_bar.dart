@@ -28,21 +28,18 @@ class _NavBarState extends State<NavBar> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
-              key: Key("Home"),
             ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.search,
-              key: Key("Search"),
             ),
             label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              key: Key("User"),
             ),
             label: 'User',
           ),

@@ -2,10 +2,11 @@ import 'dart:async';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 import 'steps/auth_steps.dart';
+import 'steps/navbar_steps.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-    ..features = [RegExp('test_driver/features/[a-zA-Z_]+.feature')]
+    ..features = [RegExp('test_driver/features/*.*feature')]
     ..reporters = [
       ProgressReporter(),
       TestRunSummaryReporter(),
@@ -19,6 +20,9 @@ Future<void> main() {
       seeHomePage(),
       seeError(),
       inRegisterPage(),
+      goToPage(),
+      switchPage(),
+      checkPage(),
     ]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true

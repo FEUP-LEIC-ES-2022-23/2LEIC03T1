@@ -9,9 +9,9 @@ void main() {
   testWidgets("NavBar has the correct components", (WidgetTester tester) async {
     await tester.pumpWidget(MyApp());
 
-    expect(find.byKey(Key("Home")), findsOneWidget);
-    expect(find.byKey(Key("Search")), findsOneWidget);
-    expect(find.byKey(Key("User")), findsOneWidget);
+    expect(find.byIcon(Icons.home), findsOneWidget);
+    expect(find.byIcon(Icons.search), findsOneWidget);
+    expect(find.byIcon(Icons.person), findsOneWidget);
   });
-  
+
 }
