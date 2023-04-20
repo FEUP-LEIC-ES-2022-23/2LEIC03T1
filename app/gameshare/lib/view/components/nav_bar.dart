@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/view/screens/search.dart';
-
 import '../screens/home.dart';
 import '../screens/login.dart';
-import '../screens/search.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
 
   @override
   State<NavBar> createState() => _NavBarState();
+
+  getSelected() {
+    return _selected;
+  }
 }
 
 int _selected = 0;
 
 class _NavBarState extends State<NavBar> {
+
   ScrollController scrollController = ScrollProvider().controller;
 
   @override
@@ -23,15 +26,21 @@ class _NavBarState extends State<NavBar> {
     return BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(
+              Icons.home,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
+            icon: Icon(
+              Icons.search,
+            ),
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(
+              Icons.person,
+            ),
             label: 'User',
           ),
         ],
@@ -90,7 +99,4 @@ class _NavBarState extends State<NavBar> {
         duration: const Duration(milliseconds: 300), curve: Curves.linear);
   }
 }
-
-
-//TODO fazer a função que faz com que ao tocar no "GameShare" volte ao topo da pagina
 

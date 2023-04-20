@@ -118,6 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const Key('Register'),
       appBar: const TopBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(

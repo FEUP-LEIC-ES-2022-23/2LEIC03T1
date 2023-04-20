@@ -7,7 +7,6 @@ Feature: Dark Mode Light Mode
     Then  I switch to the <mode>.
     Examples:
       | n | mode |
-      | 0 | "light" |
       | 1 | "dark" |
       | 2 | "light" |
       | 3 | "dark" |

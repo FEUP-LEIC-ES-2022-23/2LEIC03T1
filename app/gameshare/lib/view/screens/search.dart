@@ -23,6 +23,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: const Key('Search'),
       appBar: const TopBar(),
       body: Column(
         children: [

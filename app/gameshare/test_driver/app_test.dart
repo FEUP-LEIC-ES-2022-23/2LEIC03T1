@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 import 'steps/auth_steps.dart';
+import 'steps/navbar_steps.dart';
 import 'steps/dark_light_mode/given.dart';
 import 'steps/dark_light_mode/tap_on_button.dart';
 import 'steps/dark_light_mode/theme_change.dart';
@@ -22,6 +23,9 @@ Future<void> main() {
       seeHomePage(),
       seeError(),
       inRegisterPage(),
+      goToPage(),
+      switchPage(),
+      checkPage(),
       EnterApp(),
       TapButtonNTimesStep(),
       ThemeChange(),
