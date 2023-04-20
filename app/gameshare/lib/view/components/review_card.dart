@@ -194,7 +194,6 @@ class _ReviewTextState extends State<ReviewText> {
           mainText,
           style: const TextStyle(
             fontSize: 16,
-            color: Colors.black,
             decoration: TextDecoration.none,
           )
           

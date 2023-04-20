@@ -22,19 +22,23 @@ void addReview(int rating, String reviewText, int gameId) {
   ref.set(reviewData);
 }
 
-List<Review> getGameReviews(int gameId) {
+Future<List<Review>> getGameReviews(int gameId) async {
   final db = FirebaseFirestore.instance;
+  final authEmail = FirebaseAuth.instance.currentUser!.email;
   List<Review> reviews = [];
 
-  db
+  await db
       .collection("games")
       .doc(gameId.toString())
       .collection("reviews")
+      .where("userEmail", isNotEqualTo: authEmail)
       .get()
       .then(
     (querySnapshot) {
       for (var docSnapshot in querySnapshot.docs) {
-        reviews.add(Review.fromJson(docSnapshot.data()));
+        if (docSnapshot.data()['userEmail'] != authEmail) {
+          reviews.add(Review.fromJson(docSnapshot.data()));
+        }
       }
     },
   );
