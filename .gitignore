@@ -249,6 +249,7 @@ DerivedData/
 
 #prototype
 app/prototype/**
+report.json
 ## Custom
 # Google API key and other resources
 GoogleService-Info.plist

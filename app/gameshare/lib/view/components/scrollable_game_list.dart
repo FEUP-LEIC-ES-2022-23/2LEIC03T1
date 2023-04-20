@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
 import 'api_error_message.dart';
-import 'circular_progress.dart';
 import 'game_card.dart';
+import 'package:http/io_client.dart';
 
 class ScrollableGameList extends StatefulWidget {
   final bool scrollHorizontally;
@@ -30,11 +30,12 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
   late Future<List<Game>> futureGames;
 
   void fetch(){
-    futureGames=  fetchGames(
-        page: widget.page,
-        pageSize: widget.pageSize,
-        searchQuery: widget.searchQuery,
-        genres: widget.genres);
+    futureGames = fetchGames(
+      IOClient(),
+      page: widget.page,
+      pageSize: widget.pageSize,
+      searchQuery: widget.searchQuery,
+      genres: widget.genres);
   }
 
   @override
