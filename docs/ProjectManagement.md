@@ -68,9 +68,7 @@ First Page           |  Second Page
 ---
 ## End of the iteration
 
-First Page           |  Second Page
-:-------------------------:|:-------------------------:
-![Iteration 1 End](../images/iteration2end2.1.png)  |  ![Iteration 1 End](../images/iteration1end2.2.png)
+![Iteration 2 End](../images/iteration2end.png)
 
 ---
 </br>
@@ -81,19 +79,26 @@ First Page           |  Second Page
 ### <b>What went well?</b>
 - We managed to make one of the most important pages for our app - the game page! 
 - We finally got the database to work.
+- We started testing the majority of the components we had created.
 
 ---
 ### <b>What didn't go so well?</b>
-- 
+- Gherkin tests were hard to write.
+- We shouldn't have planned to do so much since we knew we had two busy weeks ahead of us.
 
 ---
 ### <b>What have we learned?</b>
-- 
-
+- We know how to develop unit tests and the basics of Gherkin tests.
+- We managed to learn how to use the database although some more digging is needed.
+- We learned how to use the Form widget in flutter and how to create custom FormFields.
+- We feel a bit more proficient in Flutter overall.
+- We learned how to use the mockito package.
 
 ---
 ### <b>What still puzzles us?</b>
-- 
+- We still haven't grasped all the details about acceptance tests with Gherkin.
+- We still don't know how to move between pages effectivily in Gherkin tests.
+- We aren't sure if fetching data from the cloud firestore should be an asynchronous action or not.
 
 ---
 </br>
