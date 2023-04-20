@@ -63,7 +63,9 @@ First Page           |  Second Page
 
 ## Start of the iteration
 
-![Iteration 2 Start](../images/iteration2start.png)
+First Page           |  Second Page
+:-------------------------:|:-------------------------:
+![Iteration 2 Start](../images/iteration2start.png)  |  ![Iteration 2 Start](../images/iteration2.2start.png)
 
 ---
 ## End of the iteration
