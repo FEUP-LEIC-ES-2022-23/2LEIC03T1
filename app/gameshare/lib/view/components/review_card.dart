@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
-class Review extends StatelessWidget {
-const Review({
+class ReviewCard extends StatelessWidget {
+const ReviewCard({
   Key? key,
   required this.name,
   required this.review,
