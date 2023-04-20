@@ -51,15 +51,16 @@ class _ReviewFormState extends State<ReviewForm> {
             ),
             const addVerticalSpace(size: 10),
             TextFormField(
+              maxLines: 8,
               onSaved: (String? value) {
                 reviewText = value!;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.green.shade400, width: 2.0),
+                        BorderSide(color: Colors.green, width: 2.0),
                   ),
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                   hintText: 'Review',
                   fillColor: Colors.black),
               validator: validateReviewText,
@@ -69,7 +70,7 @@ class _ReviewFormState extends State<ReviewForm> {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green.shade400,
+                    backgroundColor: Colors.green,
                     fixedSize: const Size(140, 45),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

@@ -52,6 +52,12 @@ dependencies:
   mockito: ^5.4.0
   build_runner: ^2.3.3
 
+  firebase_auth_mocks: ^0.11.0
+  flutter_driver:
+    sdk: flutter
+  flutter_gherkin: ^2.0.0
+  gherkin: ^2.0.8
+
 
 
 

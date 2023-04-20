@@ -13,16 +13,16 @@ class RatingFormField extends StatelessWidget {
     Icon icon;
 
     if (index >= rating) {
-      icon = Icon(
+      icon = const Icon(
         Icons.videogame_asset_outlined,
-        color: Colors.green.shade400,  // TODO: Use themeData
+        color: Colors.green,  // TODO: Use themeData
         size: 50,
       );
     }
     else {
-      icon = Icon(
+      icon = const Icon(
         Icons.videogame_asset,
-        color: Colors.green.shade400, // TODO: Use themeData
+        color: Colors.green, // TODO: Use themeData
         size: 50,
       );
     }

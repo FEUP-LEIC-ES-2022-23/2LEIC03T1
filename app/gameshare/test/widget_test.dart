@@ -14,5 +14,5 @@ import 'package:gameshare/services/providers/theme_provider.dart';
 import 'darkLightMode_test.dart';
 
 void main() {
-  darkLightMode();
+
 }

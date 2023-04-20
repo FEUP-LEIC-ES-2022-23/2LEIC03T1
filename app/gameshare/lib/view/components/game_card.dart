@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/consts/app_colors.dart';
+import 'package:gameshare/view/screens/game.dart';
 import '../../model/game.dart';
 
 class GameCard extends StatelessWidget {
@@ -13,7 +14,11 @@ class GameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final GestureTapDownCallback? onTapDown;
+
+    return InkWell (
+
+      child: Container(
       width: 300,
       height: 300,
       margin: const EdgeInsets.all(10),
@@ -47,13 +52,23 @@ class GameCard extends StatelessWidget {
               const SizedBox(width: 5),
               if (game.uniquePlatformsIcons.length > 3)
                 MorePlatformsNumber(game: game),
-              GameCardRating(game: game),
+              GameCardRating(game: game,size: 40,),
             ],
           ),
           const SizedBox(height: 10),
           GameCardName(game: game),
         ],
       ),
+      ),
+        onTapDown :( TapDownDetails tapDownDetails){
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (_, __, ____) =>  GamePage(game: game),
+              transitionDuration: const Duration(seconds: 0),
+            ),
+          );
+        }
     );
   }
 }
@@ -75,10 +90,9 @@ class MorePlatformsNumber extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              height: 30,
-              width: 30,
+              height: 50,
+              width: 50,
               decoration: BoxDecoration(
-                // color: Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(100)),
                   border: Border.all(
                     width: 2.2,
@@ -110,6 +124,7 @@ class GameCardName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+
       flex: 3,
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -132,9 +147,11 @@ class GameCardRating extends StatelessWidget {
   const GameCardRating({
     super.key,
     required this.game,
+    required this.size,
   });
 
   final Game game;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
@@ -142,29 +159,29 @@ class GameCardRating extends StatelessWidget {
         flex: 2,
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
-          child: Stack (
-              alignment: Alignment.centerRight,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child:Stack (
+              alignment: Alignment.center,
               children: [
                 Container(
                   decoration: const BoxDecoration(
                     color: MyAppColors.lightGreen,
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
-                  height: 35,
-                  width: 35,
+                  height: size,
+                  width: size,
                 ),
-                Positioned(
-                  right: 2,
-                  child: Text(
+                Text(
                     game.rating.toStringAsFixed(2),
                     style: const TextStyle (
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
               ]
           ),
+        )
         )
     );
   }

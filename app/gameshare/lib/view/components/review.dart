@@ -119,25 +119,28 @@ class ReviewRating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: [
-            for(int i = 0; i < rating; i++)
-              Icon(
-                Icons.videogame_asset,
-                color:Colors.green,
-                size: MediaQuery.of(context).size.width/7,
-              ),
-            for(int i = 0; i < 5-rating; i++)
-              Icon(
-                Icons.videogame_asset,
-                color:Colors.grey,
-                size: MediaQuery.of(context).size.width/7,
-              ),
-
-          ],
-
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        
+            children: [
+              for(int i = 0; i < rating; i++)
+                Icon(
+                  Icons.videogame_asset,
+                  color:Colors.green,
+                  size: MediaQuery.of(context).size.width/7,
+                ),
+              for(int i = 0; i < 5-rating; i++)
+                Icon(
+                  Icons.videogame_asset_outlined,
+                  color:Colors.green,
+                  size: MediaQuery.of(context).size.width/7,
+                ),
+        
+            ],
+        
+          ),
         ),
 
 
