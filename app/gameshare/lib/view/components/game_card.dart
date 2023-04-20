@@ -20,7 +20,6 @@ class GameCard extends StatelessWidget {
 
       child: Container(
       width: 300,
-
       height: 300,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
