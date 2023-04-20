@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:gameshare/view/components/reviewForm/review_form.dart';
+import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
 import '../../services/providers/scroll_provider.dart';
@@ -60,7 +62,13 @@ class _GamePage extends State<GamePage> {
                     return CircularProgressBar();
                   }
                 },
-              )
+              ),
+
+              const addVerticalSpace(size: 30),
+
+              ReviewForm(game: game),
+
+              const addVerticalSpace(size: 10),
             ],
           ),
 
@@ -73,8 +81,7 @@ class _GamePage extends State<GamePage> {
               // maximumSize: MaterialStateProperty.all<Size>(Size(65, 40)),
               padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
             ),
-
-              )
+          ),
 
         ],
       ),

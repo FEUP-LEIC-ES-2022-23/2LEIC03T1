@@ -61,7 +61,7 @@ class _ReviewFormState extends State<ReviewForm> {
                         BorderSide(color: Colors.green, width: 2.0),
                   ),
                   border: OutlineInputBorder(),
-                  hintText: 'Review',
+                  hintText: 'Write your review...',
                   fillColor: Colors.black),
               validator: validateReviewText,
             ),
