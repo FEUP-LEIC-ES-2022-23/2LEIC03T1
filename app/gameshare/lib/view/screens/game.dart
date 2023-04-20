@@ -57,7 +57,7 @@ class _GamePage extends State<GamePage> {
                         text: snapshot.data ??
                             "There is no Information about this game");
                   } else {
-                    return CircularProgressBar();
+                    return const CircularProgressBar();
                   }
                 },
               )

@@ -55,7 +55,7 @@ class _TextSection extends State<TextSection>{
               showMore=!showMore;
             });
           },
-          child:Text(buttonText,textAlign: TextAlign.center),
+          child:  Text(buttonText,textAlign: TextAlign.center,style: TextStyle(color: Colors.white),),
         style: ButtonStyle(
           alignment: Alignment.center,
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
