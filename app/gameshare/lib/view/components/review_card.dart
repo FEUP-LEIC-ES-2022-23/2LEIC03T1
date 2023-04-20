@@ -30,7 +30,7 @@ const ReviewCard({
             spreadRadius: 3,
           )
         ],
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
       ),
       child: Column(
         children: [
