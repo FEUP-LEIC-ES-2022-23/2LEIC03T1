@@ -32,15 +32,21 @@ class _TextSection extends State<TextSection>{
   final String title;
   final String text;
   late bool showMore=false;
+  late bool showButton=true;
   List<Widget> getText(){
     String mainText;
     String buttonText;
+    showButton=true;
     if(showMore){
       mainText=text;
       buttonText="Show less";
     }
     else{
-      mainText= text.substring(0,300)+"...";
+      if(text.length>300) mainText= text.substring(0,300)+"...";
+      else {
+        mainText=text;
+        showButton=false;
+      }
       buttonText="Show More";
     }
     return [
@@ -49,7 +55,7 @@ class _TextSection extends State<TextSection>{
           style: const TextStyle(fontSize: 20)
       ),
       SizedBox(height: 20,),
-      ElevatedButton(
+      if(showButton)ElevatedButton(
           onPressed: (){
             setState(() {
               showMore=!showMore;
