@@ -10,7 +10,6 @@ import 'package:gameshare/view/components/scrollable_game_list.dart';
 import '../components/section_title.dart';
 import 'package:http/io_client.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -35,34 +34,33 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(9.0),
         child: FutureBuilder(
-          future: allGenres,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasData) {
-                return ListView(
-                  controller: ScrollProvider.scrollController,
-                  children: [
-                    for (Genre genre in snapshot.data!)
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget> [
-                          SectionTitle(title: genre.name),
-                          SizedBox(
-                              height: 300,
-                              child: ScrollableGameList(scrollHorizontally: true, genres: [genre.slug])
-                          ),
-                        ],
-                      ),
-                  ],
-                );
+            future: allGenres,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  return ListView(
+                    controller: ScrollProvider.scrollController,
+                    children: [
+                      for (Genre genre in snapshot.data!)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            SectionTitle(title: genre.name),
+                            SizedBox(
+                                height: 300,
+                                child: ScrollableGameList(
+                                    scrollHorizontally: true,
+                                    genres: [genre.slug])),
+                          ],
+                        ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return APIErrorMessage(errMessage: snapshot.error.toString());
+                }
               }
-              else if (snapshot.hasError) {
-                return APIErrorMessage(errMessage: snapshot.error.toString());
-              }
-            }
-            return const Center(child: CircularProgressBar());
-          }
-        ),
+              return const Center(child: CircularProgressBar());
+            }),
       ),
       bottomNavigationBar: const NavBar(),
     );

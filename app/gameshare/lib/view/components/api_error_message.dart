@@ -11,13 +11,11 @@ class APIErrorMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-          errMessage,
+      child: Text(errMessage,
           style: const TextStyle(
             color: Color(0xffa92113),
             fontSize: 20,
-          )
-      ),
+          )),
     );
   }
 }

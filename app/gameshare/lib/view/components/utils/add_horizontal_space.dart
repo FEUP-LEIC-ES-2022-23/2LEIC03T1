@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class addHorizontalSpace extends StatelessWidget {
   const addHorizontalSpace({
     super.key,

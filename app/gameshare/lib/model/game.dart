@@ -9,11 +9,11 @@ class Game {
   final String _name;
   late String _description;
 
-  Game (
-      this._gameId,
-      this._image,
-      this._platforms,
-      this._name,
+  Game(
+    this._gameId,
+    this._image,
+    this._platforms,
+    this._name,
   );
 
   int get gameId => _gameId;
@@ -26,15 +26,18 @@ class Game {
   factory Game.fromJson(List<dynamic> json, int idx) {
     Map<String, dynamic> result = json[idx];
 
-    return Game (
+    return Game(
       result['id'],
-      result['background_image'] ?? 'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
-      [if (result['platforms'] != null) for (var el in result['platforms']) el['platform']['slug']],
+      result['background_image'] ??
+          'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
+      [
+        if (result['platforms'] != null)
+          for (var el in result['platforms']) el['platform']['slug']
+      ],
       result['name'],
     );
   }
 
-  List<IconData?> get uniquePlatformsIcons => {
-    for (var platform in _platforms) platformToIcon[platform]
-  }.toList();
+  List<IconData?> get uniquePlatformsIcons =>
+      {for (var platform in _platforms) platformToIcon[platform]}.toList();
 }

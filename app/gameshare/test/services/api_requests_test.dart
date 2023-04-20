@@ -11,13 +11,13 @@ import 'api_requests_test.mocks.dart';
 
 @GenerateMocks([Client])
 Future<void> main() async {
-
   await dotenv.load(fileName: ".env");
-  String gamesUrl = '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
-  String genresUrl = '${dotenv.env['API_URL_BASE']}/genres?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+  String gamesUrl =
+      '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+  String genresUrl =
+      '${dotenv.env['API_URL_BASE']}/genres?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
   group('Creating url to fetch games from RAWG api', () {
-
     test('Full valid url', () {
       int page = 1;
       int pageSize = 20;
@@ -25,7 +25,8 @@ Future<void> main() async {
       List<String> genres = ['puzzle', 'action'];
 
       String actual = buildGameUrl(page, pageSize, searchQuery, genres);
-      String expected = '$gamesUrl&page=1&page_size=20&search=mario&genres=puzzle,action';
+      String expected =
+          '$gamesUrl&page=1&page_size=20&search=mario&genres=puzzle,action';
 
       expect(actual, expected);
     });
@@ -37,7 +38,8 @@ Future<void> main() async {
       List<String> genres = ['puzzle', 'action'];
 
       String actual = buildGameUrl(page, pageSize, searchQuery, genres);
-      String expected = '$gamesUrl&page_size=20&search=mario&genres=puzzle,action';
+      String expected =
+          '$gamesUrl&page_size=20&search=mario&genres=puzzle,action';
 
       expect(actual, expected);
     });
@@ -100,22 +102,26 @@ Future<void> main() async {
 
     test('Returns a game if the http call completes successfully', () async {
       when(client.get(Uri.parse('$gamesUrl&page=1&page_size=1')))
-          .thenAnswer((_) async => Response('{'
-          '"results": [{'
-          '"id": 1, '
-          '"background_image": "TheImage", '
-          '"platforms": [{"platform": {"name": "Playstation 4", "slug": "playstation4"}}], '
-          '"name": "TheGame"'
-          '}]}', 200));
+          .thenAnswer((_) async => Response(
+              '{'
+              '"results": [{'
+              '"id": 1, '
+              '"background_image": "TheImage", '
+              '"platforms": [{"platform": {"name": "Playstation 4", "slug": "playstation4"}}], '
+              '"name": "TheGame"'
+              '}]}',
+              200));
 
       List<Game> result = await fetchGames(client, page: 1, pageSize: 1);
 
       expect(result.length, 1);
     });
 
-    test('Returns an empty list http call returns a 404 error with detail "Invalid page."', () async {
-      when(client.get(Uri.parse('$gamesUrl&page=1&page_size=1')))
-          .thenAnswer((_) async => Response('{"detail": "Invalid page."}', 404));
+    test(
+        'Returns an empty list http call returns a 404 error with detail "Invalid page."',
+        () async {
+      when(client.get(Uri.parse('$gamesUrl&page=1&page_size=1'))).thenAnswer(
+          (_) async => Response('{"detail": "Invalid page."}', 404));
 
       List<Game> result = await fetchGames(client, page: 1, pageSize: 1);
 
@@ -137,13 +143,15 @@ Future<void> main() async {
       client = MockClient();
     });
 
-    test('Returns the genres list if the http call completes successfully', () async {
-      when(client.get(Uri.parse(genresUrl)))
-          .thenAnswer((_) async => Response('{"results": ['
+    test('Returns the genres list if the http call completes successfully',
+        () async {
+      when(client.get(Uri.parse(genresUrl))).thenAnswer((_) async => Response(
+          '{"results": ['
           '{"name": "Action", "slug": "action"},'
           '{"name": "Puzzle", "slug": "puzzle"},'
           '{"name": "Horror", "slug": "horror"}'
-          ']}', 200));
+          ']}',
+          200));
 
       List<Genre> result = await fetchGenres(client);
 

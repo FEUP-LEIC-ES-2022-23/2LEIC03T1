@@ -57,8 +57,7 @@ class _ReviewFormState extends State<ReviewForm> {
               },
               decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.green, width: 2.0),
+                    borderSide: BorderSide(color: Colors.green, width: 2.0),
                   ),
                   border: OutlineInputBorder(),
                   hintText: 'Write your review...',
@@ -78,7 +77,8 @@ class _ReviewFormState extends State<ReviewForm> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    addReview(ratingFormField.rating, reviewText, widget.game.gameId);
+                    addReview(
+                        ratingFormField.rating, reviewText, widget.game.gameId);
                   }
                 },
                 child: const Text(

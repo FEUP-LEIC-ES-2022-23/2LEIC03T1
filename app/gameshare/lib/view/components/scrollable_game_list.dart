@@ -26,40 +26,38 @@ class ScrollableGameList extends StatefulWidget {
 }
 
 class _ScrollableGameListState extends State<ScrollableGameList> {
-
   late Future<List<Game>> futureGames;
 
-  void fetch(){
-    futureGames = fetchGames(
-      IOClient(),
-      page: widget.page,
-      pageSize: widget.pageSize,
-      searchQuery: widget.searchQuery,
-      genres: widget.genres);
+  void fetch() {
+    futureGames = fetchGames(IOClient(),
+        page: widget.page,
+        pageSize: widget.pageSize,
+        searchQuery: widget.searchQuery,
+        genres: widget.genres);
   }
 
   @override
   Widget build(BuildContext context) {
     fetch();
-    return FutureBuilder <List<Game>> (
+    return FutureBuilder<List<Game>>(
       future: futureGames,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isEmpty) {
             return const Text('No results found');
-          }
-          else {
+          } else {
             return ListView(
-              scrollDirection: widget.scrollHorizontally ? Axis.horizontal : Axis.vertical,
+              scrollDirection:
+                  widget.scrollHorizontally ? Axis.horizontal : Axis.vertical,
               children: [
-                for (var game in snapshot.data!)
-                  GameCard(game: game),
+                for (var game in snapshot.data!) GameCard(game: game),
               ],
             );
           }
-        }
-        else if (snapshot.hasError) {
-          return APIErrorMessage(errMessage: snapshot.error.toString(),);
+        } else if (snapshot.hasError) {
+          return APIErrorMessage(
+            errMessage: snapshot.error.toString(),
+          );
         }
         return Center(
           child: Transform.scale(
@@ -67,8 +65,7 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
               child: const CircularProgressIndicator(
                 strokeWidth: 1.5,
                 color: Color(0xff1F2D5A),
-              )
-          ),
+              )),
         );
       },
     );

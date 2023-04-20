@@ -3,7 +3,10 @@ import 'package:test/test.dart';
 
 void main() {
   test('Crating a genre instance', () {
-    const List<dynamic> data = [{'name': 'Action', 'slug': 'action'}, {'name': 'Puzzle', 'slug': 'puzzle'}];
+    const List<dynamic> data = [
+      {'name': 'Action', 'slug': 'action'},
+      {'name': 'Puzzle', 'slug': 'puzzle'}
+    ];
 
     Genre genreAction = Genre.fromJson(data, 0);
     Genre genrePuzzle = Genre.fromJson(data, 1);

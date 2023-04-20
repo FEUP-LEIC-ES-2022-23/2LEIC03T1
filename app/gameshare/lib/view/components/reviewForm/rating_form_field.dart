@@ -15,11 +15,10 @@ class RatingFormField extends StatelessWidget {
     if (index >= rating) {
       icon = const Icon(
         Icons.videogame_asset_outlined,
-        color: Colors.green,  // TODO: Use themeData
+        color: Colors.green, // TODO: Use themeData
         size: 50,
       );
-    }
-    else {
+    } else {
       icon = const Icon(
         Icons.videogame_asset,
         color: Colors.green, // TODO: Use themeData
@@ -32,49 +31,36 @@ class RatingFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormField<int> (
-      autovalidateMode: AutovalidateMode.disabled,
-      initialValue: rating,
-      validator: validator,
-      builder: (formState) {
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                for (int i = 0; i < 5; i++) 
+    return FormField<int>(
+        autovalidateMode: AutovalidateMode.disabled,
+        initialValue: rating,
+        validator: validator,
+        builder: (formState) {
+          return Column(
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                for (int i = 0; i < 5; i++)
                   InkResponse(
-                    onTap: () {rating = i + 1; formState.didChange(rating);},
+                    onTap: () {
+                      rating = i + 1;
+                      formState.didChange(rating);
+                    },
                     child: getIcon(i, rating),
                   )
-              ]
-            ),
-            if (formState.hasError)
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  formState.errorText!,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              )
-          ],
-        );
-      }
-    );
+              ]),
+              if (formState.hasError)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    formState.errorText!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                )
+            ],
+          );
+        });
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 class RatingFormField extends FormField<int> {

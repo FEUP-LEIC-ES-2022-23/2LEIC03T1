@@ -36,4 +36,3 @@ Future<void> main() {
   // ..tagExpression = "@smoke" // uncomment to see an example of running scenarios based on tag expressions
   return GherkinRunner().execute(config);
 }
-

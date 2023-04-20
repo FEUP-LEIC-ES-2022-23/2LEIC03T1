@@ -22,7 +22,8 @@ class InfiniteScrollableGameList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<InfiniteScrollableGameList> createState() => _InfiniteScrollableGameList();
+  State<InfiniteScrollableGameList> createState() =>
+      _InfiniteScrollableGameList();
 }
 
 class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
@@ -34,7 +35,8 @@ class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent) {
         widget.page = widget.page! + 1;
 
         setState(() {});
@@ -43,13 +45,11 @@ class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
   }
 
   Future<List<Game>> fetch() async {
-    futureGames.addAll(await fetchGames(
-      IOClient(),
-      page: widget.page,
-      pageSize: widget.pageSize,
-      searchQuery: widget.searchQuery,
-      genres: widget.genres
-    ));
+    futureGames.addAll(await fetchGames(IOClient(),
+        page: widget.page,
+        pageSize: widget.pageSize,
+        searchQuery: widget.searchQuery,
+        genres: widget.genres));
     return futureGames;
   }
 
@@ -59,41 +59,36 @@ class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (widget.page == 1) futureGames.clear();
 
     test = fetch();
-    return FutureBuilder <List<Game>> (
+    return FutureBuilder<List<Game>>(
       future: test,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data!.isEmpty && snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data!.isEmpty &&
+              snapshot.connectionState == ConnectionState.done) {
             return const Padding(
               padding: EdgeInsets.only(bottom: 95.0),
               child: Center(
-                child: Text(
-                  'No results found',
-                  style: TextStyle(
-                    fontSize: 30,
-                  )
-                )
-              ),
+                  child: Text('No results found',
+                      style: TextStyle(
+                        fontSize: 30,
+                      ))),
             );
-          }
-          else {
+          } else {
             return ListView.builder(
                 controller: _scrollController,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return GameCard(game: snapshot.data![index],);
-                }
-            );
-
+                  return GameCard(
+                    game: snapshot.data![index],
+                  );
+                });
           }
-        }
-        else if (snapshot.hasError) {
+        } else if (snapshot.hasError) {
           return Text('${snapshot.error}');
         }
         return const CircularProgressBar();
@@ -101,7 +96,3 @@ class _InfiniteScrollableGameList extends State<InfiniteScrollableGameList> {
     );
   }
 }
-
-
-
-

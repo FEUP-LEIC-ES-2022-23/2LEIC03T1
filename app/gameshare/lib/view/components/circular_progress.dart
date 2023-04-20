@@ -12,8 +12,7 @@ class CircularProgressBar extends StatelessWidget {
           scale: 2,
           child: const CircularProgressIndicator(
             strokeWidth: 1.5,
-          )
-      ),
+          )),
     );
   }
 }

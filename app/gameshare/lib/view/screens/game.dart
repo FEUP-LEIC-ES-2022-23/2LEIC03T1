@@ -47,8 +47,8 @@ class _GamePage extends State<GamePage> {
 
     for (Review review in reviews) {
       reviewCards.add(ReviewCard(
-        name: review.userEmail, 
-        review: review.reviewText, 
+        name: review.userEmail,
+        review: review.reviewText,
         rating: review.rating,
       ));
     }
@@ -85,45 +85,36 @@ class _GamePage extends State<GamePage> {
                   }
                 },
               ),
-
               const addVerticalSpace(size: 30),
-
               const Padding(
                 padding: EdgeInsets.only(left: 8.0),
                 child: LeftCenteredTitle(text: "Reviews", textSize: 32),
               ),
-
               const addVerticalSpace(size: 10),
-
               if (FirebaseAuth.instance.currentUser != null)
                 FutureBuilder(
-                  future: getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId),
+                  future: getUserGameReview(
+                      FirebaseAuth.instance.currentUser!.email!, game.gameId),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Column(
                         children: [
-                  
                           const addVerticalSpace(size: 10),
-                          
-                          ReviewCard (
-                                name: FirebaseAuth.instance.currentUser!.email!,
-                                review: snapshot.data!.reviewText,
-                                rating: snapshot.data!.rating,
+                          ReviewCard(
+                            name: FirebaseAuth.instance.currentUser!.email!,
+                            review: snapshot.data!.reviewText,
+                            rating: snapshot.data!.rating,
                           ),
                         ],
                       );
-                    }
-                    else if (snapshot.data == null) {
-                        return ReviewForm(game: game);
-                    }
-                    else {
+                    } else if (snapshot.data == null) {
+                      return ReviewForm(game: game);
+                    } else {
                       return const CircularProgressBar();
                     }
                   },
                 ),
-
               const addVerticalSpace(size: 10),
-
               FutureBuilder(
                 future: getGameReviews(game.gameId),
                 builder: (context, snapshot) {
@@ -131,12 +122,11 @@ class _GamePage extends State<GamePage> {
                     return Column(
                       children: createReviewCards(snapshot.data!),
                     );
-                  }
-                  else {
+                  } else {
                     return const CircularProgressBar();
                   }
                 },
-              )      
+              )
             ],
           ),
           TextButton(

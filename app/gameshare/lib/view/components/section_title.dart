@@ -13,7 +13,7 @@ class SectionTitle extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       width: MediaQuery.of(context).size.width - 10,
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
             color: Theme.of(context).primaryColor,

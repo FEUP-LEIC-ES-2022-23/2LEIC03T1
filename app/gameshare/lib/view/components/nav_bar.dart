@@ -18,7 +18,6 @@ class NavBar extends StatefulWidget {
 int _selected = 0;
 
 class _NavBarState extends State<NavBar> {
-
   ScrollController scrollController = ScrollProvider().controller;
 
   @override
@@ -99,4 +98,3 @@ class _NavBarState extends State<NavBar> {
         duration: const Duration(milliseconds: 300), curve: Curves.linear);
   }
 }
-

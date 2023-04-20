@@ -4,10 +4,7 @@ import 'package:gameshare/services/providers/theme_provider.dart';
 import 'package:gherkin/gherkin.dart';
 
 StepDefinitionGeneric EnterApp() {
-  return given<FlutterWorld>(
-    'I enter the app',
-        ( context) async {
-
-        return;
-      });
+  return given<FlutterWorld>('I enter the app', (context) async {
+    return;
+  });
 }

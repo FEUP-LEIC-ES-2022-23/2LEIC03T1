@@ -2,9 +2,9 @@ class Genre {
   final String _name;
   final String _slug;
 
-  Genre (
-     this._name,
-     this._slug,
+  Genre(
+    this._name,
+    this._slug,
   );
 
   String get name => _name;
@@ -14,7 +14,7 @@ class Genre {
   factory Genre.fromJson(List<dynamic> json, int idx) {
     Map<String, dynamic> result = json[idx];
 
-    return Genre (
+    return Genre(
       result['name'],
       result['slug'],
     );

@@ -4,7 +4,7 @@ String? validateRating(int? value) {
 }
 
 String? validateReviewText(String? value) {
-  if (value!.length > 1000){
+  if (value!.length > 1000) {
     return "Your review can't have more than 1000 characters";
   }
   return null;
