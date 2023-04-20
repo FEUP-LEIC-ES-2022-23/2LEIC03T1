@@ -5,7 +5,7 @@ import 'package:gameshare/view/components/top_bar.dart';
 import '../components/nav_bar.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({InfiniteScrollableGameList? infGameList, Key? key}) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
