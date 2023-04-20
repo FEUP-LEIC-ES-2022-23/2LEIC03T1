@@ -78,16 +78,14 @@ class _GamePage extends State<GamePage> {
                   future: getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId),
                   builder:(context, snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data == null) {
+                      return ReviewCard (
+                            name: FirebaseAuth.instance.currentUser!.email!,
+                            review: snapshot.data!.reviewText,
+                            rating: snapshot.data!.rating,
+                      );
+                    }
+                    else if (snapshot.data == null) {
                         return ReviewForm(game: game);
-                      }
-                      else {
-                        return ReviewCard (
-                              name: FirebaseAuth.instance.currentUser!.email!,
-                              review: snapshot.data!.reviewText,
-                              rating: snapshot.data!.rating,
-                        );
-                      }
                     }
                     else {
                       return const CircularProgressBar();
@@ -95,7 +93,7 @@ class _GamePage extends State<GamePage> {
                   },
                 ),
               const addVerticalSpace(size: 10),
-
+              
             ],
           ),
           TextButton(
