@@ -1,7 +1,7 @@
 import 'package:gameshare/services/theme_prefs.dart';
 
 class ThemeProvider {
-   static ThemePreferences themePreferences=ThemePreferences();
+   static final ThemePreferences themePreferences=ThemePreferences();
    get themePrefs => themePreferences;
    addListener(listener){
       themePreferences.addListener(listener);

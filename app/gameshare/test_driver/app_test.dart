@@ -3,10 +3,13 @@ import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 import 'steps/auth_steps.dart';
 import 'steps/navbar_steps.dart';
+import 'steps/dark_light_mode/given.dart';
+import 'steps/dark_light_mode/tap_on_button.dart';
+import 'steps/dark_light_mode/theme_change.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-    ..features = [RegExp('test_driver/features/*.*feature')]
+    ..features = [RegExp('test_driver/features/*.*.feature')]
     ..reporters = [
       ProgressReporter(),
       TestRunSummaryReporter(),
@@ -23,6 +26,9 @@ Future<void> main() {
       goToPage(),
       switchPage(),
       checkPage(),
+      EnterApp(),
+      TapButtonNTimesStep(),
+      ThemeChange(),
     ]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true
@@ -30,3 +36,4 @@ Future<void> main() {
   // ..tagExpression = "@smoke" // uncomment to see an example of running scenarios based on tag expressions
   return GherkinRunner().execute(config);
 }
+

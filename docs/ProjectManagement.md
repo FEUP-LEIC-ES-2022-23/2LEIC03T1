@@ -55,3 +55,45 @@ First Page           |  Second Page
 
 ---
 </br>
+
+
+
+# Second Iteration
+
+
+## Start of the iteration
+
+![Iteration 2 Start](../images/iteration2start.png)
+
+---
+## End of the iteration
+
+First Page           |  Second Page
+:-------------------------:|:-------------------------:
+![Iteration 1 End](../images/iteration2end2.1.png)  |  ![Iteration 1 End](../images/iteration1end2.2.png)
+
+---
+</br>
+
+# The Four Questions:
+
+
+### <b>What went well?</b>
+- We managed to make one of the most important pages for our app - the game page! 
+- We finally got the database to work.
+
+---
+### <b>What didn't go so well?</b>
+- 
+
+---
+### <b>What have we learned?</b>
+- 
+
+
+---
+### <b>What still puzzles us?</b>
+- 
+
+---
+</br>
