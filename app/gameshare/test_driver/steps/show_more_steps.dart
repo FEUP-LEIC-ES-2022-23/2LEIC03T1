@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
@@ -30,7 +29,7 @@ StepDefinitionGeneric clickInShowButton() {
 StepDefinitionGeneric descriptionShown() {
   return then1<String, FlutterWorld>('I should see the {String} description',
           (type,context) async {
-            final container= await find.byValueKey('mainText');
+            final container= find.byValueKey('mainText');
             String text= await FlutterDriverUtils.getText(context.world.driver!, find.descendant(of: container, matching: find.byType('Text')));
         if(type=="complete"){
           context.expectMatch(text.substring(text.length-3,text.length)=="...",false );
