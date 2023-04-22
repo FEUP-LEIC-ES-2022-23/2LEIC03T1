@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
+
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
-import 'api_error_message.dart';
 import 'game_card.dart';
-import 'package:http/io_client.dart';
+import 'text_utils/api_error_message.dart';
 
 class ScrollableGameList extends StatefulWidget {
   final bool scrollHorizontally;
@@ -39,6 +40,7 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
   @override
   Widget build(BuildContext context) {
     fetch();
+    int index = 0;
     return FutureBuilder<List<Game>>(
       future: futureGames,
       builder: (context, snapshot) {
@@ -50,7 +52,12 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
               scrollDirection:
                   widget.scrollHorizontally ? Axis.horizontal : Axis.vertical,
               children: [
-                for (var game in snapshot.data!) GameCard(game: game),
+                for (var game in snapshot.data!)
+                  GameCard(
+                    game: game,
+                    key: Key(((widget.genres?.first ?? "None") +
+                        ((index += 1)).toString())),
+                  ),
               ],
             );
           }

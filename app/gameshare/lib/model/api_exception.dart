@@ -8,6 +8,7 @@ class ApiException implements Exception {
   );
 
   String get errorMsg => _errorMsg;
+
   int get statusCode => _statusCode;
 
   @override

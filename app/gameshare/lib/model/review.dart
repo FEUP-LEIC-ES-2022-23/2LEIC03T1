@@ -12,8 +12,11 @@ class Review {
   );
 
   int get gameId => _gameId;
+
   String get reviewText => _reviewText;
+
   int get rating => _rating;
+
   String get userEmail => _userEmail;
 
   factory Review.fromJson(Map<String, dynamic> json) {

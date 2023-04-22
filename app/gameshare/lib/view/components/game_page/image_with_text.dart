@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../model/game.dart';
 
 class ImageWithText extends StatelessWidget {
   const ImageWithText({

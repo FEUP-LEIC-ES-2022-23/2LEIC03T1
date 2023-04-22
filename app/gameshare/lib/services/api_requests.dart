@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gameshare/model/api_exception.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../model/genre.dart';
 
 Future<List<Genre>> fetchGenres(http.Client client) async {
