@@ -51,7 +51,13 @@ Future<String> getGameDescription(int? id) async {
       '${dotenv.env['API_URL_BASE']}/games/$id?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
   final res = await http.get(Uri.parse(url));
   var results = jsonDecode(res.body);
-  return results['description'];
+  if(res.statusCode==200)return results['description'];
+  else{
+    String res="This game has no description\n";
+    // Only use it to run tests when the api is down!
+    // for(int i=0; i<50;i++) res+="This game has no description\n";
+    return res;
+  }
 }
 
 String buildGameUrl(

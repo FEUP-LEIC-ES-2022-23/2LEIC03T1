@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
@@ -19,11 +22,14 @@ StepDefinitionGeneric shortenDescription() {
       });
 }
 
+
+
+
+
 StepDefinitionGeneric clickInShowButton() {
   return when< FlutterWorld>('I click in the show button',
           (context) async {
-            final res= { 0.0, 0.0, -10.0, Duration(milliseconds: 10)};
-            await context.world.driver!.scrollUntilVisible(find.byValueKey("ListView"),find.byValueKey('showButton'));
+            await context.world.driver!.scrollUntilVisible(find.byValueKey("ListView"),find.byValueKey('showButton'),alignment: 0.0,dxScroll: 0.0,dyScroll: -10,timeout: Duration(milliseconds: 100));
             await FlutterDriverUtils.tap(context.world.driver, find.byValueKey('showButton'));
 
             return;
