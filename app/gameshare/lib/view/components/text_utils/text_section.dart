@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/view/components/text_utils/section_title.dart';
 
 import '../../../services/utils.dart';
@@ -66,6 +67,7 @@ class _TextSection extends State<TextSection> {
           key:const Key("showButton"),
           onPressed: () {
             setState(() {
+              if(showMore) ScrollProvider().goTo(150);
               showMore = !showMore;
             });
           },

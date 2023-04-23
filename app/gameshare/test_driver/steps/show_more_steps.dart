@@ -22,7 +22,10 @@ StepDefinitionGeneric shortenDescription() {
 StepDefinitionGeneric clickInShowButton() {
   return when< FlutterWorld>('I click in the show button',
           (context) async {
+            final res= { 0.0, 0.0, -10.0, Duration(milliseconds: 10)};
+            await context.world.driver!.scrollUntilVisible(find.byValueKey("ListView"),find.byValueKey('showButton'));
             await FlutterDriverUtils.tap(context.world.driver, find.byValueKey('showButton'));
+
             return;
       });
 }
@@ -34,6 +37,7 @@ StepDefinitionGeneric descriptionShown() {
         if(type=="complete"){
           context.expectMatch(text.substring(text.length-3,text.length)=="...",false );
         }else{
+          // await context.world.driver!.scroll(find.byValueKey("ListView"), 0, -150, Duration(milliseconds: 500));
           context.expectMatch(text.length<=303, true);
         }
         return;

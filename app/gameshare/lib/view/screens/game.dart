@@ -79,6 +79,7 @@ class _GamePage extends State<GamePage> {
         children: [
           ListView(
             controller: ScrollProvider.scrollController,
+            key: const Key("ListView"),
             children: [
               ImageWithText(
                 imageUrl: game.image,
