@@ -3,6 +3,9 @@ import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/view/screens/search.dart';
 import '../screens/home.dart';
 import '../screens/login.dart';
+import 'package:gameshare/services/auth.dart';
+
+import '../screens/user.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -81,14 +84,25 @@ class _NavBarState extends State<NavBar> {
                 break;
               }
               _selected = 2;
-              Navigator.pushReplacement(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ____) => LoginPage(),
-                  transitionDuration: const Duration(seconds: 0),
-                ),
-              );
-              break;
+              if (Auth().user == null) {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) => LoginPage(),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                );
+                break;
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) => const UserPage(),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                );
+                break;
+              }
           }
         });
   }

@@ -21,6 +21,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   String? _error;
+  bool _loading = false;
   Auth get _auth => widget.authInstance;
 
   final Entry email = Entry(
@@ -38,12 +39,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   Future<void> sendPasswordRecoveryEmail() async {
+    setState(() => _loading = true);
     bool result = await _auth.sendPasswordRecoveryEmail(email.controller.text);
     if (!result) {
       setState(() => _error = 'Invalid email');
     } else {
       setState(() => _error = null);
     }
+    setState(() => _loading = false);
   }
 
   Widget _sendButton() {
@@ -68,12 +71,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                DisplayError(_error),
-                const WhiteSpace(),
-                _sendButton(),
-              ],
+              children: _loading
+                  ? <Widget>[const CircularProgressIndicator()]
+                  : <Widget>[
+                      EntryFieldList(_entries),
+                      DisplayError(_error),
+                      const WhiteSpace(),
+                      _sendButton(),
+                    ],
             ),
           ),
         ),
