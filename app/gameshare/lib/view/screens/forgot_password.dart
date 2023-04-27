@@ -71,6 +71,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               children: <Widget>[
                 EntryFieldList(_entries),
                 DisplayError(_error),
+                const WhiteSpace(),
                 _sendButton(),
               ],
             ),
