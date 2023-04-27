@@ -4,6 +4,7 @@ import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/screens/user.dart';
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
@@ -38,15 +39,27 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     _entries.add(email);
   }
 
+  void _goToUser() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ____) => const UserPage(),
+        transitionDuration: const Duration(seconds: 0),
+      ),
+    );
+  }
+
   Future<void> sendPasswordRecoveryEmail() async {
     setState(() => _loading = true);
     bool result = await _auth.sendPasswordRecoveryEmail(email.controller.text);
     if (!result) {
-      setState(() => _error = 'Invalid email');
+      setState(() {
+        _error = 'Invalid email';
+        _loading = false;
+      });
     } else {
-      setState(() => _error = null);
+      _goToUser();
     }
-    setState(() => _loading = false);
   }
 
   Widget _sendButton() {

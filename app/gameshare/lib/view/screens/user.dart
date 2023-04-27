@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
+import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/screens/forgot_password.dart';
@@ -31,7 +32,16 @@ class _UserPageState extends State<UserPage> {
             children: [
               const MyText('User Page'),
               InkWell(
-                onTap: () => Auth().signOut(),
+                onTap: () {
+                  Auth().signOut();
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (_, __, ____) => LoginPage(),
+                      transitionDuration: const Duration(seconds: 0),
+                    ),
+                  );
+                },
                 child: SubmitButton('Sign Out', context),
               )
             ],

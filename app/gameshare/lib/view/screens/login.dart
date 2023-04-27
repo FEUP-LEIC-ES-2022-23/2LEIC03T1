@@ -5,6 +5,7 @@ import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/screens/forgot_password.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/screens/user.dart';
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
@@ -22,6 +23,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String? _error;
+  bool _loading = false;
 
   Auth get _auth => widget.authInstance;
 
@@ -46,21 +48,20 @@ class _LoginPageState extends State<LoginPage> {
     _entries.add(password);
   }
 
-  Future<void> _signIn() async {
+  Future<void> signIn() async {
+    setState(() => _loading = true);
     bool result = await _auth.signInEmailPassword(
       user.controller.text,
       password.controller.text,
     );
     if (!result) {
-      setState(() => _error = 'Invalid email or password');
+      setState(() {
+        _error = 'Invalid email or password';
+        _loading = false;
+      });
     } else {
-      setState(() => _error = null);
+      _goToUser();
     }
-  }
-
-  Future<void> signIn() async {
-    await _signIn();
-    if (_auth.user != null) _goToHome();
   }
 
   void _goToRegister() {
@@ -73,11 +74,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _goToHome() {
+  void _goToUser() {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const HomePage(),
+        pageBuilder: (_, __, ____) => const UserPage(),
         transitionDuration: const Duration(seconds: 0),
       ),
     );
@@ -121,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _loginButton() {
     return InkWell(
-      onTap: () => signIn(),
+      onTap: signIn,
       child: SubmitButton('Login', context),
     );
   }
@@ -141,15 +142,17 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                _forgotPasswordLabel(),
-                DisplayError(_error),
-                _loginButton(),
-                const WhiteSpace(),
-                _rememberMeBox(),
-                _createAccountLabel(),
-              ],
+              children: _loading
+                  ? <Widget>[const CircularProgressIndicator()]
+                  : <Widget>[
+                      EntryFieldList(_entries),
+                      _forgotPasswordLabel(),
+                      DisplayError(_error),
+                      _loginButton(),
+                      const WhiteSpace(),
+                      _rememberMeBox(),
+                      _createAccountLabel(),
+                    ],
             ),
           ),
         ),

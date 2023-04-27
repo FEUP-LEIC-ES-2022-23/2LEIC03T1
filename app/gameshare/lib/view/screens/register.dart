@@ -4,6 +4,7 @@ import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/screens/user.dart';
 
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
@@ -22,6 +23,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   String? _error;
+  bool _loading = false;
   Auth get _auth => widget.authInstance;
 
   final Entry _email = Entry(
@@ -58,34 +60,40 @@ class _RegisterPageState extends State<RegisterPage> {
     _entries.add(_confirmPassword);
   }
 
-  Future<void> _signUp() async {
+  bool checkMatchingPasswords() {
+    if (_password.controller.text != _confirmPassword.controller.text) {
+      setState(() {
+        _error = 'Passwords do not match';
+        _loading = false;
+      });
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> signUp() async {
+    setState(() => _loading = true);
+    if (!checkMatchingPasswords()) return;
     bool res = await _auth.signUpEmailPassword(
       _email.controller.text,
       _username.controller.text,
       _password.controller.text,
     );
     if (!res) {
-      setState(() => _error = 'Invalid field');
+      setState(() {
+        _error = 'Invalid field';
+        _loading = false;
+      });
     } else {
-      setState(() => _error = null);
+      _goToUser();
     }
   }
 
-  Future<void> signUp() async {
-    if (_password.controller.text != _confirmPassword.controller.text) {
-      setState(() => _error = 'Passwords do not match');
-      return;
-    }
-
-    await _signUp();
-    if (_auth.user != null) _goToHome();
-  }
-
-  void _goToHome() {
+  void _goToUser() {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const HomePage(),
+        pageBuilder: (_, __, ____) => const UserPage(),
         transitionDuration: const Duration(seconds: 0),
       ),
     );
