@@ -98,7 +98,7 @@ class MorePlatformsNumber extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(100)),
                   border: Border.all(
                     width: 2.2,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.primary,
                   )),
             ),
             Text('+${game.uniquePlatformsIcons.length - 3}',
