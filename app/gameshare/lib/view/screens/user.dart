@@ -4,9 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/consts/app_colors.dart';
 import 'package:gameshare/view/components/top_bar.dart';
+import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/view/screens/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../services/auth.dart';
 import '../components/nav_bar.dart';
+
 
 class UserPage extends StatefulWidget {
   const UserPage({
@@ -125,7 +129,19 @@ class Logout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: () {}, child: const Icon(Icons.logout));
+    return TextButton(
+        onPressed: () {
+          Auth auth =  Auth();
+          auth.signOut();
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (_, __, ____) =>   LoginPage(),
+              transitionDuration: const Duration(seconds: 0),
+            ),
+          );
+      }
+    , child: const Icon(Icons.logout));
   }
 }
 
@@ -135,7 +151,9 @@ class EditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+
+      },
       child: const Icon(Icons.edit_note),
     );
   }

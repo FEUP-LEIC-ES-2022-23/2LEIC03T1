@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> signIn() async {
     await _signIn();
-    if (_auth.user != null) _goToHome();
+    if (_auth.user != null) _goToUser();
   }
 
   void _goToRegister() {
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _goToHome() {
+  void _goToUser() {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
