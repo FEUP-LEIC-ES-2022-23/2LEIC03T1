@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SectionTitle extends StatelessWidget {
   final String title;
@@ -22,7 +23,8 @@ class SectionTitle extends StatelessWidget {
       ),
       child: Text(
         title,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        style: GoogleFonts.montserratAlternates(
+            fontWeight: FontWeight.bold, fontSize: 22),
       ),
     );
   }

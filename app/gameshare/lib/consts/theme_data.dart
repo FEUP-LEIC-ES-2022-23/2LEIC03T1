@@ -36,7 +36,8 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
     textTheme: TextTheme(
-      bodyMedium: GoogleFonts.montserratAlternates(fontWeight: FontWeight.normal),
+      bodyMedium:
+          GoogleFonts.montserratAlternates(fontWeight: FontWeight.normal),
       bodyLarge: GoogleFonts.montserratAlternates(fontWeight: FontWeight.bold),
       bodySmall: GoogleFonts.montserratAlternates(fontWeight: FontWeight.w100),
     ),
@@ -60,6 +61,8 @@ ThemeData lightTheme = ThemeData(
 
       onPrimaryContainer: MyAppColors.white,
       primaryContainer: MyAppColors.white,
+
+      secondaryContainer: MyAppColors.lightGrey,
     ));
 
 ThemeData darkTheme = ThemeData(
@@ -100,7 +103,7 @@ ThemeData darkTheme = ThemeData(
   colorScheme: const ColorScheme(
     brightness: Brightness.dark,
 
-    primary:  MyAppColors.white,
+    primary: MyAppColors.white,
     onPrimary: MyAppColors.lightGreen,
 
     secondary: MyAppColors.lightGreen,
@@ -117,5 +120,6 @@ ThemeData darkTheme = ThemeData(
 
     onPrimaryContainer: MyAppColors.darkBlue,
     primaryContainer: MyAppColors.darkBlue,
+    secondaryContainer: MyAppColors.darkBlue,
   ),
 );

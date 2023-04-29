@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/section_title.dart';
+import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 
 import '../../services/utils.dart';
 
 class TextSection extends StatefulWidget {
-  TextSection({
+  const TextSection({
     super.key,
     required this.title,
     required this.text,
@@ -39,9 +40,9 @@ class _TextSection extends State<TextSection> {
       mainText = text;
       buttonText = "Show less";
     } else {
-      if (text.length > 300)
-        mainText = text.substring(0, 300) + "...";
-      else {
+      if (text.length > 300) {
+        mainText = "${text.substring(0, 300)}...";
+      } else {
         mainText = text;
         showButton = false;
       }
@@ -49,9 +50,7 @@ class _TextSection extends State<TextSection> {
     }
     return [
       Text(Html(mainText), style: const TextStyle(fontSize: 20)),
-      SizedBox(
-        height: 20,
-      ),
+      const addVerticalSpace(size: 20),
       if (showButton)
         ElevatedButton(
           onPressed: () {
@@ -59,11 +58,6 @@ class _TextSection extends State<TextSection> {
               showMore = !showMore;
             });
           },
-          child: Text(
-            buttonText,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
-          ),
           style: ButtonStyle(
             alignment: Alignment.center,
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -71,7 +65,12 @@ class _TextSection extends State<TextSection> {
               borderRadius: BorderRadius.circular(30.0),
             )),
             padding: MaterialStateProperty.all<EdgeInsets>(
-                EdgeInsets.only(left: 40, right: 40, top: 5, bottom: 5)),
+                const EdgeInsets.only(left: 40, right: 40, top: 5, bottom: 5)),
+          ),
+          child: Text(
+            buttonText,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
           ),
         )
     ];
@@ -84,9 +83,7 @@ class _TextSection extends State<TextSection> {
       child: Column(
         children: [
           SectionTitle(title: title),
-          SizedBox(
-            height: 15,
-          ),
+          const addVerticalSpace(size: 15),
           ...getText(),
         ],
       ),
