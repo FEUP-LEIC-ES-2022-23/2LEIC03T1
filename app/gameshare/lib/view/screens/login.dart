@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/screens/user.dart';
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
 
@@ -73,10 +75,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _goToHome() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const HomePage(),
+        pageBuilder: (_, __, ____) =>  UserPage(user: _auth.user!,isUser: true,),
         transitionDuration: const Duration(seconds: 0),
       ),
     );

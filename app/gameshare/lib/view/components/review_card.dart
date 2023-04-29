@@ -42,11 +42,11 @@ class ReviewCard extends StatelessWidget {
           ReviewRating(
             rating: rating,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ReviewText(
             review: review,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );

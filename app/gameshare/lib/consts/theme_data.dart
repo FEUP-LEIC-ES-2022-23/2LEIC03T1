@@ -36,7 +36,9 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
     textTheme: TextTheme(
-      bodyMedium: GoogleFonts.montserratAlternates(),
+      bodyMedium: GoogleFonts.montserratAlternates(fontWeight: FontWeight.normal),
+      bodyLarge: GoogleFonts.montserratAlternates(fontWeight: FontWeight.bold),
+      bodySmall: GoogleFonts.montserratAlternates(fontWeight: FontWeight.w100),
     ),
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
