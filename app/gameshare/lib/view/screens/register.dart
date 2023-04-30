@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/components/input.dart';
-import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import 'package:gameshare/view/screens/user.dart';
 
@@ -23,7 +22,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   String? _error;
-  bool _loading = false;
   Auth get _auth => widget.authInstance;
 
   final Entry _email = Entry(
@@ -64,7 +62,6 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_password.controller.text != _confirmPassword.controller.text) {
       setState(() {
         _error = 'Passwords do not match';
-        _loading = false;
       });
       return false;
     }
@@ -72,7 +69,6 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> signUp() async {
-    setState(() => _loading = true);
     if (!checkMatchingPasswords()) return;
     String res = await _auth.signUpEmailPassword(
       _email.controller.text,
@@ -84,7 +80,6 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       setState(() {
         _error = res;
-        _loading = false;
       });
     }
   }
@@ -138,16 +133,14 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _loading
-                  ? <Widget>[const CircularProgressIndicator()]
-                  : <Widget>[
-                      EntryFieldList(_entries),
-                      const WhiteSpace(),
-                      DisplayError(_error),
-                      const WhiteSpace(height: 10),
-                      _registerButton(),
-                      _loginLabel(),
-                    ],
+              children: <Widget>[
+                EntryFieldList(_entries),
+                const WhiteSpace(),
+                DisplayError(_error),
+                const WhiteSpace(height: 10),
+                _registerButton(),
+                _loginLabel(),
+              ],
             ),
           ),
         ),

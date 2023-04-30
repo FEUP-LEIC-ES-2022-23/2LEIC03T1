@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/register.dart';
-import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/screens/forgot_password.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
@@ -23,7 +22,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String? _error;
-  bool _loading = false;
 
   Auth get _auth => widget.authInstance;
 
@@ -49,7 +47,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> signIn() async {
-    setState(() => _loading = true);
     String res = await _auth.signInEmailPassword(
       user.controller.text,
       password.controller.text,
@@ -59,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       setState(() {
         _error = res;
-        _loading = false;
       });
     }
   }
@@ -142,19 +138,17 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _loading
-                  ? <Widget>[const CircularProgressIndicator()]
-                  : <Widget>[
-                      EntryFieldList(_entries),
-                      _forgotPasswordLabel(),
-                      const WhiteSpace(height: 20),
-                      DisplayError(_error),
-                      const WhiteSpace(height: 10),
-                      _loginButton(),
-                      const WhiteSpace(),
-                      _rememberMeBox(),
-                      _createAccountLabel(),
-                    ],
+              children: <Widget>[
+                EntryFieldList(_entries),
+                _forgotPasswordLabel(),
+                const WhiteSpace(height: 20),
+                DisplayError(_error),
+                const WhiteSpace(height: 10),
+                _loginButton(),
+                const WhiteSpace(),
+                _rememberMeBox(),
+                _createAccountLabel(),
+              ],
             ),
           ),
         ),
