@@ -57,13 +57,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
   }
 
-  Widget _sendButton() {
-    return InkWell(
-      onTap: sendPasswordRecoveryEmail,
-      child: SubmitButton('Send', context),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +77,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 const WhiteSpace(),
                 DisplayError(_error),
                 const WhiteSpace(height: 10),
-                _sendButton(),
+                SubmitButton('Send', sendPasswordRecoveryEmail),
               ],
             ),
           ),

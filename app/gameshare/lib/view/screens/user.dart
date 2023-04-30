@@ -31,8 +31,9 @@ class _UserPageState extends State<UserPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const MyText('User Page'),
-              InkWell(
-                onTap: () {
+              SubmitButton(
+                'Sign Out',
+                () {
                   Auth().signOut();
                   Navigator.push(
                     context,
@@ -42,8 +43,7 @@ class _UserPageState extends State<UserPage> {
                     ),
                   );
                 },
-                child: SubmitButton('Sign Out', context),
-              )
+              ),
             ],
           ),
         ),

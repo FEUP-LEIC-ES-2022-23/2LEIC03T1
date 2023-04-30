@@ -80,25 +80,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _forgotPasswordLabel() {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (_, __, ____) => ForgotPasswordPage(),
-            transitionDuration: const Duration(seconds: 0),
-          ),
-        );
-      },
-      child: const MyLabel('Forgot Password?', left: false, size: 15),
-    );
-  }
-
-  Widget _createAccountLabel() {
-    return InkWell(
-      onTap: _goToRegister,
-      child: const MyLabel("Don't have an account? Create one", size: 15),
+  void _goToForgotPassword() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ____) => ForgotPasswordPage(),
+        transitionDuration: const Duration(seconds: 0),
+      ),
     );
   }
 
@@ -113,13 +101,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const MyCheckBox(),
       ],
-    );
-  }
-
-  Widget _loginButton() {
-    return InkWell(
-      onTap: signIn,
-      child: SubmitButton('Login', context),
     );
   }
 
@@ -140,14 +121,18 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 EntryFieldList(_entries),
-                _forgotPasswordLabel(),
+                TapLabel('Forgot Password?', _goToForgotPassword),
                 const WhiteSpace(height: 20),
                 DisplayError(_error),
                 const WhiteSpace(height: 10),
-                _loginButton(),
+                SubmitButton('Login', signIn),
                 const WhiteSpace(),
                 _rememberMeBox(),
-                _createAccountLabel(),
+                TapLabel(
+                  "Don't have an account? Create one",
+                  _goToRegister,
+                  size: 15,
+                ),
               ],
             ),
           ),

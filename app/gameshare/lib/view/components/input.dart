@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/components/nav_bar.dart';
+import 'package:gameshare/view/components/top_bar.dart';
 
 const double _size = 20;
 const FontWeight _weight = FontWeight.w900;
@@ -66,6 +68,34 @@ class EntryFieldList extends StatelessWidget {
                 key: Key(entry.key),
               ))
           .toList(),
+    );
+  }
+}
+
+class UserDataForm extends StatelessWidget {
+  const UserDataForm(
+    this.widgets, {
+    Key? key,
+  }) : super(key: key);
+
+  final List<Widget> widgets;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 40,
+      ),
+      height: MediaQuery.of(context).size.height,
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widgets,
+          ),
+        ),
+      ),
     );
   }
 }

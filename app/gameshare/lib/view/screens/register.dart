@@ -104,20 +104,6 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _loginLabel() {
-    return InkWell(
-      onTap: _goToLogin,
-      child: const MyLabel('Already have an account', left: true, size: 15),
-    );
-  }
-
-  Widget _registerButton() {
-    return InkWell(
-      onTap: () => signUp(),
-      child: SubmitButton('Register', context),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,8 +124,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 const WhiteSpace(),
                 DisplayError(_error),
                 const WhiteSpace(height: 10),
-                _registerButton(),
-                _loginLabel(),
+                SubmitButton('Register', signUp),
+                TapLabel(
+                  'Already have an account',
+                  _goToLogin,
+                  left: true,
+                  size: 15,
+                ),
               ],
             ),
           ),
