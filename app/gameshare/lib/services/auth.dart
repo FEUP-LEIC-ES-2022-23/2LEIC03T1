@@ -15,10 +15,7 @@ class Auth {
     // TODO: Register user in database
   }
 
-  Future<bool> signInEmailPassword(
-    String email,
-    String password,
-  ) async {
+  Future<bool> signInEmailPassword(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       return true;
@@ -28,16 +25,22 @@ class Auth {
   }
 
   Future<bool> signUpEmailPassword(
-    String email,
-    String username,
-    String password,
-  ) async {
+      String email, String username, String password) async {
     try {
       await _register(email, username);
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      return true;
+    } on FirebaseAuthException {
+      return false;
+    }
+  }
+
+  Future<bool> sendPasswordRecoveryEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
       return true;
     } on FirebaseAuthException {
       return false;
