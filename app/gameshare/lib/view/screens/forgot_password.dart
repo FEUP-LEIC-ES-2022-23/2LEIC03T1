@@ -21,6 +21,8 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   String? _error;
   Auth get _auth => widget.authInstance;
+  late List<Widget> _widgets;
+  late UserDataForm _userDataForm;
 
   final Entry email = Entry(
     'email_field_forgot_password',
@@ -28,32 +30,37 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     TextEditingController(),
   );
 
-  final List<Entry> _entries = <Entry>[];
-
   @override
   void initState() {
     super.initState();
-    _entries.add(email);
+    _widgets = <Widget>[
+      EntryFieldList(<Entry>[email]),
+      const WhiteSpace(),
+      DisplayError(_error),
+      const WhiteSpace(height: 10),
+      SubmitButton('Send', sendPasswordRecoveryEmail),
+    ];
+    _userDataForm = UserDataForm(_widgets);
   }
 
-  void _goToLogin() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => LoginPage(),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
+  void updateError(String res) {
+    _error = res;
+
+    for (int i = 0; i < _widgets.length; i++) {
+      if (_widgets[i] is DisplayError) {
+        _widgets[i] = DisplayError(_error);
+        _userDataForm = UserDataForm(_widgets);
+        break;
+      }
+    }
   }
 
   Future<void> sendPasswordRecoveryEmail() async {
     String res = await _auth.sendPasswordRecoveryEmail(email.controller.text);
     if (res == _auth.success) {
-      _goToLogin();
+      goTo(context, LoginPage());
     } else {
-      setState(() {
-        _error = res;
-      });
+      setState(() => updateError(res));
     }
   }
 
@@ -62,27 +69,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       key: const Key('ForgotPassword'),
       appBar: const TopBar(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-        ),
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                const WhiteSpace(),
-                DisplayError(_error),
-                const WhiteSpace(height: 10),
-                SubmitButton('Send', sendPasswordRecoveryEmail),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: _userDataForm,
       bottomNavigationBar: const NavBar(),
     );
   }

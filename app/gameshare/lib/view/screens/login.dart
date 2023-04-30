@@ -22,8 +22,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String? _error;
-
   Auth get _auth => widget.authInstance;
+  late List<Widget> _widgets;
+  late UserDataForm _userDataForm;
 
   final Entry user = Entry(
         'email_field_login',
@@ -37,15 +38,11 @@ class _LoginPageState extends State<LoginPage> {
         hide: true,
       );
 
-  late final List<Entry> _entries;
-  late final List<Widget> _widgets;
-
   @override
   void initState() {
     super.initState();
-    _entries = <Entry>[user, password];
     _widgets = <Widget>[
-      EntryFieldList(_entries),
+      EntryFieldList(<Entry>[user, password]),
       TapLabel(
         'Forgot Password?',
         () => goTo(context, ForgotPasswordPage()),
@@ -72,6 +69,19 @@ class _LoginPageState extends State<LoginPage> {
         size: 15,
       ),
     ];
+    _userDataForm = UserDataForm(_widgets);
+  }
+
+  void updateError(String res) {
+    _error = res;
+
+    for (int i = 0; i < _widgets.length; i++) {
+      if (_widgets[i] is DisplayError) {
+        _widgets[i] = DisplayError(_error);
+        _userDataForm = UserDataForm(_widgets);
+        break;
+      }
+    }
   }
 
   Future<void> signIn() async {
@@ -82,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
     if (res == _auth.success) {
       goTo(context, UserPage());
     } else {
-      setState(() => _error = res);
+      setState(() => updateError(res));
     }
   }
 
@@ -91,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       key: const Key('Login'),
       appBar: const TopBar(),
-      body: UserDataForm(_widgets),
+      body: _userDataForm,
       bottomNavigationBar: const NavBar(),
     );
   }

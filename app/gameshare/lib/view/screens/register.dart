@@ -23,6 +23,8 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   String? _error;
   Auth get _auth => widget.authInstance;
+  late List<Widget> _widgets;
+  late UserDataForm _userDataForm;
 
   final Entry _email = Entry(
         'email_field_register',
@@ -47,22 +49,41 @@ class _RegisterPageState extends State<RegisterPage> {
         hide: true,
       );
 
-  final List<Entry> _entries = <Entry>[];
-
   @override
   void initState() {
     super.initState();
-    _entries.add(_email);
-    _entries.add(_username);
-    _entries.add(_password);
-    _entries.add(_confirmPassword);
+    _widgets = <Widget>[
+      EntryFieldList(<Entry>[_email, _username, _password, _confirmPassword]),
+      const WhiteSpace(),
+      DisplayError(_error),
+      const WhiteSpace(height: 10),
+      SubmitButton('Register', signUp),
+      const WhiteSpace(),
+      TapLabel(
+        'Already have an account',
+        () => goTo(context, LoginPage()),
+        left: true,
+        size: 15,
+      ),
+    ];
+    _userDataForm = UserDataForm(_widgets);
+  }
+
+  void updateError(String res) {
+    _error = res;
+
+    for (int i = 0; i < _widgets.length; i++) {
+      if (_widgets[i] is DisplayError) {
+        _widgets[i] = DisplayError(_error);
+        _userDataForm = UserDataForm(_widgets);
+        break;
+      }
+    }
   }
 
   bool checkMatchingPasswords() {
     if (_password.controller.text != _confirmPassword.controller.text) {
-      setState(() {
-        _error = 'Passwords do not match';
-      });
+      setState(() => updateError('Passwords do not match'));
       return false;
     }
     return true;
@@ -76,32 +97,10 @@ class _RegisterPageState extends State<RegisterPage> {
       _password.controller.text,
     );
     if (res == _auth.success) {
-      _goToUser();
+      goTo(context, UserPage());
     } else {
-      setState(() {
-        _error = res;
-      });
+      setState(() => updateError(res));
     }
-  }
-
-  void _goToUser() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const UserPage(),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
-  }
-
-  void _goToLogin() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => LoginPage(),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
   }
 
   @override
@@ -109,33 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       key: const Key('Register'),
       appBar: const TopBar(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-        ),
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                const WhiteSpace(),
-                DisplayError(_error),
-                const WhiteSpace(height: 10),
-                SubmitButton('Register', signUp),
-                TapLabel(
-                  'Already have an account',
-                  _goToLogin,
-                  left: true,
-                  size: 15,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: _userDataForm,
       bottomNavigationBar: const NavBar(),
     );
   }
