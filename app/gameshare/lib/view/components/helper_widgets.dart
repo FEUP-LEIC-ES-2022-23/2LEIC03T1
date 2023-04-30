@@ -77,15 +77,14 @@ class SubmitButton extends StatelessWidget {
   const SubmitButton(
     this.text,
     this.onTap, {
-    this.color_1 = MyAppColors.aquaGreen,
-    this.color_2 = MyAppColors.aquaBlue,
+    this.color_1 = const Color.fromARGB(255, 6, 30, 97),
+    this.color_2 = const Color.fromARGB(255, 4, 3, 59),
     Key? key,
   }) : super(key: key);
 
   final String text;
   final VoidCallback onTap;
-  final Color color_1;
-  final Color color_2;
+  final Color color_1, color_2;
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +96,8 @@ class SubmitButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+          gradient: RadialGradient(
+            radius: 5,
             colors: <Color>[color_1, color_2],
           ),
         ),
