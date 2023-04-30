@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
-import 'package:gameshare/view/components/nav_bar.dart';
-import 'package:gameshare/view/components/top_bar.dart';
 
 const double _size = 20;
 const FontWeight _weight = FontWeight.w900;
+
+void goTo(BuildContext context, Widget page) {
+  Navigator.push(
+    context,
+    PageRouteBuilder(
+      pageBuilder: (_, __, ____) => page,
+      transitionDuration: const Duration(seconds: 0),
+    ),
+  );
+}
 
 class Entry {
   const Entry(this.key, this.title, this.controller, {this.hide = false});

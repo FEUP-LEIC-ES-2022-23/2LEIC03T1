@@ -37,13 +37,41 @@ class _LoginPageState extends State<LoginPage> {
         hide: true,
       );
 
-  final List<Entry> _entries = <Entry>[];
+  late final List<Entry> _entries;
+  late final List<Widget> _widgets;
 
   @override
   void initState() {
     super.initState();
-    _entries.add(user);
-    _entries.add(password);
+    _entries = <Entry>[user, password];
+    _widgets = <Widget>[
+      EntryFieldList(_entries),
+      TapLabel(
+        'Forgot Password?',
+        () => goTo(context, ForgotPasswordPage()),
+        size: 15,
+        left: false,
+      ),
+      const WhiteSpace(height: 20),
+      DisplayError(_error),
+      const WhiteSpace(height: 10),
+      SubmitButton('Login', signIn),
+      const WhiteSpace(),
+      Row(children: const <Widget>[
+        MyText(
+          'Remember me',
+          size: 15,
+          weight: FontWeight.w800,
+          //color: Theme.of(context).primaryColor,
+        ),
+        MyCheckBox(),
+      ]),
+      TapLabel(
+        "Don't have an account? Create one",
+        () => goTo(context, RegisterPage()),
+        size: 15,
+      ),
+    ];
   }
 
   Future<void> signIn() async {
@@ -52,56 +80,10 @@ class _LoginPageState extends State<LoginPage> {
       password.controller.text,
     );
     if (res == _auth.success) {
-      _goToUser();
+      goTo(context, UserPage());
     } else {
-      setState(() {
-        _error = res;
-      });
+      setState(() => _error = res);
     }
-  }
-
-  void _goToRegister() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => RegisterPage(),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
-  }
-
-  void _goToUser() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const UserPage(),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
-  }
-
-  void _goToForgotPassword() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => ForgotPasswordPage(),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
-  }
-
-  Widget _rememberMeBox() {
-    return Row(
-      children: <Widget>[
-        MyText(
-          'Remember me',
-          size: 15,
-          weight: FontWeight.w800,
-          color: Theme.of(context).primaryColor,
-        ),
-        const MyCheckBox(),
-      ],
-    );
   }
 
   @override
@@ -109,35 +91,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       key: const Key('Login'),
       appBar: const TopBar(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-        ),
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                TapLabel('Forgot Password?', _goToForgotPassword),
-                const WhiteSpace(height: 20),
-                DisplayError(_error),
-                const WhiteSpace(height: 10),
-                SubmitButton('Login', signIn),
-                const WhiteSpace(),
-                _rememberMeBox(),
-                TapLabel(
-                  "Don't have an account? Create one",
-                  _goToRegister,
-                  size: 15,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: UserDataForm(_widgets),
       bottomNavigationBar: const NavBar(),
     );
   }
