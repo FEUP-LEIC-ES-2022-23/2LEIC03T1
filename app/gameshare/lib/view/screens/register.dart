@@ -74,18 +74,18 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> signUp() async {
     setState(() => _loading = true);
     if (!checkMatchingPasswords()) return;
-    bool res = await _auth.signUpEmailPassword(
+    String res = await _auth.signUpEmailPassword(
       _email.controller.text,
       _username.controller.text,
       _password.controller.text,
     );
-    if (!res) {
+    if (res == _auth.success) {
+      _goToUser();
+    } else {
       setState(() {
-        _error = 'Invalid field';
+        _error = res;
         _loading = false;
       });
-    } else {
-      _goToUser();
     }
   }
 
@@ -138,13 +138,16 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                DisplayError(_error),
-                const WhiteSpace(),
-                _registerButton(),
-                _loginLabel(),
-              ],
+              children: _loading
+                  ? <Widget>[const CircularProgressIndicator()]
+                  : <Widget>[
+                      EntryFieldList(_entries),
+                      const WhiteSpace(),
+                      DisplayError(_error),
+                      const WhiteSpace(height: 10),
+                      _registerButton(),
+                      _loginLabel(),
+                    ],
             ),
           ),
         ),

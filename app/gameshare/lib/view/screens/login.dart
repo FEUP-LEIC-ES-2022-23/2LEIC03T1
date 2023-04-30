@@ -50,17 +50,17 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> signIn() async {
     setState(() => _loading = true);
-    bool result = await _auth.signInEmailPassword(
+    String res = await _auth.signInEmailPassword(
       user.controller.text,
       password.controller.text,
     );
-    if (!result) {
+    if (res == _auth.success) {
+      _goToUser();
+    } else {
       setState(() {
-        _error = 'Invalid email or password';
+        _error = res;
         _loading = false;
       });
-    } else {
-      _goToUser();
     }
   }
 
@@ -147,7 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                   : <Widget>[
                       EntryFieldList(_entries),
                       _forgotPasswordLabel(),
+                      const WhiteSpace(height: 20),
                       DisplayError(_error),
+                      const WhiteSpace(height: 10),
                       _loginButton(),
                       const WhiteSpace(),
                       _rememberMeBox(),

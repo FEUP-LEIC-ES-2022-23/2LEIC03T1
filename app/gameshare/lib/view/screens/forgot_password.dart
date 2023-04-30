@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
+import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/screens/register.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/components/input.dart';
@@ -39,11 +40,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     _entries.add(email);
   }
 
-  void _goToUser() {
+  void _goToLogin() {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const UserPage(),
+        pageBuilder: (_, __, ____) => LoginPage(),
         transitionDuration: const Duration(seconds: 0),
       ),
     );
@@ -51,14 +52,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   Future<void> sendPasswordRecoveryEmail() async {
     setState(() => _loading = true);
-    bool result = await _auth.sendPasswordRecoveryEmail(email.controller.text);
-    if (!result) {
+    String res = await _auth.sendPasswordRecoveryEmail(email.controller.text);
+    if (res == _auth.success) {
+      _goToLogin();
+    } else {
       setState(() {
-        _error = 'Invalid email';
+        _error = res;
         _loading = false;
       });
-    } else {
-      _goToUser();
     }
   }
 
@@ -88,8 +89,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ? <Widget>[const CircularProgressIndicator()]
                   : <Widget>[
                       EntryFieldList(_entries),
-                      DisplayError(_error),
                       const WhiteSpace(),
+                      DisplayError(_error),
+                      const WhiteSpace(height: 10),
                       _sendButton(),
                     ],
             ),
