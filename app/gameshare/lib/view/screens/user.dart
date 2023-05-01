@@ -39,6 +39,9 @@ class _UserPage extends State<UserPage> {
     String about = "My life is boring " * 20;
     return about;
   }
+  String? getUserName(){
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,7 @@ class _UserPage extends State<UserPage> {
             if (isUser)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
+
                 children: const [
                   EditProfile(),
                   Logout(),
@@ -63,7 +67,7 @@ class _UserPage extends State<UserPage> {
                   UserImage(size: 90, image: user.photoURL),
                   Column(
                     children: [
-                      UserName(name: user.displayName ?? "Dude get a name"),
+                      UserName(name: getUserName() ?? "Dude get a name"),
                       JoinedAt(user: user)
                     ],
                   ),
