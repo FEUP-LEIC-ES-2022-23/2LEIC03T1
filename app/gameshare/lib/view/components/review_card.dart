@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
@@ -42,11 +43,10 @@ class ReviewCard extends StatelessWidget {
           ReviewRating(
             rating: rating,
           ),
-          SizedBox(height: 10),
           ReviewText(
             review: review,
           ),
-          SizedBox(height: 10),
+          const addVerticalSpace(size: 10),
         ],
       ),
     );
@@ -161,12 +161,15 @@ class _ReviewTextState extends State<ReviewText> {
 
     return [
       Container(
-        margin: const EdgeInsets.all(15),
-        child: Text(mainText,
-            style: const TextStyle(
-              fontSize: 16,
-              decoration: TextDecoration.none,
-            )),
+        alignment: Alignment.topLeft,
+        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+        child: Text(
+          mainText,
+          style: const TextStyle(
+            fontSize: 16,
+            decoration: TextDecoration.none,
+          )
+        ),
       ),
       if (longText)
         ElevatedButton(
