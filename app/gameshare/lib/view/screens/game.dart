@@ -50,6 +50,7 @@ class _GamePage extends State<GamePage> {
         name: review.userEmail,
         review: review.reviewText,
         rating: review.rating,
+        likesAndDislikes: review.likesAndDislikes,
       ));
     }
 
@@ -104,6 +105,7 @@ class _GamePage extends State<GamePage> {
                             name: FirebaseAuth.instance.currentUser!.email!,
                             review: snapshot.data!.reviewText,
                             rating: snapshot.data!.rating,
+                            likesAndDislikes:[],
                           ),
                         ],
                       );
