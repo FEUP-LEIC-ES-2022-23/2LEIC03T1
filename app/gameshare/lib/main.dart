@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/services/providers/theme_provider.dart';
 import 'package:gameshare/view/screens/home.dart';

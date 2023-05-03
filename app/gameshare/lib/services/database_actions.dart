@@ -31,6 +31,7 @@ void addUser(String name, String email) {
     "email": email,
     "about": "",
     "image": "",
+    "creationTimestamp":FieldValue.serverTimestamp(),
   };
 
   ref = db.collection("users").doc(email);

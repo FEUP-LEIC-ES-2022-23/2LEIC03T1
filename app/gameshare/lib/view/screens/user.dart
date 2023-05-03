@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,13 +41,11 @@ class _UserPage extends State<UserPage> {
   final User user;
   late String name = "";
   late String about = "";
+  late Timestamp timestamp;
   late bool isLoading=true;
   late List<Review> reviews=[];
   bool get isUser => widget._isUser;
-  String getUserAbout() {
-    String about = "My life is boring " * 20;
-    return about;
-  }
+
 
   Future<Users> getUsers() {
     return getUserInfo(user.email!);
@@ -61,6 +60,7 @@ class _UserPage extends State<UserPage> {
     setState(() {
       name = users.name;
       about = users.about;
+      timestamp=users.timestamp;
     });
   }
   void setReviews(List<Review> _reviews){
@@ -72,7 +72,7 @@ class _UserPage extends State<UserPage> {
     if (name == "" || isLoading) {
       return const CircularProgressBar();
     } else {
-      return ListView(children: [...body(isUser, user, name, about,reviews)]);
+      return ListView(children: [...body(isUser, user, name, about,reviews,timestamp)]);
     }
   }
 
@@ -91,7 +91,7 @@ class _UserPage extends State<UserPage> {
   }
 }
 
-body(bool isUser, User user, String name, String about,List<Review> reviews) {
+body(bool isUser, User user, String name, String about,List<Review> reviews,Timestamp timestamp) {
   return [
     if (isUser)
       Row(
@@ -108,7 +108,7 @@ body(bool isUser, User user, String name, String about,List<Review> reviews) {
           UserImage(size: 90, image: user.photoURL),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [UserName(name: name), JoinedAt(user: user)],
+            children: [UserName(name: name), JoinedAt(timestamp: timestamp)],
           ),
         ],
       ),
@@ -201,18 +201,20 @@ class UserName extends StatelessWidget {
 }
 
 class JoinedAt extends StatelessWidget {
-  const JoinedAt({super.key, required this.user});
-  final User user;
-  String getJoinDate() {
-    return "Joined at: xx/xx/xxxx";
-  }
+  JoinedAt({super.key, required this.timestamp});
+  final Timestamp timestamp;
+
+
 
   @override
   Widget build(BuildContext context) {
+    var date = DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+   String _date=date.toString().substring(0,10);
+   _date=_date.split('-').reversed.join('-');
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Text(
-        getJoinDate(),
+        "Join at: $_date",
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
       ),
     );
