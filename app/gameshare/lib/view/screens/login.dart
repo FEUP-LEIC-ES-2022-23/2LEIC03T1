@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) =>  UserPage(user: _auth.user!,isUser: true,),
+        pageBuilder: (_, __, ____) =>  UserPage(user: _auth.user!.email!,isUser: true,),
         transitionDuration: const Duration(seconds: 0),
       ),
     );

@@ -108,7 +108,7 @@ class _NavBarState extends State<NavBar> {
     if (Auth().user == null) {
       return LoginPage();
     } else {
-      return UserPage(user: user!, isUser: true);
+      return UserPage(user: user!.email!, isUser: true);
     }
   }
 }
