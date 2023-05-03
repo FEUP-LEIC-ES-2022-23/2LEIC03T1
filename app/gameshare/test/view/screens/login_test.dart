@@ -1,10 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/screens/login.dart';
+
 import '../../mocks.dart';
 
 void main() {

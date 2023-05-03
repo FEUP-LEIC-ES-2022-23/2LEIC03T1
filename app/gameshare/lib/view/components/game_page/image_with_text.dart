@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../model/game.dart';
 
 class ImageWithText extends StatelessWidget {
   const ImageWithText({
@@ -16,10 +14,13 @@ class ImageWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+
         Image.network(
           imageUrl,
           color: Colors.black45,
           colorBlendMode: BlendMode.darken,
+            errorBuilder: (context, url, error) => Image.network(
+          'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg'),
         ),
         Container(
             margin: EdgeInsets.only(top: 10),

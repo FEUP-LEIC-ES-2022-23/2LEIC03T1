@@ -36,6 +36,7 @@ class MyCheckBox extends StatefulWidget {
 
 class _MyCheckBoxState extends State<MyCheckBox> {
   bool _rememberMe = false;
+
   @override
   Widget build(BuildContext context) {
     return Checkbox(

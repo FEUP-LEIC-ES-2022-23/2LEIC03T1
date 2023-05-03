@@ -1,6 +1,6 @@
-import 'package:mockito/mockito.dart';
-import 'package:gameshare/services/auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:gameshare/services/auth.dart';
+import 'package:mockito/mockito.dart';
 
 class MockAuth extends Mock implements Auth {
   final MockFirebaseAuth auth;

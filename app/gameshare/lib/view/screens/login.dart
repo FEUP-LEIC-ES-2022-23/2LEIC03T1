@@ -5,8 +5,12 @@ import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/screens/forgot_password.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
-import '../components/nav_bar.dart';
-import '../components/top_bar.dart';
+import 'package:gameshare/view/components/input.dart';
+import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/view/screens/register.dart';
+
+import '../components/bars/nav_bar.dart';
+import '../components/bars/top_bar.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Auth? auth, Key? key})
@@ -14,6 +18,7 @@ class LoginPage extends StatefulWidget {
         super(key: key);
 
   final Auth? auth;
+
   Auth get authInstance => auth!;
 
   @override

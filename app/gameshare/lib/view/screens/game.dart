@@ -1,30 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gameshare/services/database_actions.dart';
 import 'package:gameshare/view/components/reviewForm/review_form.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 import 'package:gameshare/view/components/utils/left_centered_title.dart';
+
 import '../../model/game.dart';
 import '../../model/review.dart';
 import '../../services/api_requests.dart';
 import '../../services/providers/scroll_provider.dart';
+import '../components/bars/nav_bar.dart';
+import '../components/bars/top_bar.dart';
 import '../components/circular_progress.dart';
 import '../components/game_card.dart';
 import '../components/game_page/image_with_text.dart';
-import '../components/nav_bar.dart';
 import '../components/review_card.dart';
-import '../components/text_section.dart';
-import '../components/top_bar.dart';
+import '../components/text_utils/text_section.dart';
 
-class GamePage extends StatefulWidget {
-  const GamePage({
+class GamePage extends StatefulWidget{
+  GamePage({
     super.key,
     required this.game,
   });
+
   final Game game;
+  // late  String desciprion= await getGameDescription(game.gameId);
 
   @override
   State<StatefulWidget> createState() => _GamePage(game: game);
@@ -33,14 +33,26 @@ class GamePage extends StatefulWidget {
 class _GamePage extends State<GamePage> {
   _GamePage({
     required this.game,
+
   });
 
   final Game game;
+  bool loading=true;
+  late String description='';
+  setDescription(String value)  {
+    setState(() {
+      description=  value;
+      loading=false;
+
+    });
+
+  }
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
   }
+
 
   List<Widget> createReviewCards(List<Review> reviews) {
     List<Widget> reviewCards = [];
@@ -58,33 +70,24 @@ class _GamePage extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<String> description = getGameDescription(game.gameId);
-
+      getGameDescription(game.gameId).then((value) => {
+        setDescription(value)
+      });
     return Scaffold(
       appBar: const TopBar(),
       body: Stack(
         children: [
           ListView(
             controller: ScrollProvider.scrollController,
+            key: const Key("ListView"),
             children: [
               ImageWithText(
                 imageUrl: game.image,
                 title: game.name,
               ),
               plataformRating(game: game),
-              FutureBuilder<String>(
-                future: description,
-                builder: (context, AsyncSnapshot<String> snapshot) {
-                  if (snapshot.hasData) {
-                    return TextSection(
-                        title: "About",
-                        text: snapshot.data ??
-                            "There is no Information about this game");
-                  } else {
-                    return const CircularProgressBar();
-                  }
-                },
-              ),
+              if(loading) const CircularProgressBar()
+              else TextSection(title: "About", text: description),
               const addVerticalSpace(size: 30),
               const Padding(
                 padding: EdgeInsets.only(left: 8.0),
@@ -155,6 +158,7 @@ class plataformRating extends StatelessWidget {
     super.key,
     required this.game,
   });
+
   final Game game;
 
   @override
