@@ -13,10 +13,10 @@ void addReview(int rating, String reviewText, int gameId) {
     "text": reviewText,
     "gameId": gameId,
     "userEmail": auth!.email,
+    "likesAndDislikes": [],
   };
 
-  ref =
-      db.collection("games").doc(gameId.toString()).collection("reviews").doc();
+  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc();
   ref.set(reviewData);
   ref = db.collection("users").doc(auth.email).collection("reviews").doc();
   ref.set(reviewData);
@@ -25,7 +25,7 @@ void addReview(int rating, String reviewText, int gameId) {
 Future<List<Review>> getGameReviews(int gameId) async {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance.currentUser;
-  final authEmail = auth ?? '';
+  final authEmail = auth == null ? '' : auth.email;
   List<Review> reviews = [];
 
   await db

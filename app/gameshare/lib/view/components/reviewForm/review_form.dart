@@ -8,8 +8,9 @@ import '../../../model/game.dart';
 
 class ReviewForm extends StatefulWidget {
   final Game game;
+  final Function() notifyParent;
 
-  const ReviewForm({super.key, required this.game});
+  const ReviewForm({super.key, required this.game, required this.notifyParent});
 
   @override
   State<ReviewForm> createState() => _ReviewFormState();
@@ -79,6 +80,7 @@ class _ReviewFormState extends State<ReviewForm> {
                     _formKey.currentState!.save();
                     addReview(
                         ratingFormField.rating, reviewText, widget.game.gameId);
+                    widget.notifyParent();
                   }
                 },
                 child: const Text(

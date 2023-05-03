@@ -1,8 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gameshare/services/database_actions.dart';
 import 'package:gameshare/view/components/reviewForm/review_form.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
@@ -36,10 +33,68 @@ class _GamePage extends State<GamePage> {
   });
 
   final Game game;
+  bool loadingOtherReviews = true;
+  bool loadingMyReview = true;
+  bool didntFetchData = true;
+  List<Review> otherReviews = [];
+  Review? myReview;
+
+  setOtherReviews(List<Review> reviews) {
+    setState(() {
+      otherReviews = reviews;
+      loadingOtherReviews = false;
+    });
+  }
+
+  setMyReview(Review? review) {
+    setState(() {
+      myReview = review;
+      loadingMyReview = false;
+    });
+  }
+
+  refreshPage() {
+    loadingMyReview = true;
+    getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId)
+        .then((review) => {setMyReview(review)});
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
+  }
+
+  Widget getReviewsWidget() {
+    if (loadingOtherReviews) {
+      return const CircularProgressBar();
+    } else {
+      return Column(
+        children: createReviewCards(otherReviews),
+      );
+    }
+  }
+
+  Widget getMyReviewWidget() {
+    if (loadingMyReview) {
+      return const CircularProgressBar();
+    } else {
+      if (myReview == null) {
+        return ReviewForm(game: game, notifyParent: refreshPage);
+      } else {
+        return Column(
+          children: [
+            const addVerticalSpace(size: 10),
+            ReviewCard(
+              name: FirebaseAuth.instance.currentUser!.email!,
+              review: myReview!.reviewText,
+              rating: myReview!.rating,
+              likesAndDislikes: myReview!.likesAndDislikes,
+            ),
+          ],
+        );
+      }
+    }
   }
 
   List<Widget> createReviewCards(List<Review> reviews) {
@@ -59,6 +114,16 @@ class _GamePage extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (didntFetchData) {
+      didntFetchData = false;
+      getGameReviews(game.gameId).then((reviews) => {setOtherReviews(reviews)});
+
+      if (FirebaseAuth.instance.currentUser != null) {
+        getUserGameReview(
+                FirebaseAuth.instance.currentUser!.email!, game.gameId)
+            .then((review) => {setMyReview(review)});
+      }
+    }
     Future<String> description = getGameDescription(game.gameId);
 
     return Scaffold(
@@ -93,61 +158,38 @@ class _GamePage extends State<GamePage> {
               ),
               const addVerticalSpace(size: 10),
               if (FirebaseAuth.instance.currentUser != null)
-                FutureBuilder(
-                  future: getUserGameReview(
-                      FirebaseAuth.instance.currentUser!.email!, game.gameId),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                        children: [
-                          const addVerticalSpace(size: 10),
-                          ReviewCard(
-                            name: FirebaseAuth.instance.currentUser!.email!,
-                            review: snapshot.data!.reviewText,
-                            rating: snapshot.data!.rating,
-                            likesAndDislikes:[],
-                          ),
-                        ],
-                      );
-                    } else if (snapshot.data == null) {
-                      return ReviewForm(game: game);
-                    } else {
-                      return const CircularProgressBar();
-                    }
-                  },
-                ),
+                getMyReviewWidget(),
               const addVerticalSpace(size: 10),
-              FutureBuilder(
-                future: getGameReviews(game.gameId),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: createReviewCards(snapshot.data!),
-                    );
-                  } else {
-                    return const CircularProgressBar();
-                  }
-                },
-              )
+              getReviewsWidget(),
             ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: ButtonStyle(
-              // maximumSize: MaterialStateProperty.all<Size>(Size(65, 40)),
-              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
-            ),
-            child: Icon(
-              Icons.arrow_circle_left,
-              size: 40,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+          const GoBackButton(),
         ],
       ),
       bottomNavigationBar: const NavBar(),
+    );
+  }
+}
+
+class GoBackButton extends StatelessWidget {
+  const GoBackButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
+      ),
+      child: Icon(
+        Icons.arrow_circle_left,
+        size: 40,
+        color: Theme.of(context).primaryColor,
+      ),
     );
   }
 }
