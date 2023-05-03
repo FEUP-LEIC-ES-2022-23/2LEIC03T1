@@ -4,25 +4,45 @@ class Auth {
   Auth({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
 
   final FirebaseAuth _auth;
+  final String _success = 'Success';
 
   User? get user => _auth.currentUser;
+  String get success => _success;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
+
+  String translateFirebaseError(String error) {
+    if (error.contains('user-not-found')) {
+      return 'User not found';
+    } else if (error.contains('wrong-password')) {
+      return 'Incorrect password';
+    } else if (error.contains('email-already-in-use')) {
+      return 'Email is already in use';
+    } else if (error.contains('invalid-email')) {
+      return 'Email is not valid';
+    } else if (error.contains('weak-password')) {
+      return 'Password is too weak';
+    } else if (error.contains('empty')) {
+      return 'Fields cannot be empty';
+    } else {
+      return error;
+    }
+  }
 
   Future<void> _register(String email, String username) async {
     // TODO: Register user in database
   }
 
-  Future<bool> signInEmailPassword(String email, String password) async {
+  Future<String> signInEmailPassword(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return true;
-    } on FirebaseAuthException {
-      return false;
+      return _success;
+    } catch (e) {
+      return translateFirebaseError(e.toString());
     }
   }
 
-  Future<bool> signUpEmailPassword(
+  Future<String> signUpEmailPassword(
       String email, String username, String password) async {
     try {
       await _register(email, username);
@@ -30,18 +50,18 @@ class Auth {
         email: email,
         password: password,
       );
-      return true;
-    } on FirebaseAuthException {
-      return false;
+      return _success;
+    } catch (e) {
+      return translateFirebaseError(e.toString());
     }
   }
 
-  Future<bool> sendPasswordRecoveryEmail(String email) async {
+  Future<String> sendPasswordRecoveryEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-      return true;
-    } on FirebaseAuthException {
-      return false;
+      return _success;
+    } catch (e) {
+      return translateFirebaseError(e.toString());
     }
   }
 

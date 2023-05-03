@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/view/screens/search.dart';
-
+import 'package:gameshare/services/auth.dart';
 import '../../screens/home.dart';
 import '../../screens/login.dart';
 
@@ -85,7 +85,8 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_, __, ____) => LoginPage(),
+                  pageBuilder: (_, __, ____) =>
+                      Auth().user == null ? LoginPage() : const UserPage(),
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );

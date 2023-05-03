@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
-import 'package:gameshare/view/screens/register.dart';
-import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import '../components/nav_bar.dart';
@@ -22,6 +21,8 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   String? _error;
   Auth get _auth => widget.authInstance;
+  late List<Widget> _widgets;
+  late UserDataForm _userDataForm;
 
   final Entry email = Entry(
     'email_field_forgot_password',
@@ -29,28 +30,38 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     TextEditingController(),
   );
 
-  final List<Entry> _entries = <Entry>[];
-
   @override
   void initState() {
     super.initState();
-    _entries.add(email);
+    _widgets = <Widget>[
+      EntryFieldList(<Entry>[email]),
+      const WhiteSpace(),
+      DisplayError(_error),
+      const WhiteSpace(height: 10),
+      SubmitButton('Send', sendPasswordRecoveryEmail),
+    ];
+    _userDataForm = UserDataForm(_widgets);
   }
 
-  Future<void> sendPasswordRecoveryEmail() async {
-    bool result = await _auth.sendPasswordRecoveryEmail(email.controller.text);
-    if (!result) {
-      setState(() => _error = 'Invalid email');
-    } else {
-      setState(() => _error = null);
+  void updateError(String res) {
+    _error = res;
+
+    for (int i = 0; i < _widgets.length; i++) {
+      if (_widgets[i] is DisplayError) {
+        _widgets[i] = DisplayError(_error);
+        _userDataForm = UserDataForm(_widgets);
+        break;
+      }
     }
   }
 
-  Widget _sendButton() {
-    return InkWell(
-      onTap: sendPasswordRecoveryEmail,
-      child: SubmitButton('Send', context),
-    );
+  Future<void> sendPasswordRecoveryEmail() async {
+    String res = await _auth.sendPasswordRecoveryEmail(email.controller.text);
+    if (res == _auth.success) {
+      goTo(context, LoginPage());
+    } else {
+      setState(() => updateError(res));
+    }
   }
 
   @override
@@ -58,26 +69,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       key: const Key('ForgotPassword'),
       appBar: const TopBar(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-        ),
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                DisplayError(_error),
-                const WhiteSpace(),
-                _sendButton(),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: _userDataForm,
       bottomNavigationBar: const NavBar(),
     );
   }
