@@ -5,6 +5,7 @@ import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/screens/user.dart';
 
 import '../components/nav_bar.dart';
 import '../components/top_bar.dart';
@@ -26,10 +27,10 @@ class _RegisterPageState extends State<RegisterPage> {
   Auth get _auth => widget.authInstance;
 
   final Entry _email = Entry(
-        'email_field_register',
-        'Email',
-        TextEditingController(),
-      ),
+    'email_field_register',
+    'Email',
+    TextEditingController(),
+  ),
       _username = Entry(
         'username_field_register',
         'Username',
@@ -79,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     await _signUp();
-    addUser(_username.controller.text, _email.controller.text);
+    await addUser(_username.controller.text, _email.controller.text);
     if (_auth.user != null) _goToHome();
   }
 
@@ -87,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const HomePage(),
+        pageBuilder: (_, __, ____) => UserPage(user: _auth.user!, isUser: true),
         transitionDuration: const Duration(seconds: 0),
       ),
     );

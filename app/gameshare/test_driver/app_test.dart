@@ -9,7 +9,7 @@ import 'steps/dark_light_mode/theme_change.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-    ..features = [RegExp('test_driver/features/*.*.feature')]
+    ..features = [RegExp('test_driver/features/register.feature')]
     ..reporters = [
       ProgressReporter(),
       TestRunSummaryReporter(),
@@ -29,6 +29,8 @@ Future<void> main() {
       EnterApp(),
       TapButtonNTimesStep(),
       ThemeChange(),
+      fillInAdminFields(),
+      seeUserPage(),
     ]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true

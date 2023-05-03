@@ -22,7 +22,7 @@ void addReview(int rating, String reviewText, int gameId,String gameName) {
   ref.set(reviewData);
 }
 
-void addUser(String name, String email) {
+Future<void> addUser(String name, String email) async {
   final db = FirebaseFirestore.instance;
   var ref;
 
@@ -35,7 +35,7 @@ void addUser(String name, String email) {
   };
 
   ref = db.collection("users").doc(email);
-  ref.set(usersData);
+  await ref.set(usersData);
 }
 
 Future<Users> getUserInfo(String email) async {

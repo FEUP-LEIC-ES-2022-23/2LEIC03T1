@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gameshare/consts/app_colors.dart';
-import 'package:gameshare/main.dart';
 import 'package:gameshare/view/components/review_card.dart';
 import 'package:gameshare/view/components/section_title.dart';
 import 'package:gameshare/view/components/text_section.dart';
@@ -43,6 +41,7 @@ class _UserPage extends State<UserPage> {
   late String about = "";
   late Timestamp timestamp;
   late bool isLoading=true;
+  late bool madeRequest=false;
   late List<Review> reviews=[];
   bool get isUser => widget._isUser;
 
@@ -78,9 +77,13 @@ class _UserPage extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
-    getUserInfo(user.email!).then((value) => setUserInfo(value));
-    getUserGameReviews(user.email!).then((value) => setReviews(value));
+    if(!madeRequest)getUserInfo(user.email!).then((value) => setUserInfo(value));
+    if(!madeRequest)getUserGameReviews(user.email!).then((value) => setReviews(value));
+    setState(() {
+      madeRequest=true;
+    });
     return Scaffold(
+      key: Key(user.email!),
       appBar: const TopBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 0),
