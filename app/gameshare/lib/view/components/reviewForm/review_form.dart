@@ -78,7 +78,7 @@ class _ReviewFormState extends State<ReviewForm> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     addReview(
-                        ratingFormField.rating, reviewText, widget.game.gameId);
+                        ratingFormField.rating, reviewText, widget.game.gameId,widget.game.name);
                   }
                 },
                 child: const Text(

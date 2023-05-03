@@ -47,9 +47,7 @@ class _GamePage extends State<GamePage> {
 
     for (Review review in reviews) {
       reviewCards.add(ReviewCard(
-        name: review.userEmail,
-        review: review.reviewText,
-        rating: review.rating,
+       review: review,
       ));
     }
 
@@ -59,7 +57,7 @@ class _GamePage extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     Future<String> description = getGameDescription(game.gameId);
-
+    
     return Scaffold(
       appBar: const TopBar(),
       body: Stack(
@@ -100,11 +98,9 @@ class _GamePage extends State<GamePage> {
                       return Column(
                         children: [
                           const addVerticalSpace(size: 10),
-                          ReviewCard(
-                            name: FirebaseAuth.instance.currentUser!.email!,
-                            review: snapshot.data!.reviewText,
-                            rating: snapshot.data!.rating,
-                          ),
+                          ReviewCard(review:  Review(snapshot.data!.reviewText,snapshot.data!.rating,game.gameId,FirebaseAuth.instance.currentUser!.email!,game.name)
+                    ,
+                             ),
                         ],
                       );
                     } else if (snapshot.data == null) {

@@ -29,6 +29,8 @@ Future<void> main() {
       EnterApp(),
       TapButtonNTimesStep(),
       ThemeChange(),
+      fillInAdminFields(),
+      seeUserPage(),
     ]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true

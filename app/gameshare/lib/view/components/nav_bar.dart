@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/view/screens/search.dart';
+import 'package:gameshare/view/screens/user.dart';
+import '../../services/auth.dart';
 import '../screens/home.dart';
 import '../screens/login.dart';
 
@@ -13,6 +16,7 @@ class NavBar extends StatefulWidget {
   getSelected() {
     return _selected;
   }
+
 }
 
 int _selected = 0;
@@ -84,7 +88,8 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_, __, ____) => LoginPage(),
+                  pageBuilder: (_, __, ____) => getPageToRedirect()
+                  ,
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );
@@ -96,5 +101,14 @@ class _NavBarState extends State<NavBar> {
   void _scrollToTop() {
     scrollController.animateTo(0,
         duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
+
+  getPageToRedirect() {
+    User? user = Auth().user;
+    if (Auth().user == null) {
+      return LoginPage();
+    } else {
+      return UserPage(user: user!, isUser: true);
+    }
   }
 }

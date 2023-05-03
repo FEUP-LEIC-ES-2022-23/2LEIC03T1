@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
+import 'package:gameshare/services/auth.dart';
 import 'package:gherkin/gherkin.dart';
 
 StepDefinitionGeneric inLoginPage() {
@@ -22,6 +26,25 @@ StepDefinitionGeneric fillInField() {
     'I fill in {string} with {string}',
     (key, value, context) async {
       final field = find.byValueKey(key);
+      await FlutterDriverUtils.enterText(
+        context.world.driver,
+        field,
+        value,
+      );
+    },
+  );
+}
+StepDefinitionGeneric fillInAdminFields() {
+  return given2<String, String, FlutterWorld>(
+    'I fill in {string} with my {string}',
+        (key, value, context) async {
+      final field = find.byValueKey(key);
+      await dotenv.load(fileName: ".env");
+      if(value=="email") {
+        value=dotenv.env['ADMIN_EMAIL']??"";
+      } else if(value=="password") {
+        value=dotenv.env['ADMIN_PASSWORD']??"";
+      }
       await FlutterDriverUtils.enterText(
         context.world.driver,
         field,
@@ -83,6 +106,7 @@ StepDefinitionGeneric inRegisterPage() {
     'I am in the register page',
     (context) async {
       final goToLogin = find.text('User');
+
       await FlutterDriverUtils.tap(context.world.driver, goToLogin);
       final goToRegister = find.text("Don't have an account? Create one");
       await FlutterDriverUtils.tap(context.world.driver, goToRegister);
@@ -95,3 +119,19 @@ StepDefinitionGeneric inRegisterPage() {
     },
   );
 }
+StepDefinitionGeneric seeUserPage() {
+  return then<FlutterWorld>(
+    'I should see my user page',
+        (context) async {
+          await dotenv.load(fileName: ".env");
+          // print(dotenv.env['ADMIN_EMAIL']);
+          sleep(Duration(seconds: 2));
+      final finder = await find.byValueKey(dotenv.env['ADMIN_EMAIL']);
+      context.expectMatch(
+        await FlutterDriverUtils.isPresent(context.world.driver, finder),
+        true,
+      );
+    },
+  );
+}
+

@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:flutter_gherkin/flutter_gherkin.dart';
+import 'package:gameshare/services/auth.dart';
 import 'package:gherkin/gherkin.dart';
 
 StepDefinitionGeneric goToPage() {
-  return given1<String, FlutterWorld>('I am on the {String}',
+  return given1<String, FlutterWorld>('I am on the {String} page',
       (page, context) async {
     if (page == "Home")
       await FlutterDriverUtils.tap(context.world.driver, find.text('Home'));
     else if (page == "Search")
       await FlutterDriverUtils.tap(context.world.driver, find.text('Search'));
-    else if (page == "Login")
+    else if (page == "Login") {
       await FlutterDriverUtils.tap(context.world.driver, find.text("User"));
+    }
 
     context.expectMatch(
       await FlutterDriverUtils.isPresent(

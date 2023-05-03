@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../../model/review.dart';
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
     Key? key,
-    required this.name,
     required this.review,
-    required this.rating,
+    this.isUser,
   }) : super(key: key);
 
-  final String name;
-  final String review;
-  final int rating;
+  final bool? isUser;
+  final Review review;
+
+  getHeader() {
+    if (isUser ?? false) {
+      return GameName(review: review);
+    } else {
+      return ReviewUser(
+        name: review.userEmail,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +41,49 @@ class ReviewCard extends StatelessWidget {
         ],
         color: Theme.of(context).colorScheme.background,
       ),
-      child: Column(
-        children: [
-          ReviewUser(
-            name: name,
-          ),
-          Divider(
-            color: Theme.of(context).dividerColor,
-            thickness: 1,
-          ),
-          ReviewRating(
-            rating: rating,
-          ),
-          SizedBox(height: 10),
-          ReviewText(
-            review: review,
-          ),
-          SizedBox(height: 10),
-        ],
+      child: Flexible(
+        child: Column(
+          children: [
+            getHeader(),
+            Divider(
+              color: Theme.of(context).dividerColor,
+              thickness: 1,
+            ),
+            ReviewRating(
+              rating: review.rating,
+            ),
+            const SizedBox(height: 10),
+            ReviewText(
+              review: review.reviewText,
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GameName extends StatelessWidget {
+  const GameName({
+    super.key,
+    required this.review,
+  });
+
+  final Review review;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text(
+        review.gameName,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+        style: const TextStyle(
+          fontWeight: FontWeight.w900,
+          fontSize: 17,
+        ),
       ),
     );
   }
@@ -72,21 +108,17 @@ class ReviewUser extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(margin: const EdgeInsets.all(5), child: image),
+        Container(padding: const EdgeInsets.all(10), child: image),
         const SizedBox(width: 10),
-        RichText(
-            text: TextSpan(
-          text: name,
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
-              // TODO: Navigate to user profile
-              print('User profile');
-            },
-          style: const TextStyle(
-            color: Colors.blue,
-            fontSize: 20,
-          ),
-        )),
+        Flexible(
+          child: InkWell(
+              child: Text(
+            name,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.montserratAlternates(
+                fontWeight: FontWeight.bold, fontSize: 15),
+          )),
+        ),
       ],
     );
   }
@@ -102,26 +134,24 @@ class ReviewRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            for (int i = 0; i < rating; i++)
-              Icon(
-                Icons.videogame_asset,
-                color: Colors.green,
-                size: MediaQuery.of(context).size.width / 7,
-              ),
-            for (int i = 0; i < 5 - rating; i++)
-              Icon(
-                Icons.videogame_asset_outlined,
-                color: Colors.green,
-                size: MediaQuery.of(context).size.width / 7,
-              ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          for (int i = 0; i < rating; i++)
+            Icon(
+              Icons.videogame_asset,
+              color: Colors.green,
+              size: MediaQuery.of(context).size.width / 7,
+            ),
+          for (int i = 0; i < 5 - rating; i++)
+            Icon(
+              Icons.videogame_asset_outlined,
+              color: Colors.green,
+              size: MediaQuery.of(context).size.width / 7,
+            ),
+        ],
       ),
     );
   }
@@ -151,7 +181,7 @@ class _ReviewTextState extends State<ReviewText> {
       mainText = widget.review;
     } else if (!showMore) {
       longText = true;
-      mainText = widget.review.substring(0, 200) + '...';
+      mainText = '${widget.review.substring(0, 200)}...';
       buttonText = 'Show more';
     } else {
       longText = true;
