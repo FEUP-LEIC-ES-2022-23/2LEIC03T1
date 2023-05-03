@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:gameshare/view/components/utils/add_horizontal_space.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 
 class ReviewCard extends StatelessWidget {
@@ -18,9 +19,12 @@ class ReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       decoration: BoxDecoration(
-        border: Border.all(width: 0.5),
+        border: Border.all(
+          width: 0.5, 
+          color: Theme.of(context).dividerColor,
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Theme.of(context).shadowColor,
@@ -38,7 +42,7 @@ class ReviewCard extends StatelessWidget {
           ),
           Divider(
             color: Theme.of(context).dividerColor,
-            thickness: 1,
+            thickness: 0.5,
           ),
           ReviewRating(
             rating: rating,
@@ -61,9 +65,9 @@ class ReviewUser extends StatelessWidget {
 
   final String name;
   final Image image = const Image(
-    image: AssetImage('assets/images/userPlaceholder.png'),
-    width: 40,
-    height: 40,
+    image: AssetImage('assets/images/default_avatar.png'),
+    width: 70,
+    height: 70,
   );
 
   @override
@@ -72,6 +76,7 @@ class ReviewUser extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const addHorizontalSpace(size: 5),
         Container(margin: const EdgeInsets.all(5), child: image),
         const SizedBox(width: 10),
         RichText(
@@ -80,10 +85,9 @@ class ReviewUser extends StatelessWidget {
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               // TODO: Navigate to user profile
-              print('User profile');
             },
-          style: const TextStyle(
-            color: Colors.blue,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
             fontSize: 20,
           ),
         )),

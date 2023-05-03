@@ -11,4 +11,5 @@ class MyAppColors {
   static const Color purple = Color(0xff5E5BFF);
   static const Color aquaGreen = Color(0xff00ffdd);
   static const Color aquaBlue = Color(0xff00ddff);
+  static const Color white = Color(0xffffffff);
 }
