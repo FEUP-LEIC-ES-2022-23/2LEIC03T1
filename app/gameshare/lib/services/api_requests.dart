@@ -34,7 +34,7 @@ Future<List<Game>> fetchGames(http.Client client,
 
   if (res.statusCode == 200) {
     return [
-      for (int i = 0; i < decodedJson.length; i++)
+      for (int i = 0; i < decodedJson['results'].length; i++)
         Game.fromJson(decodedJson['results'], i)
     ];
   }
