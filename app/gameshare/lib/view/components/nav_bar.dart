@@ -84,25 +84,15 @@ class _NavBarState extends State<NavBar> {
                 break;
               }
               _selected = 2;
-              if (Auth().user == null) {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ____) => LoginPage(),
-                    transitionDuration: const Duration(seconds: 0),
-                  ),
-                );
-                break;
-              } else {
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ____) => const UserPage(),
-                    transitionDuration: const Duration(seconds: 0),
-                  ),
-                );
-                break;
-              }
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ____) =>
+                      Auth().user == null ? LoginPage() : const UserPage(),
+                  transitionDuration: const Duration(seconds: 0),
+                ),
+              );
+              break;
           }
         });
   }
