@@ -38,39 +38,49 @@ class _UserPage extends State<UserPage> {
     required this.user,
   });
   final User user;
-  late String name="";
-  late String about="";
+  late String name = "";
+  late String about = "";
+  late bool isLoading=true;
+  late List<Review> reviews=[];
   bool get isUser => widget._isUser;
   String getUserAbout() {
     String about = "My life is boring " * 20;
     return about;
   }
-  Future<Users> getUsers(){
+
+  Future<Users> getUsers() {
     return getUserInfo(user.email!);
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
-  void setUserInfo(Users users){
+
+  void setUserInfo(Users users) {
     setState(() {
-      name=users.name;
-      about=users.about;
+      name = users.name;
+      about = users.about;
     });
   }
-  getBody(){
-    if(name=="") {
-      return const CircularProgressBar();
-    } else {
-      return ListView( children:[ ...body(isUser, user, name, about)]);
-    }
+  void setReviews(List<Review> _reviews){
+    reviews=_reviews;
+    isLoading=false;
   }
 
+  getBody() {
+    if (name == "" || isLoading) {
+      return const CircularProgressBar();
+    } else {
+      return ListView(children: [...body(isUser, user, name, about,reviews)]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     getUserInfo(user.email!).then((value) => setUserInfo(value));
-      return Scaffold(
+    getUserGameReviews(user.email!).then((value) => setReviews(value));
+    return Scaffold(
       appBar: const TopBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 0),
@@ -78,63 +88,58 @@ class _UserPage extends State<UserPage> {
       ),
       bottomNavigationBar: const NavBar(),
     );
-    }
-
+  }
 }
 
-body(bool isUser,User user,String name,String about){
+body(bool isUser, User user, String name, String about,List<Review> reviews) {
   return [
     if (isUser)
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
-
         children: const [
           EditProfile(),
           Logout(),
         ],
       ),
     Container(
-      margin: const EdgeInsets.only(left: 15,top: 0),
+      margin: const EdgeInsets.only(left: 15, top: 0),
       child: Row(
         children: [
           UserImage(size: 90, image: user.photoURL),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              UserName(name: name),
-              JoinedAt(user: user)
-            ],
+            children: [UserName(name: name), JoinedAt(user: user)],
           ),
         ],
       ),
     ),
     UserEmail(email: user.email),
     TextSection(title: "About", text: about),
-    if(about=="") const RectangleWithText(text: "User don't have an about section yet"),
-    MyReviews(user: user),
+    if (about == "")
+      const RectangleWithText(text: "User don't have an about section yet"),
+    MyReviews(reviews: reviews),
   ];
 }
 
 class MyReviews extends StatelessWidget {
-  const MyReviews({super.key, required this.user});
-  final User user;
-  List<ReviewCard> getUserReviews() {
-    return [];
-  }
-
+  const MyReviews({super.key, required this.reviews});
+  final List<Review> reviews;
   @override
   Widget build(BuildContext context) {
-    late List<ReviewCard> reviews = getUserReviews();
     return Container(
       margin: const EdgeInsets.only(top: 10),
       //padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(
         children: [
-          Padding(child: const SectionTitle(title: "My Reviews"),padding: const EdgeInsets.only(left: 10,right: 10),),
+          const Padding(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: SectionTitle(title: "My Reviews"),
+          ),
           const addVerticalSpace(size: 25),
           if (reviews.isEmpty)
-             RectangleWithText(text: "No reviews have been written yet"),
-          ...reviews,
+            const RectangleWithText(text: "No reviews have been written yet"),
+          for(Review rev in reviews)
+            ReviewCard(name: rev.userEmail, review: rev.reviewText, rating: rev.rating),
         ],
       ),
     );
@@ -148,7 +153,8 @@ class UserEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 10,right: 10,top: 15,bottom: 15),
+        padding:
+            const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
         child: Text(
           "Email: ${email ?? "getaemial@dude.com"}",
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
@@ -166,7 +172,9 @@ class UserImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 20,),
+      margin: const EdgeInsets.only(
+        right: 20,
+      ),
       child: Image(
         image: AssetImage(image ?? 'assets/images/userPlaceholder.png'),
         width: size,
@@ -183,10 +191,12 @@ class UserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Text(
-        name,
-        style: GoogleFonts.montserratAlternates(
-            fontWeight: FontWeight.bold, fontSize: 17),
+    return Text(
+      name,
+      overflow: TextOverflow.visible,
+      softWrap: false,
+      style: GoogleFonts.montserratAlternates(
+          fontWeight: FontWeight.bold, fontSize: 17),
     );
   }
 }
@@ -203,9 +213,9 @@ class JoinedAt extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Text(
-          getJoinDate(),
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
-        ),
+        getJoinDate(),
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
+      ),
     );
   }
 }
@@ -229,7 +239,10 @@ class Logout extends StatelessWidget {
               ),
             );
           },
-          child: const Icon(Icons.logout,size: 35,)),
+          child: const Icon(
+            Icons.logout,
+            size: 35,
+          )),
     );
   }
 }
@@ -239,11 +252,14 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SizedBox(
+    return SizedBox(
       width: 50,
       child: TextButton(
         onPressed: () {},
-        child: const Icon(Icons.edit_note,size: 35,),
+        child: const Icon(
+          Icons.edit_note,
+          size: 35,
+        ),
       ),
     );
   }

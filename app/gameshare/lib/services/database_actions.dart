@@ -22,15 +22,15 @@ void addReview(int rating, String reviewText, int gameId) {
   ref.set(reviewData);
 }
 
-void addUser(String name,  String email) {
+void addUser(String name, String email) {
   final db = FirebaseFirestore.instance;
   var ref;
 
   final usersData = {
     "userName": name,
-    "email":email,
+    "email": email,
     "about": "",
-    "image":"",
+    "image": "",
   };
 
   ref = db.collection("users").doc(email);
@@ -39,11 +39,13 @@ void addUser(String name,  String email) {
 
 Future<Users> getUserInfo(String email) async {
   final db = FirebaseFirestore.instance;
-  return await db.collection("users").where("email",isEqualTo: email)
+  return await db
+      .collection("users")
+      .where("email", isEqualTo: email)
       .get()
       .then(
-        (querySnapshot) {
-          return Users.fromJson(querySnapshot.docs.first.data());
+    (querySnapshot) {
+      return Users.fromJson(querySnapshot.docs.first.data());
     },
   );
 }
@@ -91,3 +93,23 @@ Future<Review?> getUserGameReview(String userEmail, int gameId) async {
 
   return test;
 }
+
+Future<List<Review>> getUserGameReviews(String userEmail) async {
+  final db = FirebaseFirestore.instance;
+  List<Review> reviews=[];
+
+  await db
+      .collection("users")
+      .doc(userEmail)
+      .collection("reviews")
+      .get()
+      .then((querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+        reviews.add(Review.fromJson(docSnapshot.data()));
+    }
+  });
+
+  return reviews;
+}
+
+
