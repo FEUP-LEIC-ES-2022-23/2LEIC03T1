@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
-import 'package:gameshare/view/screens/login.dart';
-import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/screens/user.dart';
+import 'package:gameshare/view/screens/login.dart';
 
-import '../components/nav_bar.dart';
-import '../components/top_bar.dart';
+import '../components/bars/nav_bar.dart';
+import '../components/bars/top_bar.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Auth? auth, Key? key})
@@ -14,6 +14,7 @@ class RegisterPage extends StatefulWidget {
         super(key: key);
 
   final Auth? auth;
+
   Auth get authInstance => auth!;
 
   @override
@@ -22,6 +23,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   String? _error;
+
   Auth get _auth => widget.authInstance;
   late List<Widget> _widgets;
   late UserDataForm _userDataForm;

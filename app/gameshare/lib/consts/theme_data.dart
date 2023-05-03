@@ -47,14 +47,18 @@ ThemeData lightTheme = ThemeData(
       secondary: MyAppColors.purple,
       onSecondary: Colors.white,
 
-      error: Colors.red, //mudar possivelmente
-      onError: Colors.white, //mudar possivelmente
+      error: Colors.red,
+      //mudar possivelmente
+      onError: Colors.white,
+      //mudar possivelmente
 
       background: Colors.white,
       onBackground: Colors.black,
 
-      surface: Colors.white, //mudar possivelmente
-      onSurface: Colors.black, //mudar possivelmente
+      surface: Colors.white,
+      //mudar possivelmente
+      onSurface: Colors.black,
+      //mudar possivelmente
 
       onPrimaryContainer: Colors.black,
     ));
@@ -103,14 +107,18 @@ ThemeData darkTheme = ThemeData(
     secondary: MyAppColors.lightGreen,
     onSecondary: Colors.white,
 
-    error: Colors.red, //mudar possivelmente
-    onError: Colors.white, //mudar possivelmente
+    error: Colors.red,
+    //mudar possivelmente
+    onError: Colors.white,
+    //mudar possivelmente
 
     background: MyAppColors.midnightBlue,
     onBackground: Colors.white,
 
-    surface: MyAppColors.midnightBlue, //mudar possivelmente
-    onSurface: Colors.white, //mudar possivelmente
+    surface: MyAppColors.midnightBlue,
+    //mudar possivelmente
+    onSurface: Colors.white,
+    //mudar possivelmente
 
     onPrimaryContainer: Colors.white,
   ),

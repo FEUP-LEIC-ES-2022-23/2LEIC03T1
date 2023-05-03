@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gameshare/view/components/infinite_scrollable_game_list.dart';
-import 'package:gameshare/view/components/search_bar.dart';
-import 'package:gameshare/view/components/top_bar.dart';
-import '../components/nav_bar.dart';
+import 'package:gameshare/view/components/bars/top_bar.dart';
+import 'package:gameshare/view/components/search_page/infinite_scrollable_game_list.dart';
+import 'package:gameshare/view/components/search_page/search_bar.dart';
+
+import '../components/bars/nav_bar.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
