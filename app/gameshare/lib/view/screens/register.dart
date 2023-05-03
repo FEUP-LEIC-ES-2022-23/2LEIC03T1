@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
+import 'package:gameshare/services/database_actions.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/screens/home.dart';
@@ -78,6 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     await _signUp();
+    addUser(_username.controller.text, _email.controller.text);
     if (_auth.user != null) _goToHome();
   }
 

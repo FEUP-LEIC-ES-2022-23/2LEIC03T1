@@ -50,7 +50,7 @@ class _TextSection extends State<TextSection> {
     }
     return [
       Text(Html(mainText), style: const TextStyle(fontSize: 20)),
-      const addVerticalSpace(size: 20),
+      //const addVerticalSpace(size: 20),
       if (showButton)
         ElevatedButton(
           onPressed: () {
@@ -83,7 +83,7 @@ class _TextSection extends State<TextSection> {
       child: Column(
         children: [
           SectionTitle(title: title),
-          const addVerticalSpace(size: 15),
+          if(text!="")const addVerticalSpace(size: 25),
           ...getText(),
         ],
       ),

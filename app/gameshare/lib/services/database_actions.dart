@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../model/review.dart';
+import '../model/user.dart';
 
 void addReview(int rating, String reviewText, int gameId) {
   final db = FirebaseFirestore.instance;
@@ -14,12 +15,37 @@ void addReview(int rating, String reviewText, int gameId) {
     "gameId": gameId,
     "userEmail": auth!.email,
   };
-
   ref =
       db.collection("games").doc(gameId.toString()).collection("reviews").doc();
   ref.set(reviewData);
   ref = db.collection("users").doc(auth.email).collection("reviews").doc();
   ref.set(reviewData);
+}
+
+void addUser(String name,  String email) {
+  final db = FirebaseFirestore.instance;
+  var ref;
+
+  final usersData = {
+    "userName": name,
+    "email":email,
+    "about": "",
+    "image":"",
+  };
+
+  ref = db.collection("users").doc(email);
+  ref.set(usersData);
+}
+
+Future<Users> getUserInfo(String email) async {
+  final db = FirebaseFirestore.instance;
+  return await db.collection("users").where("email",isEqualTo: email)
+      .get()
+      .then(
+        (querySnapshot) {
+          return Users.fromJson(querySnapshot.docs.first.data());
+    },
+  );
 }
 
 Future<List<Review>> getGameReviews(int gameId) async {

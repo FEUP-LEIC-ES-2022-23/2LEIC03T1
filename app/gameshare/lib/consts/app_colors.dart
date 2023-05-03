@@ -12,4 +12,5 @@ class MyAppColors {
   static const Color aquaGreen = Color(0xff00ffdd);
   static const Color aquaBlue = Color(0xff00ddff);
   static const Color white = Color(0xffffffff);
+  static const Color ticas = Color(0xff000000);
 }

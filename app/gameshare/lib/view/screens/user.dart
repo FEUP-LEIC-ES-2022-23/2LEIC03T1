@@ -8,11 +8,15 @@ import 'package:gameshare/view/components/section_title.dart';
 import 'package:gameshare/view/components/text_section.dart';
 import 'package:gameshare/view/components/top_bar.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
+import 'package:gameshare/view/components/utils/rectangle_with_text.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../model/review.dart';
+import '../../model/user.dart';
 import '../../services/auth.dart';
+import '../../services/database_actions.dart';
+import '../components/circular_progress.dart';
 import '../components/nav_bar.dart';
 
 class UserPage extends StatefulWidget {
@@ -34,55 +38,81 @@ class _UserPage extends State<UserPage> {
     required this.user,
   });
   final User user;
+  late String name="";
+  late String about="";
   bool get isUser => widget._isUser;
   String getUserAbout() {
     String about = "My life is boring " * 20;
     return about;
   }
-  String? getUserName(){
-    return null;
+  Future<Users> getUsers(){
+    return getUserInfo(user.email!);
   }
+  @override
+  void initState(){
+    super.initState();
+  }
+  void setUserInfo(Users users){
+    setState(() {
+      name=users.name;
+      about=users.about;
+    });
+  }
+  getBody(){
+    if(name=="") {
+      return const CircularProgressBar();
+    } else {
+      return ListView( children:[ ...body(isUser, user, name, about)]);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    getUserInfo(user.email!).then((value) => setUserInfo(value));
+      return Scaffold(
       appBar: const TopBar(),
       body: Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-        child: ListView(
-          children: [
-            if (isUser)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-
-                children: const [
-                  EditProfile(),
-                  Logout(),
-                ],
-              ),
-            Container(
-              margin: const EdgeInsets.only(left: 15),
-              child: Row(
-                children: [
-                  UserImage(size: 90, image: user.photoURL),
-                  Column(
-                    children: [
-                      UserName(name: getUserName() ?? "Dude get a name"),
-                      JoinedAt(user: user)
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            UserEmail(email: user.email),
-            TextSection(title: "About", text: getUserAbout()),
-            MyReviews(user: user),
-          ],
-        ),
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 0),
+        child: getBody(),
       ),
       bottomNavigationBar: const NavBar(),
     );
-  }
+    }
+
+}
+
+body(bool isUser,User user,String name,String about){
+  return [
+    if (isUser)
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+
+        children: const [
+          EditProfile(),
+          Logout(),
+        ],
+      ),
+    Container(
+      margin: const EdgeInsets.only(left: 15,top: 0),
+      child: Row(
+        children: [
+          UserImage(size: 90, image: user.photoURL),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              UserName(name: name),
+              JoinedAt(user: user)
+            ],
+          ),
+        ],
+      ),
+    ),
+    UserEmail(email: user.email),
+    TextSection(title: "About", text: about),
+    if(about=="") const RectangleWithText(text: "User don't have an about section yet"),
+    MyReviews(user: user),
+  ];
 }
 
 class MyReviews extends StatelessWidget {
@@ -97,19 +127,13 @@ class MyReviews extends StatelessWidget {
     late List<ReviewCard> reviews = getUserReviews();
     return Container(
       margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.only(left: 10, right: 10),
+      //padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(
         children: [
-          const SectionTitle(title: "My Reviews"),
+          Padding(child: const SectionTitle(title: "My Reviews"),padding: const EdgeInsets.only(left: 10,right: 10),),
+          const addVerticalSpace(size: 25),
           if (reviews.isEmpty)
-            Container(
-                color: Theme.of(context).colorScheme.secondaryContainer,
-                padding: const EdgeInsets.all(25),
-                margin: const EdgeInsets.all(20),
-                child: const Text(
-                  "No review where written yet",
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
-                )),
+             RectangleWithText(text: "No reviews have been written yet"),
           ...reviews,
         ],
       ),
@@ -124,10 +148,10 @@ class UserEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.only(left: 10,right: 10,top: 15,bottom: 15),
         child: Text(
-          "Email: ${email ?? "getaemial@idiot.com"}",
-          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900),
+          "Email: ${email ?? "getaemial@dude.com"}",
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
           overflow: TextOverflow.fade,
           softWrap: false,
         ));
@@ -142,7 +166,7 @@ class UserImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 20, top: 0),
+      margin: const EdgeInsets.only(right: 20,),
       child: Image(
         image: AssetImage(image ?? 'assets/images/userPlaceholder.png'),
         width: size,
@@ -159,10 +183,10 @@ class UserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      name,
-      style: GoogleFonts.montserratAlternates(
-          fontWeight: FontWeight.bold, fontSize: 17),
+    return  Text(
+        name,
+        style: GoogleFonts.montserratAlternates(
+            fontWeight: FontWeight.bold, fontSize: 17),
     );
   }
 }
@@ -178,13 +202,10 @@ class JoinedAt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 20),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
+      child: Text(
           getJoinDate(),
           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
         ),
-      ),
     );
   }
 }
@@ -194,19 +215,22 @@ class Logout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-        onPressed: () {
-          Auth auth = Auth();
-          auth.signOut();
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (_, __, ____) => LoginPage(),
-              transitionDuration: const Duration(seconds: 0),
-            ),
-          );
-        },
-        child: const Icon(Icons.logout));
+    return SizedBox(
+      width: 45,
+      child: TextButton(
+          onPressed: () {
+            Auth auth = Auth();
+            auth.signOut();
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ____) => LoginPage(),
+                transitionDuration: const Duration(seconds: 0),
+              ),
+            );
+          },
+          child: const Icon(Icons.logout,size: 35,)),
+    );
   }
 }
 
@@ -215,9 +239,12 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {},
-      child: const Icon(Icons.edit_note),
+    return  SizedBox(
+      width: 50,
+      child: TextButton(
+        onPressed: () {},
+        child: const Icon(Icons.edit_note,size: 35,),
+      ),
     );
   }
 }
