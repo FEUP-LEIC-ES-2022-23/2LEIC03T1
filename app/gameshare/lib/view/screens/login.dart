@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
+import 'package:gameshare/view/screens/register.dart';
+import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/view/screens/forgot_password.dart';
+import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/screens/home.dart';
@@ -87,7 +91,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget _forgotPasswordLabel() {
     return InkWell(
       onTap: () {
-        // TODO: Forgot Password
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ____) => ForgotPasswordPage(),
+            transitionDuration: const Duration(seconds: 0),
+          ),
+        );
       },
       child: const MyLabel('Forgot Password?', left: false, size: 15),
     );
