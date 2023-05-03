@@ -33,14 +33,23 @@ class _GamePage extends State<GamePage> {
   });
 
   final Game game;
-  bool loadingReviews = true;
+  bool loadingOtherReviews = true;
+  bool loadingMyReview = true;
   bool didntFetchData = true;
   List<Review> otherReviews = [];
+  Review? myReview;
 
   setOtherReviews(List<Review> reviews) {
     setState(() {
       otherReviews = reviews;
-      loadingReviews = false;
+      loadingOtherReviews = false;
+    });
+  }
+
+  setMyReview(Review? review) {
+    setState(() {
+      myReview = review;
+      loadingMyReview = false;
     });
   }
 
@@ -50,13 +59,33 @@ class _GamePage extends State<GamePage> {
   }
 
   Widget getReviewsWidget() {
-    if (loadingReviews) {
+    if (loadingOtherReviews) {
       return const CircularProgressBar();
-    }
-    else {
+    } else {
       return Column(
         children: createReviewCards(otherReviews),
       );
+    }
+  }
+
+  Widget getMyReviewWidget() {
+    if (loadingMyReview) {
+      return const CircularProgressBar();
+    } else {
+      if (myReview == null) {
+        return ReviewForm(game: game);
+      } else {
+        return Column(
+          children: [
+            const addVerticalSpace(size: 10),
+            ReviewCard(
+              name: FirebaseAuth.instance.currentUser!.email!,
+              review: myReview!.reviewText,
+              rating: myReview!.rating,
+            ),
+          ],
+        );
+      }
     }
   }
 
@@ -79,6 +108,12 @@ class _GamePage extends State<GamePage> {
     if (didntFetchData) {
       didntFetchData = false;
       getGameReviews(game.gameId).then((reviews) => {setOtherReviews(reviews)});
+
+      if (FirebaseAuth.instance.currentUser != null) {
+        getUserGameReview(
+          FirebaseAuth.instance.currentUser!.email!, game.gameId)
+            .then((review) => {setMyReview(review)});
+      }
     }
     Future<String> description = getGameDescription(game.gameId);
 
@@ -114,30 +149,8 @@ class _GamePage extends State<GamePage> {
               ),
               const addVerticalSpace(size: 10),
               if (FirebaseAuth.instance.currentUser != null)
-                FutureBuilder(
-                  future: getUserGameReview(
-                      FirebaseAuth.instance.currentUser!.email!, game.gameId),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                        children: [
-                          const addVerticalSpace(size: 10),
-                          ReviewCard(
-                            name: FirebaseAuth.instance.currentUser!.email!,
-                            review: snapshot.data!.reviewText,
-                            rating: snapshot.data!.rating,
-                          ),
-                        ],
-                      );
-                    } else if (snapshot.data == null) {
-                      return ReviewForm(game: game);
-                    } else {
-                      return const CircularProgressBar();
-                    }
-                  },
-                ),
+                getMyReviewWidget(),
               const addVerticalSpace(size: 10),
-
               getReviewsWidget(),
             ],
           ),
