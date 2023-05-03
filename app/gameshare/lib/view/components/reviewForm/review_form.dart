@@ -80,7 +80,6 @@ class _ReviewFormState extends State<ReviewForm> {
                     _formKey.currentState!.save();
                     addReview(
                         ratingFormField.rating, reviewText, widget.game.gameId);
-                    print("LOOOOOL");
                     widget.notifyParent();
                   }
                 },

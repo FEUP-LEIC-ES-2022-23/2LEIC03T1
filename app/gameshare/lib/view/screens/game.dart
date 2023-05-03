@@ -54,12 +54,10 @@ class _GamePage extends State<GamePage> {
   }
 
   refreshPage() {
-    print("lalau");
     loadingMyReview = true;
     getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId)
         .then((review) => {setMyReview(review)});
     setState(() {});
-    print("lalau2");
   }
 
   @override
