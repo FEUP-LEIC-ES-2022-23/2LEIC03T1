@@ -19,14 +19,17 @@ import '../components/circular_progress.dart';
 import '../components/nav_bar.dart';
 
 class UserPage extends StatefulWidget {
-  const UserPage({
+   UserPage({
     super.key,
     required this.user,
     required this.isUser,
+    this.firestore
   });
   final User user;
   final bool isUser;
+  final FirebaseFirestore? firestore;
   bool get _isUser => isUser;
+  FirebaseFirestore get fireBaseStore => firestore??FirebaseFirestore.instance;
 
   @override
   State<StatefulWidget> createState() => _UserPage(user: user);
@@ -39,17 +42,13 @@ class _UserPage extends State<UserPage> {
   final User user;
   late String name = "";
   late String about = "";
+  late String img="";
   late Timestamp timestamp;
   late bool isLoading=true;
   late bool madeRequest=false;
   late List<Review> reviews=[];
   bool get isUser => widget._isUser;
-
-
-  Future<Users> getUsers() {
-    return getUserInfo(user.email!);
-  }
-
+  var w;
   @override
   void initState() {
     super.initState();
@@ -60,25 +59,29 @@ class _UserPage extends State<UserPage> {
       name = users.name;
       about = users.about;
       timestamp=users.timestamp;
+      img=users.img;
     });
   }
   void setReviews(List<Review> _reviews){
-    reviews=_reviews;
-    isLoading=false;
+    setState(() {
+      reviews=_reviews;
+      isLoading=false;
+    });
+
   }
 
   getBody() {
     if (name == "" || isLoading) {
       return const CircularProgressBar();
     } else {
-      return ListView(children: [...body(isUser, user, name, about,reviews,timestamp)]);
+      return ListView(children: [...body(isUser, user, name, about,reviews,timestamp,img)]);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if(!madeRequest)getUserInfo(user.email!).then((value) => setUserInfo(value));
-    if(!madeRequest)getUserGameReviews(user.email!).then((value) => setReviews(value));
+    if(!madeRequest)getUserInfo(user.email!,widget.fireBaseStore).then((value) => setUserInfo(value));
+    if(!madeRequest)getUserGameReviews(user.email!,widget.fireBaseStore).then((value) => setReviews(value));
     setState(() {
       madeRequest=true;
     });
@@ -94,7 +97,7 @@ class _UserPage extends State<UserPage> {
   }
 }
 
-body(bool isUser, User user, String name, String about,List<Review> reviews,Timestamp timestamp) {
+body(bool isUser, User user, String name, String about,List<Review> reviews,Timestamp timestamp,String img) {
   return [
     if (isUser)
       Row(
@@ -108,7 +111,7 @@ body(bool isUser, User user, String name, String about,List<Review> reviews,Time
       margin: const EdgeInsets.only(left: 15, top: 0),
       child: Row(
         children: [
-          UserImage(size: 90, image: user.photoURL),
+          UserImage(size: 90, image:img),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [UserName(name: name), JoinedAt(timestamp: timestamp)],
@@ -168,7 +171,7 @@ class UserEmail extends StatelessWidget {
 
 class UserImage extends StatelessWidget {
   const UserImage({super.key, required this.image, required this.size});
-  final String? image;
+  final String image;
   final double size;
 
   @override
@@ -178,7 +181,7 @@ class UserImage extends StatelessWidget {
         right: 20,
       ),
       child: Image(
-        image: AssetImage(image ?? 'assets/images/userPlaceholder.png'),
+        image: AssetImage(image=="" ?'assets/images/userPlaceholder.png': image),
         width: size,
         height: size,
         fit: BoxFit.fitWidth,

@@ -38,8 +38,8 @@ Future<void> addUser(String name, String email) async {
   await ref.set(usersData);
 }
 
-Future<Users> getUserInfo(String email) async {
-  final db = FirebaseFirestore.instance;
+Future<Users> getUserInfo(String email, FirebaseFirestore firestore) async {
+  final db = firestore;
   return await db
       .collection("users")
       .where("email", isEqualTo: email)
@@ -95,8 +95,8 @@ Future<Review?> getUserGameReview(String userEmail, int gameId) async {
   return test;
 }
 
-Future<List<Review>> getUserGameReviews(String userEmail) async {
-  final db = FirebaseFirestore.instance;
+Future<List<Review>> getUserGameReviews(String userEmail,FirebaseFirestore firestore) async {
+  final db = firestore;
   List<Review> reviews=[];
 
   await db

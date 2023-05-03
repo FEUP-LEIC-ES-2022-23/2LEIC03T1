@@ -80,7 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     await _signUp();
-    await addUser(_username.controller.text, _email.controller.text);
+    if(_auth.user!= null)await addUser(_username.controller.text, _email.controller.text);
     if (_auth.user != null) _goToHome();
   }
 

@@ -9,7 +9,7 @@ import 'steps/dark_light_mode/theme_change.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
-    ..features = [RegExp('test_driver/features/register.feature')]
+    ..features = [RegExp('test_driver/features/*.*.feature')]
     ..reporters = [
       ProgressReporter(),
       TestRunSummaryReporter(),

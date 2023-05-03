@@ -106,6 +106,7 @@ StepDefinitionGeneric inRegisterPage() {
     'I am in the register page',
     (context) async {
       final goToLogin = find.text('User');
+
       await FlutterDriverUtils.tap(context.world.driver, goToLogin);
       final goToRegister = find.text("Don't have an account? Create one");
       await FlutterDriverUtils.tap(context.world.driver, goToRegister);
