@@ -25,7 +25,7 @@ void addReview(int rating, String reviewText, int gameId) {
 Future<List<Review>> getGameReviews(int gameId) async {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance.currentUser;
-  final authEmail = auth ?? '';
+  final authEmail = auth == null ? '' : auth.email;
   List<Review> reviews = [];
 
   await db

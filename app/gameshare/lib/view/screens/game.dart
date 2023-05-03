@@ -141,23 +141,33 @@ class _GamePage extends State<GamePage> {
               getReviewsWidget(),
             ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: ButtonStyle(
-              // maximumSize: MaterialStateProperty.all<Size>(Size(65, 40)),
-              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
-            ),
-            child: Icon(
-              Icons.arrow_circle_left,
-              size: 40,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
+          const GoBackButton(),
         ],
       ),
       bottomNavigationBar: const NavBar(),
+    );
+  }
+}
+
+class GoBackButton extends StatelessWidget {
+  const GoBackButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
+      ),
+      child: Icon(
+        Icons.arrow_circle_left,
+        size: 40,
+        color: Theme.of(context).primaryColor,
+      ),
     );
   }
 }
