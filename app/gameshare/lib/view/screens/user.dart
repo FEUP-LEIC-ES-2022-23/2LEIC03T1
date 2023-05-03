@@ -19,13 +19,13 @@ import '../components/circular_progress.dart';
 import '../components/nav_bar.dart';
 
 class UserPage extends StatefulWidget {
-   UserPage({
+   const UserPage({
     super.key,
     required this.user,
     required this.isUser,
     this.firestore
   });
-  final User user;
+  final String user;
   final bool isUser;
   final FirebaseFirestore? firestore;
   bool get _isUser => isUser;
@@ -39,7 +39,7 @@ class _UserPage extends State<UserPage> {
   _UserPage({
     required this.user,
   });
-  final User user;
+  final String user;
   late String name = "";
   late String about = "";
   late String img="";
@@ -48,7 +48,6 @@ class _UserPage extends State<UserPage> {
   late bool madeRequest=false;
   late List<Review> reviews=[];
   bool get isUser => widget._isUser;
-  var w;
   @override
   void initState() {
     super.initState();
@@ -80,13 +79,13 @@ class _UserPage extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
-    if(!madeRequest)getUserInfo(user.email!,widget.fireBaseStore).then((value) => setUserInfo(value));
-    if(!madeRequest)getUserGameReviews(user.email!,widget.fireBaseStore).then((value) => setReviews(value));
+    if(!madeRequest)getUserInfo(user,widget.fireBaseStore).then((value) => setUserInfo(value));
+    if(!madeRequest)getUserGameReviews(user,widget.fireBaseStore).then((value) => setReviews(value));
     setState(() {
       madeRequest=true;
     });
     return Scaffold(
-      key: Key(user.email!),
+      key: Key(user),
       appBar: const TopBar(),
       body: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 0),
@@ -97,7 +96,7 @@ class _UserPage extends State<UserPage> {
   }
 }
 
-body(bool isUser, User user, String name, String about,List<Review> reviews,Timestamp timestamp,String img) {
+body(bool isUser, String email, String name, String about,List<Review> reviews,Timestamp timestamp,String img) {
   return [
     if (isUser)
       Row(
@@ -119,7 +118,7 @@ body(bool isUser, User user, String name, String about,List<Review> reviews,Time
         ],
       ),
     ),
-    UserEmail(email: user.email),
+    UserEmail(email: email),
     TextSection(title: "About", text: about),
     if (about == "")
       const RectangleWithText(text: "User don't have an about section yet"),

@@ -24,8 +24,8 @@ void main() {
         "creationTimestamp":FieldValue.serverTimestamp(),
     }
     );
-    await tester.pumpWidget(MaterialApp(home: UserPage(user: user, isUser: true,firestore: fireStore,)));
-    await tester.pumpFrames(MaterialApp(home: UserPage(user: user, isUser: true,firestore: fireStore,)), Duration(seconds: 10));
+    await tester.pumpWidget(MaterialApp(home: UserPage(user: user.email!, isUser: true,firestore: fireStore,)));
+    await tester.pumpFrames(MaterialApp(home: UserPage(user: user.email!, isUser: true,firestore: fireStore,)), Duration(seconds: 10));
 
     expect( find.text('Email: souLindo@gmail.com'), findsOneWidget);
     expect( find.text('Soulindo'), findsOneWidget);
