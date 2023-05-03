@@ -3,17 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../model/review.dart';
 import '../model/user.dart';
 
-void addReview(int rating, String reviewText, int gameId) {
+void addReview(int rating, String reviewText, int gameId,String gameName) {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance.currentUser;
   var ref;
-  var data;
 
   final reviewData = {
     "rating": rating,
     "text": reviewText,
     "gameId": gameId,
     "userEmail": auth!.email,
+    "gameName":gameName,
   };
   ref =
       db.collection("games").doc(gameId.toString()).collection("reviews").doc();

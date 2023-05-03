@@ -128,7 +128,6 @@ class MyReviews extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 10),
-      //padding: const EdgeInsets.only(left: 10, right: 10),
       child: Column(
         children: [
           const Padding(
@@ -139,7 +138,7 @@ class MyReviews extends StatelessWidget {
           if (reviews.isEmpty)
             const RectangleWithText(text: "No reviews have been written yet"),
           for(Review rev in reviews)
-            ReviewCard(name: rev.userEmail, review: rev.reviewText, rating: rev.rating),
+            ReviewCard(review: rev,isUser: true,),
         ],
       ),
     );

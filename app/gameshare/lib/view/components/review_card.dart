@@ -1,55 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import '../../model/review.dart';
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
     Key? key,
-    required this.name,
     required this.review,
-    required this.rating,
+    this.isUser,
   }) : super(key: key);
 
-  final String name;
-  final String review;
-  final int rating;
+  final bool? isUser;
+  final Review review;
+
+  getHeader(){
+    if(isUser??false) {
+      return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text(review.gameName,style:  const TextStyle(
+        fontWeight: FontWeight.w900,
+        fontSize: 17,
+      ),),
+    );
+    } else {
+      return ReviewUser(
+      name: review.userEmail,
+    );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(width: 0.5),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Theme.of(context).shadowColor,
-            offset: const Offset(3, 3),
-            blurRadius: 4,
-            spreadRadius: 3,
-          )
-        ],
-        color: Theme.of(context).colorScheme.background,
-      ),
-      child: Column(
-        children: [
-          ReviewUser(
-            name: name,
-          ),
-          Divider(
-            color: Theme.of(context).dividerColor,
-            thickness: 1,
-          ),
-          ReviewRating(
-            rating: rating,
-          ),
-          const SizedBox(height: 10),
-          ReviewText(
-            review: review,
-          ),
-          const SizedBox(height: 10),
-        ],
-      ),
-    );
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.5),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Theme.of(context).shadowColor,
+              offset: const Offset(3, 3),
+              blurRadius: 4,
+              spreadRadius: 3,
+            )
+          ],
+          color: Theme.of(context).colorScheme.background,
+        ),
+        child: Column(
+          children: [
+            getHeader(),
+            Divider(
+              color: Theme.of(context).dividerColor,
+              thickness: 1,
+            ),
+            ReviewRating(
+              rating: review.rating,
+            ),
+            const SizedBox(height: 10),
+            ReviewText(
+              review: review.reviewText,
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      );
   }
 }
 
@@ -72,21 +86,16 @@ class ReviewUser extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(margin: const EdgeInsets.all(5), child: image),
+        Container(padding: const EdgeInsets.all(10), child: image),
         const SizedBox(width: 10),
-        RichText(
-            text: TextSpan(
-          text: name,
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
-              // TODO: Navigate to user profile
-              print('User profile');
-            },
-          style: const TextStyle(
-            color: Colors.blue,
-            fontSize: 20,
-          ),
-        )),
+        InkWell(
+            child: Text(
+              name,
+              overflow: TextOverflow.ellipsis,
+            
+              style: GoogleFonts.montserratAlternates(
+                  fontWeight: FontWeight.bold, fontSize: 17),
+            )),
       ],
     );
   }
