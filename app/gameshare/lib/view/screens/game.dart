@@ -1,8 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gameshare/services/database_actions.dart';
 import 'package:gameshare/view/components/reviewForm/review_form.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
@@ -36,10 +33,31 @@ class _GamePage extends State<GamePage> {
   });
 
   final Game game;
+  bool loadingReviews = true;
+  bool didntFetchData = true;
+  List<Review> otherReviews = [];
+
+  setOtherReviews(List<Review> reviews) {
+    setState(() {
+      otherReviews = reviews;
+      loadingReviews = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+  }
+
+  Widget getReviewsWidget() {
+    if (loadingReviews) {
+      return const CircularProgressBar();
+    }
+    else {
+      return Column(
+        children: createReviewCards(otherReviews),
+      );
+    }
   }
 
   List<Widget> createReviewCards(List<Review> reviews) {
@@ -58,6 +76,10 @@ class _GamePage extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (didntFetchData) {
+      didntFetchData = false;
+      getGameReviews(game.gameId).then((reviews) => {setOtherReviews(reviews)});
+    }
     Future<String> description = getGameDescription(game.gameId);
 
     return Scaffold(
@@ -115,18 +137,8 @@ class _GamePage extends State<GamePage> {
                   },
                 ),
               const addVerticalSpace(size: 10),
-              FutureBuilder(
-                future: getGameReviews(game.gameId),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: createReviewCards(snapshot.data!),
-                    );
-                  } else {
-                    return const CircularProgressBar();
-                  }
-                },
-              )
+
+              getReviewsWidget(),
             ],
           ),
           TextButton(
