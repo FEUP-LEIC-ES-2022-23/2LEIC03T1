@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../model/review.dart';
+
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
     Key? key,
@@ -13,39 +14,34 @@ class ReviewCard extends StatelessWidget {
   final bool? isUser;
   final Review review;
 
-  getHeader(){
-    if(isUser??false) {
-      return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Text(review.gameName,style:  const TextStyle(
-        fontWeight: FontWeight.w900,
-        fontSize: 17,
-      ),),
-    );
+  getHeader() {
+    if (isUser ?? false) {
+      return GameName(review: review);
     } else {
       return ReviewUser(
-      name: review.userEmail,
-    );
+        name: review.userEmail,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.5),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              offset: const Offset(3, 3),
-              blurRadius: 4,
-              spreadRadius: 3,
-            )
-          ],
-          color: Theme.of(context).colorScheme.background,
-        ),
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.5),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: Theme.of(context).shadowColor,
+            offset: const Offset(3, 3),
+            blurRadius: 4,
+            spreadRadius: 3,
+          )
+        ],
+        color: Theme.of(context).colorScheme.background,
+      ),
+      child: Flexible(
         child: Column(
           children: [
             getHeader(),
@@ -63,7 +59,33 @@ class ReviewCard extends StatelessWidget {
             const SizedBox(height: 10),
           ],
         ),
-      );
+      ),
+    );
+  }
+}
+
+class GameName extends StatelessWidget {
+  const GameName({
+    super.key,
+    required this.review,
+  });
+
+  final Review review;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text(
+        review.gameName,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+        style: const TextStyle(
+          fontWeight: FontWeight.w900,
+          fontSize: 17,
+        ),
+      ),
+    );
   }
 }
 
@@ -88,14 +110,16 @@ class ReviewUser extends StatelessWidget {
       children: [
         Container(padding: const EdgeInsets.all(10), child: image),
         const SizedBox(width: 10),
-        InkWell(
-            child: Text(
-              name,
-              overflow: TextOverflow.ellipsis,
-            
-              style: GoogleFonts.montserratAlternates(
-                  fontWeight: FontWeight.bold, fontSize: 17),
-            )),
+        Flexible(
+          child: InkWell(
+              child: Text(
+            name,
+            overflow: TextOverflow.ellipsis,
+            softWrap: false,
+            style: GoogleFonts.montserratAlternates(
+                fontWeight: FontWeight.bold, fontSize: 15),
+          )),
+        ),
       ],
     );
   }
