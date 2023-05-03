@@ -53,6 +53,15 @@ class _GamePage extends State<GamePage> {
     });
   }
 
+  refreshPage() {
+    print("lalau");
+    loadingMyReview = true;
+    getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId)
+        .then((review) => {setMyReview(review)});
+    setState(() {});
+    print("lalau2");
+  }
+
   @override
   void initState() {
     super.initState();
@@ -73,7 +82,7 @@ class _GamePage extends State<GamePage> {
       return const CircularProgressBar();
     } else {
       if (myReview == null) {
-        return ReviewForm(game: game);
+        return ReviewForm(game: game, notifyParent: refreshPage);
       } else {
         return Column(
           children: [
@@ -111,7 +120,7 @@ class _GamePage extends State<GamePage> {
 
       if (FirebaseAuth.instance.currentUser != null) {
         getUserGameReview(
-          FirebaseAuth.instance.currentUser!.email!, game.gameId)
+                FirebaseAuth.instance.currentUser!.email!, game.gameId)
             .then((review) => {setMyReview(review)});
       }
     }
