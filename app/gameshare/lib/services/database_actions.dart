@@ -55,7 +55,7 @@ Future<Users> getUserInfo(String email, FirebaseFirestore firestore) async {
 Future<List<Review>> getGameReviews(int gameId) async {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance.currentUser;
-  final authEmail = auth ?? '';
+  final authEmail = auth == null ? '' : auth.email;
   List<Review> reviews = [];
 
   await db

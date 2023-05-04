@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 
 
 class ReviewCard extends StatelessWidget {
-  const ReviewCard({
+  const ReviewCard( {
     Key? key,
     required this.review,
     this.isUser,
