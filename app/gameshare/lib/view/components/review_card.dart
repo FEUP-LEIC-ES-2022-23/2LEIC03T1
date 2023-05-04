@@ -252,6 +252,8 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
   toggleDislike() {
 
+    print("s");
+
     if (auth == null) {
       return;
     }
@@ -276,6 +278,10 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
   @override
   Widget build(BuildContext context) {
 
+    if (auth == null) {
+      return SizedBox(width: 0, height: 0);
+    }
+
     widget.likesAndDislikes = widget.review.likesAndDislikes;
 
     for(int i = 0; i < widget.likesAndDislikes.length; i++){
@@ -288,17 +294,19 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
     }
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButton(
             onPressed: toggleLike(),
+            iconSize: 25,
             icon: Icon(
               Icons.thumb_up_alt_outlined,
               color: chooseColor(likes),
             )
         ),
 
-        SizedBox(width: 5),
+        SizedBox(width: 2),
 
         Text(likes.length.toString()),
 
@@ -306,16 +314,22 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
         IconButton(
             onPressed: toggleDislike(),
+            iconSize: 25,
             icon: Icon(
               Icons.thumb_down_alt_outlined,
               color: chooseColor(dislikes),
             )
         ),
 
-        SizedBox(width: 5),
+        SizedBox(width: 2),
 
         Text(dislikes.length.toString()),
+
+        SizedBox(width: 15),
+
       ],
+
+
 
     );
   }
