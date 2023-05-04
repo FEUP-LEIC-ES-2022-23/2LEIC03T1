@@ -111,7 +111,6 @@ class _GamePage extends State<GamePage> {
                   myReview!.likesAndDislikes
               ),
               notifyParent: refreshPage,
-
             ),
           ],
         );

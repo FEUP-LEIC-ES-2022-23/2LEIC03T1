@@ -316,6 +316,22 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
   List<String?> likes = [];
   List<String?> dislikes = [];
 
+  @override
+  void initState() {
+    super.initState();
+
+    widget.likesAndDislikes = widget.review.likesAndDislikes;
+
+    for(int i = 0; i < widget.likesAndDislikes.length; i++){
+      if (widget.likesAndDislikes[i].likeOrDislike == 1){ // 1 is like
+        likes.add(widget.likesAndDislikes[i].userEmail);
+      }
+      else if (widget.likesAndDislikes[i].likeOrDislike == 2){ // 2 is dislike
+        dislikes.add(widget.likesAndDislikes[i].userEmail);
+      }
+    }
+  }
+
   final auth = FirebaseAuth.instance.currentUser;
 
 
@@ -360,6 +376,7 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
       widget.likesAndDislikes.remove(LoD(email!,2));
       widget.review.likesAndDislikes = widget.likesAndDislikes;
       removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
+
     }
     else{
       if(likes.contains(email)){
@@ -383,23 +400,12 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
       return SizedBox(width: 0, height: 0);
     }
 
-    widget.likesAndDislikes = widget.review.likesAndDislikes;
-
-    for(int i = 0; i < widget.likesAndDislikes.length; i++){
-      if (widget.likesAndDislikes[i].likeOrDislike == 1){ // 1 is like
-        likes.add(widget.likesAndDislikes[i].userEmail);
-      }
-      else if (widget.likesAndDislikes[i].likeOrDislike == 2){ // 2 is dislike
-        dislikes.add(widget.likesAndDislikes[i].userEmail);
-      }
-    }
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButton(
-            onPressed: (){toggleLike();},
+            onPressed: (){toggleLike(); },
             iconSize: 25,
             icon: Icon(
               Icons.thumb_up_alt_outlined,
