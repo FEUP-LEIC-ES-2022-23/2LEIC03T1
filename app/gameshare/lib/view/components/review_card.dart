@@ -13,16 +13,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/database_actions.dart';
 
-
 class ReviewCard extends StatelessWidget {
-  const ReviewCard( {
+  ReviewCard({
     Key? key,
     required this.review,
     this.isUser,
+    this.notifyParent,
   }) : super(key: key);
 
   final bool? isUser;
   final Review review;
+  Function()? notifyParent;
 
   getHeader() {
     if (isUser ?? false) {
@@ -31,6 +32,7 @@ class ReviewCard extends StatelessWidget {
       return ReviewUser(
         name: review.userEmail,
         gameId: review.gameId,
+        notifyParent: notifyParent,
       );
     }
   }
@@ -42,7 +44,7 @@ class ReviewCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       decoration: BoxDecoration(
         border: Border.all(
-          width: 0.5, 
+          width: 0.5,
           color: Theme.of(context).dividerColor,
         ),
         boxShadow: <BoxShadow>[
@@ -55,23 +57,23 @@ class ReviewCard extends StatelessWidget {
         ],
         color: Theme.of(context).colorScheme.background,
       ),
-        child: Column(
-          children: [
-            getHeader(),
-            Divider(
-              color: Theme.of(context).dividerColor,
-              thickness: 1,
-            ),
-            ReviewRating(
-              rating: review.rating,
-            ),
-            const SizedBox(height: 10),
-            ReviewText(
-              review: review.reviewText,
-            ),
-            const SizedBox(height: 10),
-          ],
-        ),
+      child: Column(
+        children: [
+          getHeader(),
+          Divider(
+            color: Theme.of(context).dividerColor,
+            thickness: 1,
+          ),
+          ReviewRating(
+            rating: review.rating,
+          ),
+          const SizedBox(height: 10),
+          ReviewText(
+            review: review.reviewText,
+          ),
+          const SizedBox(height: 10),
+        ],
+      ),
     );
   }
 }
@@ -108,9 +110,7 @@ class GameName extends StatelessWidget {
             fontWeight: FontWeight.w900,
             fontSize: 17,
           ),
-
         ),
-
       ),
     );
   }
@@ -121,10 +121,12 @@ class ReviewUser extends StatelessWidget {
     Key? key,
     required this.name,
     required this.gameId,
+    this.notifyParent,
   }) : super(key: key);
 
   final String name;
   final int gameId;
+  Function()? notifyParent;
   var currUser = FirebaseAuth.instance.currentUser;
   final Image image = const Image(
     image: AssetImage('assets/images/default_avatar.png'),
@@ -138,31 +140,30 @@ class ReviewUser extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-
         Container(child: image),
         Flexible(
           flex: 1,
           child: InkWell(
-            onTap: () {
-              bool cond = false;
-              if (Auth().user != null) {
-                cond = (Auth().user!.email) == name;
-              }
-              Navigator.pushReplacement(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ____) =>
-                      UserPage(user: name, isUser: cond),
-                  transitionDuration: const Duration(seconds: 0),
-                ),
-              );
-            },
-            child: Text(
-              name,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.montserratAlternates(
-                  fontWeight: FontWeight.bold, fontSize: 15),
-            )),
+              onTap: () {
+                bool cond = false;
+                if (Auth().user != null) {
+                  cond = (Auth().user!.email) == name;
+                }
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) =>
+                        UserPage(user: name, isUser: cond),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                );
+              },
+              child: Text(
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.montserratAlternates(
+                    fontWeight: FontWeight.bold, fontSize: 15),
+              )),
         ),
         if (currUser != null && currUser!.email == name)
           Expanded(
@@ -170,13 +171,12 @@ class ReviewUser extends StatelessWidget {
               child: Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                      onPressed: () { 
-                        deleteReview(
-                          FirebaseAuth.instance.currentUser!.email!,
-                          gameId,
-                          FirebaseFirestore.instance
-                        );
-                        
+                      onPressed: () async {
+                        await deleteReview(
+                            FirebaseAuth.instance.currentUser!.email!,
+                            gameId,
+                            FirebaseFirestore.instance);
+                        notifyParent!();
                       },
                       icon: const Icon(Icons.delete, size: 30)))),
         const addHorizontalSpace(size: 10)
@@ -254,13 +254,11 @@ class _ReviewTextState extends State<ReviewText> {
       Container(
         alignment: Alignment.topLeft,
         margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-        child: Text(
-          mainText,
-          style: const TextStyle(
-            fontSize: 16,
-            decoration: TextDecoration.none,
-          )
-        ),
+        child: Text(mainText,
+            style: const TextStyle(
+              fontSize: 16,
+              decoration: TextDecoration.none,
+            )),
       ),
       if (longText)
         ElevatedButton(
