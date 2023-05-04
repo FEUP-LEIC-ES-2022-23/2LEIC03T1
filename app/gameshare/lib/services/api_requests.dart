@@ -59,6 +59,13 @@ Future<String> getGameDescription(int? id) async {
     return res;
   }
 }
+Future<Game> getGame(int id) async{
+  String url =
+      '${dotenv.env['API_URL_BASE']}/games/$id?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+  final res = await http.get(Uri.parse(url));
+  var results = jsonDecode(res.body);
+  return Game.fromJsonWithouIdx(results);
+}
 
 String buildGameUrl(
     int? page, int? pageSize, String? searchQuery, List<String>? genres) {

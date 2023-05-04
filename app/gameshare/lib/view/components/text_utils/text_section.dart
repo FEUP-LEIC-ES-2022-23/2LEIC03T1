@@ -92,12 +92,12 @@ class _TextSection extends State<TextSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
       child: Column(
         children: [
           SectionTitle(title: title),
-          const SizedBox(
-            height: 15,
+          if(text.isNotEmpty)const SizedBox(
+            height: 25,
           ),
           ...getText(),
         ],

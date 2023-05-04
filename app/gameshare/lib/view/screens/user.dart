@@ -102,6 +102,9 @@ class _UserPage extends State<UserPage> {
 
 
 body(bool isUser, String email, String name, String about,List<Review> reviews,Timestamp timestamp,String img) {
+  double marginTop=0;
+  if(isUser)marginTop=0;
+  else marginTop=15;
   return [
     if (isUser)
       Row(
@@ -111,8 +114,9 @@ body(bool isUser, String email, String name, String about,List<Review> reviews,T
           Logout(),
         ],
       ),
+
     Container(
-      margin: const EdgeInsets.only(left: 15, top: 0),
+      margin:  EdgeInsets.only(left: 15, top: marginTop),
       child: Row(
         children: [
           UserImage(size: 90, image:img),
