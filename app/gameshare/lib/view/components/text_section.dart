@@ -83,7 +83,7 @@ class _TextSection extends State<TextSection> {
       child: Column(
         children: [
           SectionTitle(title: title),
-          if(text!="")const addVerticalSpace(size: 25),
+          if(text.isNotEmpty)const addVerticalSpace(size: 25),
           ...getText(),
         ],
       ),

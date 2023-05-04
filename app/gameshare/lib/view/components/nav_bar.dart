@@ -104,11 +104,11 @@ class _NavBarState extends State<NavBar> {
   }
 
   getPageToRedirect() {
-    User? user = Auth().user;
+
     if (Auth().user == null) {
       return LoginPage();
     } else {
-      return UserPage(user: user!.email!, isUser: true);
+      return UserPage(user: Auth().user!.email!, isUser: true);
     }
   }
 }

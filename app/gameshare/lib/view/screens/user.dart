@@ -219,7 +219,7 @@ class JoinedAt extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Text(
-        "Join at: $_date",
+        "Joined at: $_date",
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
       ),
     );
@@ -235,8 +235,7 @@ class Logout extends StatelessWidget {
       width: 45,
       child: TextButton(
           onPressed: () {
-            Auth auth = Auth();
-            auth.signOut();
+            Auth().signOut();
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
