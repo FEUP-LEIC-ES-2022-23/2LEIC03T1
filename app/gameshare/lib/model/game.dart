@@ -23,6 +23,19 @@ class Game {
   double get rating => _rating;
   String get description => _description;
 
+  factory Game.fromJsonWithouIdx(Map<String, dynamic> result) {
+    return Game(
+      result['id'],
+      result['background_image'] ??
+          'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg',
+      [
+        if (result['platforms'] != null)
+          for (var el in result['platforms']) el['platform']['slug']
+      ],
+      result['name'],
+    );
+  }
+
   factory Game.fromJson(List<dynamic> json, int idx) {
     Map<String, dynamic> result = json[idx];
 

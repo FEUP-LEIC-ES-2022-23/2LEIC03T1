@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:gameshare/services/api_requests.dart';
+import 'package:gameshare/view/screens/game.dart';
+import 'package:gameshare/view/screens/user.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../model/review.dart';
+import '../../services/auth.dart';
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
@@ -76,13 +80,26 @@ class GameName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Text(
-        review.gameName,
-        overflow: TextOverflow.ellipsis,
-        softWrap: false,
-        style: const TextStyle(
-          fontWeight: FontWeight.w900,
-          fontSize: 17,
+      child: InkWell(
+        onTap: () {
+          getGame(review.gameId).then((value) => {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) => GamePage(game: value),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                )
+              });
+        },
+        child: Text(
+          review.gameName,
+          overflow: TextOverflow.ellipsis,
+          softWrap: false,
+          style: const TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 17,
+          ),
         ),
       ),
     );
@@ -112,12 +129,26 @@ class ReviewUser extends StatelessWidget {
         const SizedBox(width: 10),
         Flexible(
           child: InkWell(
+              onTap: () {
+                bool cond = false;
+                if (Auth().user != null) {
+                  cond = (Auth().user!.email) == name;
+                }
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) =>
+                        UserPage(user: name, isUser: cond),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                );
+              },
               child: Text(
-            name,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.montserratAlternates(
-                fontWeight: FontWeight.bold, fontSize: 15),
-          )),
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.montserratAlternates(
+                    fontWeight: FontWeight.bold, fontSize: 15),
+              )),
         ),
       ],
     );
