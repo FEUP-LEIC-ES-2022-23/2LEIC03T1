@@ -1,7 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/review_card.dart';
 
@@ -17,7 +15,6 @@ import '../../services/database_actions.dart';
 import '../components/bars/nav_bar.dart';
 import '../components/bars/top_bar.dart';
 import '../components/circular_progress.dart';
-
 import '../components/text_utils/section_title.dart';
 import '../components/text_utils/text_section.dart';
 

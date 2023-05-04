@@ -5,7 +5,6 @@ import 'package:gameshare/view/components/reviewForm/review_form.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 import 'package:gameshare/view/components/utils/left_centered_title.dart';
 
-
 import '../../model/game.dart';
 import '../../model/review.dart';
 import '../../services/api_requests.dart';
@@ -18,7 +17,7 @@ import '../components/game_page/image_with_text.dart';
 import '../components/review_card.dart';
 import '../components/text_utils/text_section.dart';
 
-class GamePage extends StatefulWidget{
+class GamePage extends StatefulWidget {
   GamePage({
     super.key,
     required this.game,
@@ -34,7 +33,6 @@ class GamePage extends StatefulWidget{
 class _GamePage extends State<GamePage> {
   _GamePage({
     required this.game,
-
   });
 
   final Game game;
@@ -48,103 +46,95 @@ class _GamePage extends State<GamePage> {
     });
   }
 
+  bool loadingOtherReviews = true;
+  bool loadingMyReview = true;
+  bool didntFetchData = true;
+  List<Review> otherReviews = [];
+  Review? myReview;
 
-    bool loadingOtherReviews = true;
-    bool loadingMyReview = true;
-    bool didntFetchData = true;
-    List<Review> otherReviews = [];
-    Review? myReview;
+  setOtherReviews(List<Review> reviews) {
+    setState(() {
+      otherReviews = reviews;
+      loadingOtherReviews = false;
+    });
+  }
 
-    setOtherReviews(List<Review> reviews) {
-      setState(() {
-        otherReviews = reviews;
-        loadingOtherReviews = false;
-      });
+  setMyReview(Review? review) {
+    setState(() {
+      myReview = review;
+      loadingMyReview = false;
+    });
+  }
+
+  refreshPage() {
+    loadingMyReview = true;
+    getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId)
+        .then((review) => {setMyReview(review)});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Widget getReviewsWidget() {
+    if (loadingOtherReviews) {
+      return const CircularProgressBar();
+    } else {
+      return Column(
+        children: createReviewCards(otherReviews),
+      );
     }
+  }
 
-    setMyReview(Review? review) {
-      setState(() {
-        myReview = review;
-        loadingMyReview = false;
-      });
-    }
-
-    refreshPage() {
-      loadingMyReview = true;
-      getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId)
-          .then((review) => {setMyReview(review)});
-      setState(() {});
-    }
-
-    @override
-    void initState() {
-      super.initState();
-    }
-
-
-    Widget getReviewsWidget() {
-      if (loadingOtherReviews) {
-        return const CircularProgressBar();
+  Widget getMyReviewWidget() {
+    if (loadingMyReview) {
+      return const CircularProgressBar();
+    } else {
+      if (myReview == null) {
+        return ReviewForm(game: game, notifyParent: refreshPage);
       } else {
         return Column(
-          children: createReviewCards(otherReviews),
+          children: [
+            const addVerticalSpace(size: 10),
+            ReviewCard(
+              review: Review(
+                  myReview!.reviewText,
+                  myReview!.rating,
+                  game.gameId,
+                  FirebaseAuth.instance.currentUser!.email!,
+                  game.name),
+              notifyParent: refreshPage,
+            ),
+          ],
         );
       }
     }
+  }
 
-    Widget getMyReviewWidget() {
-      if (loadingMyReview) {
-        return const CircularProgressBar();
-      } else {
-        if (myReview == null) {
-          return ReviewForm(game: game, notifyParent: refreshPage);
-        } else {
-          return Column(
-            children: [
-              const addVerticalSpace(size: 10),
-              ReviewCard(
-                review: Review(myReview!.reviewText, myReview!.rating,game.gameId,FirebaseAuth.instance.currentUser!.email!,game.name)
-              
-              ),
-            ],
-          );
-        }
-      }
+  List<Widget> createReviewCards(List<Review> reviews) {
+    List<Widget> reviewCards = [];
+
+    for (Review review in reviews) {
+      reviewCards.add(ReviewCard(
+        review: review,
+      ));
     }
 
-
-    List<Widget> createReviewCards(List<Review> reviews) {
-      List<Widget> reviewCards = [];
-
-      for (Review review in reviews) {
-        reviewCards.add(ReviewCard(
-          review: review,
-        ));
-      }
-
-      return reviewCards;
-    }
-
-
-  
+    return reviewCards;
+  }
 
   @override
   Widget build(BuildContext context) {
-    getGameDescription(game.gameId).then((value) =>
-    {
-      setDescription(value)
-    });
-
     if (didntFetchData) {
       didntFetchData = false;
-      getGameReviews(game.gameId).then((reviews) =>
-      {
-        setOtherReviews(reviews)
-      });
+      getGameDescription(game.gameId).then((value) => {setDescription(value)});
+
+      getGameReviews(game.gameId).then((reviews) => {setOtherReviews(reviews)});
 
       if (FirebaseAuth.instance.currentUser != null) {
         getUserGameReview(
-            FirebaseAuth.instance.currentUser!.email!, game.gameId)
+                FirebaseAuth.instance.currentUser!.email!, game.gameId)
             .then((review) => {setMyReview(review)});
       }
     }
@@ -162,7 +152,8 @@ class _GamePage extends State<GamePage> {
                 title: game.name,
               ),
               plataformRating(game: game),
-              if(loading) const CircularProgressBar()
+              if (loading)
+                const CircularProgressBar()
               else
                 TextSection(title: "About", text: description),
               const addVerticalSpace(size: 30),
@@ -172,14 +163,12 @@ class _GamePage extends State<GamePage> {
               ),
               const addVerticalSpace(size: 10),
               if (FirebaseAuth.instance.currentUser != null)
-
                 getMyReviewWidget(),
               const addVerticalSpace(size: 10),
               getReviewsWidget(),
             ],
           ),
           const GoBackButton(),
-
         ],
       ),
       bottomNavigationBar: const NavBar(),
