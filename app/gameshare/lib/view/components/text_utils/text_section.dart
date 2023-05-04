@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gameshare/view/components/section_title.dart';
-import 'package:gameshare/view/components/utils/add_vertical_space.dart';
+import 'package:gameshare/services/providers/scroll_provider.dart';
+import 'package:gameshare/view/components/text_utils/section_title.dart';
 
-import '../../services/utils.dart';
+import '../../../services/utils.dart';
 
 class TextSection extends StatefulWidget {
   const TextSection({
@@ -11,6 +10,7 @@ class TextSection extends StatefulWidget {
     required this.title,
     required this.text,
   });
+
   final String title;
   final String text;
 
@@ -23,6 +23,7 @@ class _TextSection extends State<TextSection> {
     required this.title,
     required this.text,
   });
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +33,7 @@ class _TextSection extends State<TextSection> {
   final String text;
   late bool showMore = false;
   late bool showButton = true;
+
   List<Widget> getText() {
     String mainText;
     String buttonText;
@@ -49,12 +51,23 @@ class _TextSection extends State<TextSection> {
       buttonText = "Show More";
     }
     return [
-      Text(Html(mainText), style: const TextStyle(fontSize: 20)),
-      //const addVerticalSpace(size: 20),
+      Container(
+        alignment: Alignment.center,
+        key: const Key("mainText"),
+        child: Text(
+            Html(mainText),
+            style: const TextStyle(fontSize: 20)
+        ),
+      ),
+      const SizedBox(
+        height: 20,
+      ),
       if (showButton)
         ElevatedButton(
+          key:const Key("showButton"),
           onPressed: () {
             setState(() {
+              if(showMore) ScrollProvider().goTo(150);
               showMore = !showMore;
             });
           },
@@ -62,8 +75,8 @@ class _TextSection extends State<TextSection> {
             alignment: Alignment.center,
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            )),
+                  borderRadius: BorderRadius.circular(30.0),
+                )),
             padding: MaterialStateProperty.all<EdgeInsets>(
                 const EdgeInsets.only(left: 40, right: 40, top: 5, bottom: 5)),
           ),
@@ -83,7 +96,9 @@ class _TextSection extends State<TextSection> {
       child: Column(
         children: [
           SectionTitle(title: title),
-          if(text.isNotEmpty)const addVerticalSpace(size: 25),
+          const SizedBox(
+            height: 15,
+          ),
           ...getText(),
         ],
       ),

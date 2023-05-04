@@ -6,7 +6,8 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gameshare/view/components/circular_progress.dart';
-import 'package:gameshare/view/components/text_section.dart';
+
+import 'package:gameshare/view/components/text_utils/text_section.dart';
 import 'package:gameshare/view/screens/login.dart';
 import 'package:gameshare/view/screens/user.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';

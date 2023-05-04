@@ -14,8 +14,11 @@ class Review {
   );
 
   int get gameId => _gameId;
+
   String get reviewText => _reviewText;
+
   int get rating => _rating;
+
   String get userEmail => _userEmail;
   String get gameName => _gameName??"";
 

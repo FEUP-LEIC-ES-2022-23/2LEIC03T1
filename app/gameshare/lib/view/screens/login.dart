@@ -1,13 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/view/screens/register.dart';
-import 'package:gameshare/view/screens/home.dart';
+import 'package:gameshare/view/screens/forgot_password.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import 'package:gameshare/view/screens/user.dart';
-import '../components/nav_bar.dart';
-import '../components/top_bar.dart';
+
+
+import '../components/bars/nav_bar.dart';
+import '../components/bars/top_bar.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Auth? auth, Key? key})
@@ -15,6 +16,7 @@ class LoginPage extends StatefulWidget {
         super(key: key);
 
   final Auth? auth;
+
   Auth get authInstance => auth!;
 
   @override
@@ -23,14 +25,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String? _error;
-
   Auth get _auth => widget.authInstance;
+  late List<Widget> _widgets;
+  late UserDataForm _userDataForm;
 
   final Entry user = Entry(
-        'email_field_login',
-        'Email/Username',
-        TextEditingController(),
-      ),
+    'email_field_login',
+    'Email/Username',
+    TextEditingController(),
+  ),
       password = Entry(
         'password_field_login',
         'Password',
@@ -38,87 +41,62 @@ class _LoginPageState extends State<LoginPage> {
         hide: true,
       );
 
-  final List<Entry> _entries = <Entry>[];
-
   @override
   void initState() {
     super.initState();
-    _entries.add(user);
-    _entries.add(password);
-  }
-
-  Future<void> _signIn() async {
-    bool result = await _auth.signInEmailPassword(
-      user.controller.text,
-      password.controller.text,
-    );
-    if (!result) {
-      setState(() => _error = 'Invalid email or password');
-    } else {
-      setState(() => _error = null);
-    }
-  }
-
-  Future<void> signIn() async {
-    await _signIn();
-    if (_auth.user != null) _goToUser();
-  }
-
-  void _goToRegister() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => RegisterPage(),
-        transitionDuration: const Duration(seconds: 0),
+    _widgets = <Widget>[
+      EntryFieldList(<Entry>[user, password]),
+      TapLabel(
+        'Forgot Password?',
+            () => goTo(context, ForgotPasswordPage()),
+        size: 15,
+        left: false,
       ),
-    );
-  }
-
-  void _goToUser() {
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) =>  UserPage(user: _auth.user!.email!,isUser: true,),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
-  }
-
-  Widget _forgotPasswordLabel() {
-    return InkWell(
-      onTap: () {
-        // TODO: Forgot Password
-      },
-      child: const MyLabel('Forgot Password?', left: false, size: 15),
-    );
-  }
-
-  Widget _createAccountLabel() {
-    return InkWell(
-      onTap: _goToRegister,
-      child: const MyLabel("Don't have an account? Create one", size: 15),
-    );
-  }
-
-  Widget _rememberMeBox() {
-    return Row(
-      children: <Widget>[
+      const WhiteSpace(height: 20),
+      DisplayError(_error),
+      const WhiteSpace(height: 10),
+      SubmitButton('Login', signIn),
+      const WhiteSpace(),
+      Row(children: const <Widget>[
         MyText(
           'Remember me',
           size: 15,
           weight: FontWeight.w800,
-          color: Theme.of(context).primaryColor,
+          //color: Theme.of(context).primaryColor,
         ),
-        const MyCheckBox(),
-      ],
-    );
+        MyCheckBox(),
+      ]),
+      TapLabel(
+        "Don't have an account? Create one",
+            () => goTo(context, RegisterPage()),
+        size: 15,
+      ),
+    ];
+    _userDataForm = UserDataForm(_widgets);
   }
 
-  Widget _loginButton() {
-    return InkWell(
-      onTap: () => signIn(),
-      child: SubmitButton('Login', context),
+  void updateError(String res) {
+    _error = res;
+
+    for (int i = 0; i < _widgets.length; i++) {
+      if (_widgets[i] is DisplayError) {
+        _widgets[i] = DisplayError(_error);
+        _userDataForm = UserDataForm(_widgets);
+        break;
+      }
+    }
+  }
+
+  Future<void> signIn() async {
+    String res = await _auth.signInEmailPassword(
+      user.controller.text,
+      password.controller.text,
     );
+    if (res == _auth.success) {
+      goTo(context, UserPage(user:user.controller.text, isUser: true,));
+    } else {
+      setState(() => updateError(res));
+    }
   }
 
   @override
@@ -126,29 +104,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       key: const Key('Login'),
       appBar: const TopBar(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-        ),
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                _forgotPasswordLabel(),
-                DisplayError(_error),
-                _loginButton(),
-                const WhiteSpace(),
-                _rememberMeBox(),
-                _createAccountLabel(),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: _userDataForm,
       bottomNavigationBar: const NavBar(),
     );
   }

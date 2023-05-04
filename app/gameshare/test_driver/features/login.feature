@@ -13,4 +13,4 @@ Feature: Login
     And I fill in "email_field_login" with "bad@email.com"
     And I fill in "password_field_login" with "badbunny"
     When I tap the "Login" button
-    Then I should see "Invalid email or password"
+    Then I should see "User not found"

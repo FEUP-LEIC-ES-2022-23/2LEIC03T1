@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/view/screens/search.dart';
 import 'package:gameshare/view/screens/user.dart';
-import '../../services/auth.dart';
-import '../screens/home.dart';
-import '../screens/login.dart';
+import '../../../services/auth.dart';
+import '../../screens/home.dart';
+import '../../screens/login.dart';
+
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);

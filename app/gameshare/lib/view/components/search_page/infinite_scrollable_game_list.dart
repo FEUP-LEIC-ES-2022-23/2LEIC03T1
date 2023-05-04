@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../model/game.dart';
-import '../../services/api_requests.dart';
-import 'circular_progress.dart';
-import 'game_card.dart';
 import 'package:http/io_client.dart';
+
+import '../../../model/game.dart';
+import '../../../services/api_requests.dart';
+import '../circular_progress.dart';
+import '../game_card.dart';
 
 class InfiniteScrollableGameList extends StatefulWidget {
   final bool scrollHorizontally;
