@@ -258,8 +258,6 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
   toggleDislike() {
 
-    print("s");
-
     if (auth == null) {
       return;
     }

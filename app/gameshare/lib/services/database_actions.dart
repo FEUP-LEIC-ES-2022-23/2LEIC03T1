@@ -24,41 +24,61 @@ void addReview(int rating, String reviewText, int gameId) {
   ref.set(reviewData);
 }
 
-void addLikeOrDislike(int gameId, String userEmail, int likeOrDislike) {
-  final db = FirebaseFirestore.instance;
-  final auth = FirebaseAuth.instance.currentUser;
-  var ref;
-
-  final likeData = {
-    "userEmail": auth!.email,
-    "likeOrDislike": likeOrDislike,
-  };
-
-  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc("userEmail").collection("likesAndDislikes").doc() ?? '';
-  if (ref == '') {
-    return;
+void addLikeOrDislike(int gameId, String userEmail, int likeOrDislike) async {
+  try {
+    final db = FirebaseFirestore.instance;
+    final auth = FirebaseAuth.instance.currentUser;
+    final likeData = {
+      "userEmail": auth!.email,
+      "likeOrDislike": likeOrDislike,
+    };
+    await db
+        .collection("games")
+        .doc(gameId.toString())
+        .collection("reviews")
+        .doc(userEmail)
+        .collection("likesAndDislikes")
+        .doc()
+        .set(likeData, SetOptions(merge: true));
+  } catch (e) {
+    print('Erro ao adicionar like ou dislike: $e');
   }
-  ref.set(likeData);
-
 }
 
-void removeLikeOrDislike(int gameId, String userEmail, int likeOrDislike) {
-  final db = FirebaseFirestore.instance;
-  final auth = FirebaseAuth.instance.currentUser;
-  var ref;
 
-  final likeData = {
-    "userEmail": auth!.email,
-    "likeOrDislike": likeOrDislike,
-  };
-
-  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc("userEmail").collection("likesAndDislikes").doc() ?? '';
-  if (ref == '') {
-    return;
+void removeLikeOrDislike(int gameId, String userEmail, int likeOrDislike) async {
+  try {
+    final db = FirebaseFirestore.instance;
+    final auth = FirebaseAuth.instance.currentUser;
+    final likeData = {
+      "userEmail": auth!.email,
+      "likeOrDislike": likeOrDislike,
+    };
+    final ref = db
+        .collection("games")
+        .doc(gameId.toString())
+        .collection("reviews")
+        .doc(userEmail)
+        .collection("likesAndDislikes")
+        .where("userEmail", isEqualTo: auth.email)
+        .where("likeOrDislike", isEqualTo: likeOrDislike);
+    final snapshot = await ref.get();
+    if (snapshot.docs.isNotEmpty) {
+      final docId = snapshot.docs.first.id;
+      await db
+          .collection("games")
+          .doc(gameId.toString())
+          .collection("reviews")
+          .doc(userEmail)
+          .collection("likesAndDislikes")
+          .doc(docId)
+          .delete();
+    }
+  } catch (e) {
+    print('Erro ao remover like ou dislike: $e');
   }
-  ref.delete();
-
 }
+
 
 Future<List<Review>> getGameReviews(int gameId) async {
   final db = FirebaseFirestore.instance;
