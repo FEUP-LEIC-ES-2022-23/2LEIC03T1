@@ -5,24 +5,27 @@ import 'package:gameshare/services/database_actions.dart';
 import 'package:gameshare/view/components/reviewForm/review_form.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 import 'package:gameshare/view/components/utils/left_centered_title.dart';
+
 import '../../model/game.dart';
 import '../../model/review.dart';
 import '../../services/api_requests.dart';
 import '../../services/providers/scroll_provider.dart';
+import '../components/bars/nav_bar.dart';
+import '../components/bars/top_bar.dart';
 import '../components/circular_progress.dart';
 import '../components/game_card.dart';
 import '../components/game_page/image_with_text.dart';
-import '../components/nav_bar.dart';
 import '../components/review_card.dart';
-import '../components/text_section.dart';
-import '../components/top_bar.dart';
+import '../components/text_utils/text_section.dart';
 
 class GamePage extends StatefulWidget {
-  const GamePage({
+  GamePage({
     super.key,
     required this.game,
   });
+
   final Game game;
+  // late  String desciprion= await getGameDescription(game.gameId);
 
   @override
   State<StatefulWidget> createState() => _GamePage(game: game);
@@ -34,6 +37,16 @@ class _GamePage extends State<GamePage> {
   });
 
   final Game game;
+  bool loading = true;
+  late String description = '';
+
+  setDescription(String value) {
+    setState(() {
+      description = value;
+      loading = false;
+    });
+  }
+
   bool loadingOtherReviews = true;
   bool loadingMyReview = true;
   bool didntFetchData = true;
@@ -58,7 +71,6 @@ class _GamePage extends State<GamePage> {
     loadingMyReview = true;
     getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId)
         .then((review) => {setMyReview(review)});
-    setState(() {});
   }
 
   @override
@@ -90,7 +102,16 @@ class _GamePage extends State<GamePage> {
           children: [
             const addVerticalSpace(size: 10),
             ReviewCard(
-              review: myReview!,
+              review: Review(
+                  myReview!.reviewText,
+                  myReview!.rating,
+                  game.gameId,
+                  FirebaseAuth.instance.currentUser!.email!,
+                  game.name,
+                  myReview!.likesAndDislikes
+              ),
+              notifyParent: refreshPage,
+
             ),
           ],
         );
@@ -114,6 +135,8 @@ class _GamePage extends State<GamePage> {
   Widget build(BuildContext context) {
     if (didntFetchData) {
       didntFetchData = false;
+      getGameDescription(game.gameId).then((value) => {setDescription(value)});
+
       getGameReviews(game.gameId).then((reviews) => {setOtherReviews(reviews)});
 
       if (FirebaseAuth.instance.currentUser != null) {
@@ -122,7 +145,6 @@ class _GamePage extends State<GamePage> {
             .then((review) => {setMyReview(review)});
       }
     }
-    Future<String> description = getGameDescription(game.gameId);
 
     return Scaffold(
       appBar: const TopBar(),
@@ -130,25 +152,17 @@ class _GamePage extends State<GamePage> {
         children: [
           ListView(
             controller: ScrollProvider.scrollController,
+            key: const Key("ListView"),
             children: [
               ImageWithText(
                 imageUrl: game.image,
                 title: game.name,
               ),
               plataformRating(game: game),
-              FutureBuilder<String>(
-                future: description,
-                builder: (context, AsyncSnapshot<String> snapshot) {
-                  if (snapshot.hasData) {
-                    return TextSection(
-                        title: "About",
-                        text: snapshot.data ??
-                            "There is no Information about this game");
-                  } else {
-                    return const CircularProgressBar();
-                  }
-                },
-              ),
+              if (loading)
+                const CircularProgressBar()
+              else
+                TextSection(title: "About", text: description),
               const addVerticalSpace(size: 30),
               const Padding(
                 padding: EdgeInsets.only(left: 8.0),
@@ -197,6 +211,7 @@ class plataformRating extends StatelessWidget {
     super.key,
     required this.game,
   });
+
   final Game game;
 
   @override
@@ -222,7 +237,7 @@ class plataformRating extends StatelessWidget {
             if (game.uniquePlatformsIcons.length > 3)
               MorePlatformsNumber(game: game),
             GameCardRating(game: game, size: 50),
-            SizedBox(
+            const SizedBox(
               width: 10,
               height: 0,
             ),

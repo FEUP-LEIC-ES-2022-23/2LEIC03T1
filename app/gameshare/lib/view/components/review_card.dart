@@ -1,19 +1,41 @@
-import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:gameshare/services/database_actions.dart';
-
 import '../../model/lOd.dart';
 import '../../model/review.dart';
+import 'package:gameshare/view/components/utils/add_horizontal_space.dart';
+import 'package:gameshare/services/api_requests.dart';
+import 'package:gameshare/view/screens/game.dart';
+import 'package:gameshare/view/screens/user.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../services/auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReviewCard extends StatelessWidget {
   ReviewCard({
     Key? key,
-    required this.review
+    required this.review,
+    this.isUser,
+    this.notifyParent,
   }) : super(key: key);
 
-  Review review;
+  final bool? isUser;
+  final Review review;
+  Function()? notifyParent;
+
+  getHeader() {
+    if (isUser ?? false) {
+      return GameName(review: review);
+    } else {
+      return ReviewUser(
+        name: review.userEmail,
+        gameId: review.gameId,
+        notifyParent: notifyParent,
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +46,12 @@ class ReviewCard extends StatelessWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       decoration: BoxDecoration(
-        border: Border.all(width: 0.5),
+        border: Border.all(
+          width: 0.5,
+          color: Theme.of(context).dividerColor,
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Theme.of(context).shadowColor,
@@ -39,17 +64,15 @@ class ReviewCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ReviewUser(
-            name: name,
-          ),
+          getHeader(),
           Divider(
             color: Theme.of(context).dividerColor,
             thickness: 1,
           ),
           ReviewRating(
-            rating: rating,
+            rating: review.rating,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ReviewText(
             review: text,
           ),
@@ -57,23 +80,67 @@ class ReviewCard extends StatelessWidget {
           ReviewLikesDislikes( review: review,),
           SizedBox(height: 5),
 
+
         ],
       ),
     );
   }
 }
 
+class GameName extends StatelessWidget {
+  const GameName({
+    super.key,
+    required this.review,
+  });
+
+  final Review review;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: InkWell(
+        onTap: () {
+          getGame(review.gameId).then((value) => {
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) => GamePage(game: value),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                )
+              });
+        },
+        child: Text(
+          review.gameName,
+          overflow: TextOverflow.ellipsis,
+          softWrap: false,
+          style: const TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 17,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ReviewUser extends StatelessWidget {
-  const ReviewUser({
+  ReviewUser({
     Key? key,
     required this.name,
+    required this.gameId,
+    this.notifyParent,
   }) : super(key: key);
 
   final String name;
+  final int gameId;
+  Function()? notifyParent;
+  var currUser = FirebaseAuth.instance.currentUser;
   final Image image = const Image(
-    image: AssetImage('assets/images/userPlaceholder.png'),
-    width: 40,
-    height: 40,
+    image: AssetImage('assets/images/default_avatar.png'),
+    width: 70,
+    height: 70,
   );
 
   @override
@@ -82,21 +149,46 @@ class ReviewUser extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(margin: const EdgeInsets.all(5), child: image),
-        const SizedBox(width: 10),
-        RichText(
-            text: TextSpan(
-          text: name,
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
-              // TODO: Navigate to user profile
-              print('User profile');
-            },
-          style: const TextStyle(
-            color: Colors.blue,
-            fontSize: 20,
-          ),
-        )),
+        Expanded(flex: 0, child: Container(child: image)),
+        Expanded(
+          flex: 1,
+          child: InkWell(
+              onTap: () {
+                bool cond = false;
+                if (Auth().user != null) {
+                  cond = (Auth().user!.email) == name;
+                }
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) =>
+                        UserPage(user: name, isUser: cond),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                );
+              },
+              child: Text(
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.montserratAlternates(
+                    fontWeight: FontWeight.bold, fontSize: 15),
+              )),
+        ),
+        if (currUser != null && currUser!.email == name)
+          Expanded(
+              flex: 0,
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                      onPressed: () async {
+                        await deleteReview(
+                            FirebaseAuth.instance.currentUser!.email!,
+                            gameId,
+                            FirebaseFirestore.instance);
+                        notifyParent!();
+                      },
+                      icon: const Icon(Icons.delete, size: 30)))),
+        const addHorizontalSpace(size: 10)
       ],
     );
   }
@@ -112,26 +204,24 @@ class ReviewRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            for (int i = 0; i < rating; i++)
-              Icon(
-                Icons.videogame_asset,
-                color: Colors.green,
-                size: MediaQuery.of(context).size.width / 7,
-              ),
-            for (int i = 0; i < 5 - rating; i++)
-              Icon(
-                Icons.videogame_asset_outlined,
-                color: Colors.green,
-                size: MediaQuery.of(context).size.width / 7,
-              ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          for (int i = 0; i < rating; i++)
+            Icon(
+              Icons.videogame_asset,
+              color: Colors.green,
+              size: MediaQuery.of(context).size.width / 7,
+            ),
+          for (int i = 0; i < 5 - rating; i++)
+            Icon(
+              Icons.videogame_asset_outlined,
+              color: Colors.green,
+              size: MediaQuery.of(context).size.width / 7,
+            ),
+        ],
       ),
     );
   }
@@ -161,7 +251,7 @@ class _ReviewTextState extends State<ReviewText> {
       mainText = widget.review;
     } else if (!showMore) {
       longText = true;
-      mainText = widget.review.substring(0, 200) + '...';
+      mainText = '${widget.review.substring(0, 200)}...';
       buttonText = 'Show more';
     } else {
       longText = true;
@@ -171,7 +261,8 @@ class _ReviewTextState extends State<ReviewText> {
 
     return [
       Container(
-        margin: const EdgeInsets.all(15),
+        alignment: Alignment.topLeft,
+        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
         child: Text(mainText,
             style: const TextStyle(
               fontSize: 16,

@@ -6,6 +6,7 @@ import 'steps/navbar_steps.dart';
 import 'steps/dark_light_mode/given.dart';
 import 'steps/dark_light_mode/tap_on_button.dart';
 import 'steps/dark_light_mode/theme_change.dart';
+import 'steps/show_more_steps.dart';
 
 Future<void> main() {
   final config = FlutterTestConfiguration()
@@ -29,6 +30,13 @@ Future<void> main() {
       EnterApp(),
       TapButtonNTimesStep(),
       ThemeChange(),
+      fillInAdminFields(),
+      seeUserPage(),
+      goToGamePage(),
+      shortenDescription(),
+      clickInShowButton(),
+      descriptionShown(),
+
     ]
     ..customStepParameterDefinitions = []
     ..restartAppBetweenScenarios = true

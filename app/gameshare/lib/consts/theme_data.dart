@@ -29,6 +29,7 @@ ThemeData lightTheme = ThemeData(
     inputDecorationTheme: const InputDecorationTheme(
       fillColor: MyAppColors.lightGrey,
     ),
+    dividerColor: MyAppColors.darkGrey,
     elevatedButtonTheme: const ElevatedButtonThemeData(
       style: ButtonStyle(
         minimumSize: MaterialStatePropertyAll<Size>(Size(140, 40)),
@@ -36,27 +37,37 @@ ThemeData lightTheme = ThemeData(
       ),
     ),
     textTheme: TextTheme(
-      bodyMedium: GoogleFonts.montserratAlternates(),
+      bodyMedium:
+          GoogleFonts.montserratAlternates(fontWeight: FontWeight.normal),
+      bodyLarge: GoogleFonts.montserratAlternates(fontWeight: FontWeight.bold),
+      bodySmall: GoogleFonts.montserratAlternates(fontWeight: FontWeight.w100),
     ),
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
 
-      primary: Colors.white,
+      primary: MyAppColors.darkBlue,
       onPrimary: MyAppColors.lightGreen,
 
       secondary: MyAppColors.purple,
       onSecondary: Colors.white,
 
-      error: Colors.red, //mudar possivelmente
-      onError: Colors.white, //mudar possivelmente
+      error: Colors.red,
+      //mudar possivelmente
+      onError: Colors.white,
+      //mudar possivelmente
 
       background: Colors.white,
       onBackground: Colors.black,
 
-      surface: Colors.white, //mudar possivelmente
-      onSurface: Colors.black, //mudar possivelmente
+      surface: Colors.white,
+      //mudar possivelmente
+      onSurface: Colors.black,
+      //mudar possivelmente
 
-      onPrimaryContainer: Colors.black,
+      onPrimaryContainer: MyAppColors.white,
+      primaryContainer: MyAppColors.white,
+
+      secondaryContainer: MyAppColors.lightGrey,
     ));
 
 ThemeData darkTheme = ThemeData(
@@ -86,6 +97,7 @@ ThemeData darkTheme = ThemeData(
   inputDecorationTheme: const InputDecorationTheme(
     fillColor: MyAppColors.darkBlue,
   ),
+  dividerColor: MyAppColors.white,
   elevatedButtonTheme: const ElevatedButtonThemeData(
       style: ButtonStyle(
     minimumSize: MaterialStatePropertyAll<Size>(Size(140, 40)),
@@ -97,21 +109,27 @@ ThemeData darkTheme = ThemeData(
   colorScheme: const ColorScheme(
     brightness: Brightness.dark,
 
-    primary: MyAppColors.darkBlue,
+    primary: MyAppColors.white,
     onPrimary: MyAppColors.lightGreen,
 
     secondary: MyAppColors.lightGreen,
     onSecondary: Colors.white,
 
-    error: Colors.red, //mudar possivelmente
-    onError: Colors.white, //mudar possivelmente
+    error: Colors.red,
+    //mudar possivelmente
+    onError: Colors.white,
+    //mudar possivelmente
 
     background: MyAppColors.midnightBlue,
     onBackground: Colors.white,
 
-    surface: MyAppColors.midnightBlue, //mudar possivelmente
-    onSurface: Colors.white, //mudar possivelmente
+    surface: MyAppColors.midnightBlue,
+    //mudar possivelmente
+    onSurface: Colors.white,
+    //mudar possivelmente
 
-    onPrimaryContainer: Colors.white,
+    onPrimaryContainer: MyAppColors.darkBlue,
+    primaryContainer: MyAppColors.darkBlue,
+    secondaryContainer: MyAppColors.darkBlue,
   ),
 );

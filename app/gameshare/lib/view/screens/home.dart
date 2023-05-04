@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:gameshare/model/game.dart';
 import 'package:gameshare/services/api_requests.dart';
+import 'package:gameshare/view/components/bars/top_bar.dart';
 import 'package:gameshare/view/components/circular_progress.dart';
-import 'package:gameshare/view/components/top_bar.dart';
+import 'package:gameshare/view/components/scrollable_game_list.dart';
+import 'package:http/io_client.dart';
+
 import '../../model/genre.dart';
 import '../../services/providers/scroll_provider.dart';
-import '../components/api_error_message.dart';
-import '../components/nav_bar.dart';
-import 'package:gameshare/view/components/scrollable_game_list.dart';
-import '../components/section_title.dart';
-import 'package:http/io_client.dart';
+import '../components/bars/nav_bar.dart';
+import '../components/game_card.dart';
+import '../components/text_utils/api_error_message.dart';
+import '../components/text_utils/section_title.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -56,7 +59,9 @@ class _HomePageState extends State<HomePage> {
                     ],
                   );
                 } else if (snapshot.hasError) {
-                  return APIErrorMessage(errMessage: snapshot.error.toString());
+                  // Only use it to run tests when the api is down
+                  //return GameCard(game: Game(13, "", ['Xbox'], 'Tales of toninhos'),key: Key("action1"),);
+                   return APIErrorMessage(errMessage: snapshot.error.toString());
                 }
               }
               return const Center(child: CircularProgressBar());

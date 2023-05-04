@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../services/providers/scroll_provider.dart';
+
+import '../../../services/providers/scroll_provider.dart';
 import 'light_dark_mode_button.dart';
 
 class TopBar extends StatefulWidget implements PreferredSizeWidget {

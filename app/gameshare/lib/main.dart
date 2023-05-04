@@ -1,9 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/services/providers/theme_provider.dart';
 import 'package:gameshare/view/screens/home.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'consts/theme_data.dart';
 

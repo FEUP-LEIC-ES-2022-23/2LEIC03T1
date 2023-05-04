@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gameshare/model/api_exception.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../model/genre.dart';
 
 Future<List<Genre>> fetchGenres(http.Client client) async {
@@ -51,7 +51,20 @@ Future<String> getGameDescription(int? id) async {
       '${dotenv.env['API_URL_BASE']}/games/$id?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
   final res = await http.get(Uri.parse(url));
   var results = jsonDecode(res.body);
-  return results['description'];
+  if(res.statusCode==200)return results['description'];
+  else{
+    String res="This game has no description\n";
+    // Only use it to run tests when the api is down!
+    // for(int i=0; i<50;i++) res+="This game has no description\n";
+    return res;
+  }
+}
+Future<Game> getGame(int id) async{
+  String url =
+      '${dotenv.env['API_URL_BASE']}/games/$id?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+  final res = await http.get(Uri.parse(url));
+  var results = jsonDecode(res.body);
+  return Game.fromJsonWithouIdx(results);
 }
 
 String buildGameUrl(

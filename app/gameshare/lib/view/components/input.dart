@@ -4,6 +4,16 @@ import 'package:gameshare/view/components/helper_widgets.dart';
 const double _size = 20;
 const FontWeight _weight = FontWeight.w900;
 
+void goTo(BuildContext context, Widget page) {
+  Navigator.push(
+    context,
+    PageRouteBuilder(
+      pageBuilder: (_, __, ____) => page,
+      transitionDuration: const Duration(seconds: 0),
+    ),
+  );
+}
+
 class Entry {
   const Entry(this.key, this.title, this.controller, {this.hide = false});
 
@@ -66,6 +76,34 @@ class EntryFieldList extends StatelessWidget {
                 key: Key(entry.key),
               ))
           .toList(),
+    );
+  }
+}
+
+class UserDataForm extends StatelessWidget {
+  const UserDataForm(
+    this.widgets, {
+    Key? key,
+  }) : super(key: key);
+
+  final List<Widget> widgets;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 40,
+      ),
+      height: MediaQuery.of(context).size.height,
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widgets,
+          ),
+        ),
+      ),
     );
   }
 }

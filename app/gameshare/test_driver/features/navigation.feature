@@ -1,7 +1,7 @@
 Feature: Navigation using the NavBar
 
   Scenario Outline: User navigates from one page to another
-    Given I am on the <page>
+    Given I am on the <page> page
     When I click on the <icon> Button on NavBar
     Then I am on the top of <page2> Page
 

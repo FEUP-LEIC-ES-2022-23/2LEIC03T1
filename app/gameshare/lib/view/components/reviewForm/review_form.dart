@@ -4,6 +4,7 @@ import 'package:gameshare/services/review_form_validators.dart';
 import 'package:gameshare/view/components/reviewForm/rating_form_field.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 import 'package:gameshare/view/components/utils/left_centered_title.dart';
+
 import '../../../model/game.dart';
 
 class ReviewForm extends StatefulWidget {
@@ -79,8 +80,9 @@ class _ReviewFormState extends State<ReviewForm> {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     addReview(
-                        ratingFormField.rating, reviewText, widget.game.gameId);
+                        ratingFormField.rating, reviewText, widget.game.gameId,widget.game.name);
                     widget.notifyParent();
+
                   }
                 },
                 child: const Text(

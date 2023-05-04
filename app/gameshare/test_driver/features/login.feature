@@ -3,14 +3,14 @@ Feature: Login
 
   Scenario: Successful Login
     Given I am in the login page
-    And I fill in "email_field_login" with "gs@gs.com"
-    And I fill in "password_field_login" with "gameshare"
+    And I fill in "email_field_login" with my "email"
+    And I fill in "password_field_login" with my "password"
     When I tap the "Login" button
-    Then I should see the home page
+    Then I should see my user page
 
   Scenario: Failed Login
     Given I am in the login page
     And I fill in "email_field_login" with "bad@email.com"
     And I fill in "password_field_login" with "badbunny"
     When I tap the "Login" button
-    Then I should see "Invalid email or password"
+    Then I should see "User not found"

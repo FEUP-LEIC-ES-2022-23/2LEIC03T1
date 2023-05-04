@@ -104,3 +104,57 @@ First Page           |  Second Page
 
 ---
 </br>
+
+# Third Iteration
+
+
+## Start of the iteration
+
+First Page           |  Second Page
+:-------------------------:|:-------------------------:
+![Iteration 3 Start](../images/iteration3begin1.png)  |  ![Iteration 3 Start](../images/iteration3begin2.png)
+
+---
+## End of the iteration
+
+![Iteration 3 End](../images/iteration3end.png)
+
+---
+</br>
+
+# The Four Questions:
+
+
+### <b>What went well?</b>
+- We have a very important new page: the user page! 
+- The user can now delete a review he previously wrote
+- We added a feature to recover the password through email.
+- Fixed some bugs with reviews not appearing and text overflow bugs
+- Any user can go to a user's page by tapping on his email on one of his reviews
+- A user can go to a game page by tapping the name of the game on a user's review
+- Updated the reviews UI
+
+
+---
+### <b>What didn't go so well?</b>
+- We had trouble making the game page smoother.
+- We refactored the login and register pages and we had some problems with updating the error message shown.
+- We had trouble with mocking the CachedNetworkImage widget as it doesn't let us run widget tests due to its http calls which hindered our progress.
+- Dealing with Cloud Firestore's mockups wasn't an easy task.
+
+---
+### <b>What have we learned?</b>
+- We learned how to use firebase to recover the password through email.
+- We found an alternative to FutureBuilder which makes UX better.
+- We got more familiar with the cloud firestore service (because of the user functionality / reviews).
+- We once again mocked some services to test the UI.
+- We got better at managing state in flutter
+
+---
+### <b>What still puzzles us?</b>
+- We still don't know how to separate the page navigation logic from the nav_bar, and that causes some trouble.
+- We still haven't figured out how to mock the CachedNetworkImage widget functionality
+- Dealing with Cloud FIrestore's mocks still isn't trivial.
+
+---
+</br>

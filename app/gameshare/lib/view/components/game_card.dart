@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/consts/app_colors.dart';
 import 'package:gameshare/view/screens/game.dart';
+
 import '../../model/game.dart';
 
 class GameCard extends StatelessWidget {
@@ -17,6 +18,7 @@ class GameCard extends StatelessWidget {
     final GestureTapDownCallback? onTapDown;
 
     return InkWell(
+        key: Key(key.toString()),
         child: Container(
           width: 300,
           height: 300,
@@ -98,7 +100,7 @@ class MorePlatformsNumber extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(100)),
                   border: Border.all(
                     width: 2.2,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.primary,
                   )),
             ),
             Text('+${game.uniquePlatformsIcons.length - 3}',
