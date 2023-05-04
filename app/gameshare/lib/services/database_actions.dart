@@ -28,14 +28,16 @@ void addLikeOrDislike(int gameId, String userEmail, int likeOrDislike) {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance.currentUser;
   var ref;
-  var data;
 
   final likeData = {
     "userEmail": auth!.email,
     "likeOrDislike": likeOrDislike,
   };
 
-  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc("userEmail").collection("likesAndDislikes").doc();
+  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc("userEmail").collection("likesAndDislikes").doc() ?? '';
+  if (ref == '') {
+    return;
+  }
   ref.set(likeData);
 
 }
@@ -44,7 +46,6 @@ void removeLikeOrDislike(int gameId, String userEmail, int likeOrDislike) {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance.currentUser;
   var ref;
-  var data;
 
   final likeData = {
     "userEmail": auth!.email,

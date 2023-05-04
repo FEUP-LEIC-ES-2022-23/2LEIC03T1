@@ -13,7 +13,7 @@ class ReviewCard extends StatelessWidget {
     required this.review
   }) : super(key: key);
 
-  final Review review;
+  Review review;
 
   @override
   Widget build(BuildContext context) {
@@ -213,8 +213,8 @@ class ReviewLikesDislikes extends StatefulWidget {
     required this.review,
   }) : super(key: key);
 
-  final Review review;
-  List<LoD> likesAndDislikes = [];
+  Review review;
+  List<LoD> likesAndDislikes = List<LoD>.empty(growable: true);
 
   @override
   State<ReviewLikesDislikes> createState() => _ReviewLikesDislikesState();
@@ -238,14 +238,20 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
     if (likes.contains(email)) {
       likes.remove(email);
+      widget.likesAndDislikes.remove(LoD(email!,1));
+      widget.review.likesAndDislikes = widget.likesAndDislikes;
       removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
     }
     else{
       if(dislikes.contains(email)){
         dislikes.remove(email);
+        widget.likesAndDislikes.remove(LoD(email!,2));
+        widget.review.likesAndDislikes = widget.likesAndDislikes;
         removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
       }
       likes.add(email);
+      widget.likesAndDislikes.add(LoD(email!,1));
+      widget.review.likesAndDislikes = widget.likesAndDislikes;
       addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
     }
   }
@@ -262,14 +268,20 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
     if(dislikes.contains(email)){
       dislikes.remove(email);
+      widget.likesAndDislikes.remove(LoD(email!,2));
+      widget.review.likesAndDislikes = widget.likesAndDislikes;
       removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
     }
     else{
       if(likes.contains(email)){
         likes.remove(email);
+        widget.likesAndDislikes.remove(LoD(email!,1));
+        widget.review.likesAndDislikes = widget.likesAndDislikes;
         removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
       }
       dislikes.add(email);
+      widget.likesAndDislikes.add(LoD(email!,2));
+      widget.review.likesAndDislikes = widget.likesAndDislikes;
       addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
     }
   }
@@ -298,7 +310,7 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButton(
-            onPressed: toggleLike(),
+            onPressed: (){toggleLike();},
             iconSize: 25,
             icon: Icon(
               Icons.thumb_up_alt_outlined,
@@ -313,7 +325,7 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
         SizedBox(width: 10),
 
         IconButton(
-            onPressed: toggleDislike(),
+            onPressed: (){toggleDislike();},
             iconSize: 25,
             icon: Icon(
               Icons.thumb_down_alt_outlined,

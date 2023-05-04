@@ -28,7 +28,7 @@ class Review {
       json['rating'],
       json['gameId'],
       json['userEmail'],
-      List<LoD>.empty()
+      List<LoD>.empty(growable: true)
     );
   }
 }
