@@ -1,11 +1,10 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/view/components/review_card.dart';
-import 'package:gameshare/view/components/section_title.dart';
-import 'package:gameshare/view/components/text_section.dart';
-import 'package:gameshare/view/components/top_bar.dart';
+
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 import 'package:gameshare/view/components/utils/rectangle_with_text.dart';
 import 'package:gameshare/view/screens/login.dart';
@@ -15,8 +14,12 @@ import '../../model/review.dart';
 import '../../model/user.dart';
 import '../../services/auth.dart';
 import '../../services/database_actions.dart';
+import '../components/bars/nav_bar.dart';
+import '../components/bars/top_bar.dart';
 import '../components/circular_progress.dart';
-import '../components/nav_bar.dart';
+
+import '../components/text_utils/section_title.dart';
+import '../components/text_utils/text_section.dart';
 
 class UserPage extends StatefulWidget {
    const UserPage({
@@ -90,11 +93,13 @@ class _UserPage extends State<UserPage> {
       body: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 0),
         child: getBody(),
+
       ),
       bottomNavigationBar: const NavBar(),
     );
   }
 }
+
 
 body(bool isUser, String email, String name, String about,List<Review> reviews,Timestamp timestamp,String img) {
   double marginTop=0;
@@ -223,7 +228,7 @@ class JoinedAt extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Text(
-        "Join at: $_date",
+        "Joined at: $_date",
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900),
       ),
     );
@@ -239,8 +244,7 @@ class Logout extends StatelessWidget {
       width: 45,
       child: TextButton(
           onPressed: () {
-            Auth auth = Auth();
-            auth.signOut();
+            Auth().signOut();
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
@@ -274,3 +278,4 @@ class EditProfile extends StatelessWidget {
     );
   }
 }
+

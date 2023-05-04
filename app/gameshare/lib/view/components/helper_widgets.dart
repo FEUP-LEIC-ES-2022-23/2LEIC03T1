@@ -36,6 +36,7 @@ class MyCheckBox extends StatefulWidget {
 
 class _MyCheckBoxState extends State<MyCheckBox> {
   bool _rememberMe = false;
+
   @override
   Widget build(BuildContext context) {
     return Checkbox(
@@ -76,33 +77,67 @@ class MyLabel extends StatelessWidget {
 class SubmitButton extends StatelessWidget {
   const SubmitButton(
     this.text,
-    this.context, {
-    this.color_1 = MyAppColors.aquaGreen,
-    this.color_2 = MyAppColors.aquaBlue,
+    this.onTap, {
+    this.color_1 = const Color.fromARGB(255, 6, 30, 97),
+    this.color_2 = const Color.fromARGB(255, 4, 3, 59),
     Key? key,
   }) : super(key: key);
 
   final String text;
-  final BuildContext context;
-  final Color color_1;
-  final Color color_2;
+  final VoidCallback onTap;
+  final Color color_1, color_2;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.symmetric(vertical: 13),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: <Color>[color_1, color_2],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: const EdgeInsets.symmetric(vertical: 13),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          gradient: RadialGradient(
+            radius: 5,
+            colors: <Color>[color_1, color_2],
+          ),
         ),
+        child: MyText(text,
+            size: 20, weight: FontWeight.w800, color: Colors.white),
       ),
-      child:
-          MyText(text, size: 20, weight: FontWeight.w800, color: Colors.white),
+    );
+  }
+}
+
+class TapLabel extends StatelessWidget {
+  const TapLabel(
+    this.text,
+    this.onTap, {
+    this.size = 16,
+    this.weight = FontWeight.w800,
+    this.color = MyAppColors.purple,
+    this.left = true,
+    Key? key,
+  }) : super(key: key);
+
+  final String text;
+  final VoidCallback onTap;
+  final double size;
+  final FontWeight weight;
+  final Color color;
+  final bool left;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: MyLabel(
+        text,
+        size: size,
+        weight: weight,
+        color: color,
+        left: left,
+      ),
     );
   }
 }

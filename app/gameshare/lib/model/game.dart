@@ -17,10 +17,15 @@ class Game {
   );
 
   int get gameId => _gameId;
+
   List<String> get platforms => _platforms;
+
   String get image => _image;
+
   String get name => _name;
+
   double get rating => _rating;
+
   String get description => _description;
 
   factory Game.fromJsonWithouIdx(Map<String, dynamic> result) {

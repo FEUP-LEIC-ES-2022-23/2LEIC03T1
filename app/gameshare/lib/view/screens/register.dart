@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/auth.dart';
 import 'package:gameshare/services/database_actions.dart';
-import 'package:gameshare/view/screens/login.dart';
-import 'package:gameshare/view/components/input.dart';
-import 'package:gameshare/view/screens/home.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
+import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/screens/user.dart';
+import 'package:gameshare/view/screens/login.dart';
 
-import '../components/nav_bar.dart';
-import '../components/top_bar.dart';
+import '../components/bars/nav_bar.dart';
+import '../components/bars/top_bar.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Auth? auth, Key? key})
@@ -16,6 +15,7 @@ class RegisterPage extends StatefulWidget {
         super(key: key);
 
   final Auth? auth;
+
   Auth get authInstance => auth!;
 
   @override
@@ -24,7 +24,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   String? _error;
+
   Auth get _auth => widget.authInstance;
+  late List<Widget> _widgets;
+  late UserDataForm _userDataForm;
 
   final Entry _email = Entry(
     'email_field_register',
@@ -49,73 +52,59 @@ class _RegisterPageState extends State<RegisterPage> {
         hide: true,
       );
 
-  final List<Entry> _entries = <Entry>[];
-
   @override
   void initState() {
     super.initState();
-    _entries.add(_email);
-    _entries.add(_username);
-    _entries.add(_password);
-    _entries.add(_confirmPassword);
+    _widgets = <Widget>[
+      EntryFieldList(<Entry>[_email, _username, _password, _confirmPassword]),
+      const WhiteSpace(),
+      DisplayError(_error),
+      const WhiteSpace(height: 10),
+      SubmitButton('Register', signUp),
+      const WhiteSpace(),
+      TapLabel(
+        'Already have an account',
+            () => goTo(context, LoginPage()),
+        left: true,
+        size: 15,
+      ),
+    ];
+    _userDataForm = UserDataForm(_widgets);
   }
 
-  Future<void> _signUp() async {
-    bool res = await _auth.signUpEmailPassword(
+  void updateError(String res) {
+    _error = res;
+
+    for (int i = 0; i < _widgets.length; i++) {
+      if (_widgets[i] is DisplayError) {
+        _widgets[i] = DisplayError(_error);
+        _userDataForm = UserDataForm(_widgets);
+        break;
+      }
+    }
+  }
+
+  bool checkMatchingPasswords() {
+    if (_password.controller.text != _confirmPassword.controller.text) {
+      setState(() => updateError('Passwords do not match'));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> signUp() async {
+    if (!checkMatchingPasswords()) return;
+    String res = await _auth.signUpEmailPassword(
       _email.controller.text,
       _username.controller.text,
       _password.controller.text,
     );
-    if (!res) {
-      setState(() => _error = 'Invalid field');
+    if (res == _auth.success) {
+       await addUser(_username.controller.text, _email.controller.text);
+      goTo(context, UserPage(user: _auth.user!.email!, isUser: true,));
     } else {
-      setState(() => _error = null);
+      setState(() => updateError(res));
     }
-  }
-
-  Future<void> signUp() async {
-    if (_password.controller.text != _confirmPassword.controller.text) {
-      setState(() => _error = 'Passwords do not match');
-      return;
-    }
-
-    await _signUp();
-    if(_auth.user!= null)await addUser(_username.controller.text, _email.controller.text);
-    if (_auth.user != null) _goToHome();
-  }
-
-  void _goToHome() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => UserPage(user: _auth.user!.email!, isUser: true),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
-  }
-
-  void _goToLogin() {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ____) => LoginPage(),
-        transitionDuration: const Duration(seconds: 0),
-      ),
-    );
-  }
-
-  Widget _loginLabel() {
-    return InkWell(
-      onTap: _goToLogin,
-      child: const MyLabel('Already have an account', left: true, size: 15),
-    );
-  }
-
-  Widget _registerButton() {
-    return InkWell(
-      onTap: () => signUp(),
-      child: SubmitButton('Register', context),
-    );
   }
 
   @override
@@ -123,27 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       key: const Key('Register'),
       appBar: const TopBar(),
-      body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 40,
-        ),
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                EntryFieldList(_entries),
-                DisplayError(_error),
-                const WhiteSpace(),
-                _registerButton(),
-                _loginLabel(),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: _userDataForm,
       bottomNavigationBar: const NavBar(),
     );
   }

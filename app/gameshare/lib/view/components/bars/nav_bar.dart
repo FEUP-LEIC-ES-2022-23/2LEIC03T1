@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/view/screens/search.dart';
 import 'package:gameshare/view/screens/user.dart';
-import '../../services/auth.dart';
-import '../screens/home.dart';
-import '../screens/login.dart';
+import '../../../services/auth.dart';
+import '../../screens/home.dart';
+import '../../screens/login.dart';
+
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -104,11 +105,11 @@ class _NavBarState extends State<NavBar> {
   }
 
   getPageToRedirect() {
-    User? user = Auth().user;
+
     if (Auth().user == null) {
       return LoginPage();
     } else {
-      return UserPage(user: user!.email!, isUser: true);
+      return UserPage(user: Auth().user!.email!, isUser: true);
     }
   }
 }

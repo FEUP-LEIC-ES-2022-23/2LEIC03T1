@@ -9,7 +9,7 @@ Feature: Register
         And I fill in "confirm_password_field_register" with "test12345"
         And I tap the "Register" button
         Then I should see the home page
-    
+
     Scenario: Register with invalid email
         Given I am in the register page
         When I fill in "email_field_register" with "test"
@@ -17,8 +17,8 @@ Feature: Register
         And I fill in "password_field_register" with "test12345"
         And I fill in "confirm_password_field_register" with "test12345"
         And I tap the "Register" button
-        Then I should see "Invalid field"
-    
+        Then I should see "Email is not valid"
+
     Scenario: Passwords don't match
         Given I am in the register page
         When I fill in "email_field_register" with "test@moremail.com"

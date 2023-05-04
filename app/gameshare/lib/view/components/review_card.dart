@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+
 import 'package:gameshare/services/api_requests.dart';
 import 'package:gameshare/view/screens/game.dart';
 import 'package:gameshare/view/screens/user.dart';
@@ -7,6 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../model/review.dart';
 import '../../services/auth.dart';
+
+import 'package:flutter/material.dart';
+
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard({
