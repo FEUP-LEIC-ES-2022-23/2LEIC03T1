@@ -140,34 +140,30 @@ class ReviewUser extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Expanded(flex: 0, child: Container(child: image)),
         Expanded(
           flex: 1,
-          child: Row(
-            children: [
-              Container(child: image),
-              InkWell(
-                onTap: () {
-                  bool cond = false;
-                  if (Auth().user != null) {
-                    cond = (Auth().user!.email) == name;
-                  }
-                  Navigator.pushReplacement(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (_, __, ____) =>
-                          UserPage(user: name, isUser: cond),
-                      transitionDuration: const Duration(seconds: 0),
-                    ),
-                  );
-                },
-                child: Text(
-                  name,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.montserratAlternates(
-                      fontWeight: FontWeight.bold, fontSize: 15),
-                )),
-            ],
-          ),
+          child: InkWell(
+              onTap: () {
+                bool cond = false;
+                if (Auth().user != null) {
+                  cond = (Auth().user!.email) == name;
+                }
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ____) =>
+                        UserPage(user: name, isUser: cond),
+                    transitionDuration: const Duration(seconds: 0),
+                  ),
+                );
+              },
+              child: Text(
+                name,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.montserratAlternates(
+                    fontWeight: FontWeight.bold, fontSize: 15),
+              )),
         ),
         if (currUser != null && currUser!.email == name)
           Expanded(
