@@ -1,4 +1,6 @@
 import 'package:flutter/gestures.dart';
+import 'package:gameshare/view/components/utils/add_horizontal_space.dart';
+import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 
 import 'package:gameshare/services/api_requests.dart';
 import 'package:gameshare/view/screens/game.dart';
@@ -35,9 +37,12 @@ class ReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       decoration: BoxDecoration(
-        border: Border.all(width: 0.5),
+        border: Border.all(
+          width: 0.5, 
+          color: Theme.of(context).dividerColor,
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Theme.of(context).shadowColor,
@@ -103,7 +108,9 @@ class GameName extends StatelessWidget {
             fontWeight: FontWeight.w900,
             fontSize: 17,
           ),
+
         ),
+
       ),
     );
   }
@@ -117,9 +124,9 @@ class ReviewUser extends StatelessWidget {
 
   final String name;
   final Image image = const Image(
-    image: AssetImage('assets/images/userPlaceholder.png'),
-    width: 40,
-    height: 40,
+    image: AssetImage('assets/images/default_avatar.png'),
+    width: 70,
+    height: 70,
   );
 
   @override
@@ -128,8 +135,8 @@ class ReviewUser extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(padding: const EdgeInsets.all(10), child: image),
-        const SizedBox(width: 10),
+
+        Container(padding: const EdgeInsets.all(0), child: image),
         Flexible(
           child: InkWell(
               onTap: () {
@@ -153,6 +160,7 @@ class ReviewUser extends StatelessWidget {
                     fontWeight: FontWeight.bold, fontSize: 15),
               )),
         ),
+
       ],
     );
   }
@@ -225,12 +233,15 @@ class _ReviewTextState extends State<ReviewText> {
 
     return [
       Container(
-        margin: const EdgeInsets.all(15),
-        child: Text(mainText,
-            style: const TextStyle(
-              fontSize: 16,
-              decoration: TextDecoration.none,
-            )),
+        alignment: Alignment.topLeft,
+        margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+        child: Text(
+          mainText,
+          style: const TextStyle(
+            fontSize: 16,
+            decoration: TextDecoration.none,
+          )
+        ),
       ),
       if (longText)
         ElevatedButton(

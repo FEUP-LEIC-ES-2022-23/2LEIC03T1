@@ -5,6 +5,8 @@ import 'package:gameshare/view/components/reviewForm/review_form.dart';
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 import 'package:gameshare/view/components/utils/left_centered_title.dart';
 
+import 'package:gameshare/view/components/utils/rectangle_with_text.dart';
+
 import '../../model/game.dart';
 import '../../model/review.dart';
 import '../../services/api_requests.dart';
@@ -119,9 +121,16 @@ class _GamePage extends State<GamePage> {
                 future: getGameReviews(game.gameId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Column(
-                      children: createReviewCards(snapshot.data!),
-                    );
+                    if (snapshot.data!.isEmpty) {
+                      return const RectangleWithText(
+                        text: "There are no reviews for now"
+                      );
+                    }
+                    else {
+                      return Column(
+                        children: createReviewCards(snapshot.data!),
+                      );
+                    }
                   } else {
                     return const CircularProgressBar();
                   }
@@ -135,7 +144,8 @@ class _GamePage extends State<GamePage> {
             },
             style: ButtonStyle(
               // maximumSize: MaterialStateProperty.all<Size>(Size(65, 40)),
-              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(0)),
+              padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.all(0)),
             ),
             child: Icon(
               Icons.arrow_circle_left,
@@ -181,7 +191,7 @@ class plataformRating extends StatelessWidget {
             if (game.uniquePlatformsIcons.length > 3)
               MorePlatformsNumber(game: game),
             GameCardRating(game: game, size: 50),
-            SizedBox(
+            const SizedBox(
               width: 10,
               height: 0,
             ),

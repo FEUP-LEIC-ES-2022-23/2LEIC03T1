@@ -29,6 +29,7 @@ ThemeData lightTheme = ThemeData(
     inputDecorationTheme: const InputDecorationTheme(
       fillColor: MyAppColors.lightGrey,
     ),
+    dividerColor: MyAppColors.darkGrey,
     elevatedButtonTheme: const ElevatedButtonThemeData(
       style: ButtonStyle(
         minimumSize: MaterialStatePropertyAll<Size>(Size(140, 40)),
@@ -96,6 +97,7 @@ ThemeData darkTheme = ThemeData(
   inputDecorationTheme: const InputDecorationTheme(
     fillColor: MyAppColors.darkBlue,
   ),
+  dividerColor: MyAppColors.white,
   elevatedButtonTheme: const ElevatedButtonThemeData(
       style: ButtonStyle(
     minimumSize: MaterialStatePropertyAll<Size>(Size(140, 40)),
