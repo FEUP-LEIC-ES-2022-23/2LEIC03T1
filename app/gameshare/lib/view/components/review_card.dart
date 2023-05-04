@@ -2,23 +2,25 @@ import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:gameshare/services/database_actions.dart';
+
+import '../../model/lOd.dart';
+import '../../model/review.dart';
 
 class ReviewCard extends StatelessWidget {
   ReviewCard({
     Key? key,
-    required this.name,
-    required this.review,
-    required this.rating,
-    required this.likesAndDislikes,
+    required this.review
   }) : super(key: key);
 
-  final String name;
-  final String review;
-  final int rating;
-  List<Pair<String, int>> likesAndDislikes;
+  final Review review;
 
   @override
   Widget build(BuildContext context) {
+
+    final String name = review.userEmail;
+    final String text = review.reviewText;
+    final int rating = review.rating;
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -49,10 +51,10 @@ class ReviewCard extends StatelessWidget {
           ),
           SizedBox(height: 10),
           ReviewText(
-            review: review,
+            review: text,
           ),
-          SizedBox(height: 10),
-          ReviewLikesDislikes(likesAndDislikes: likesAndDislikes),
+          SizedBox(height: 5),
+          ReviewLikesDislikes( review: review,),
           SizedBox(height: 5),
 
         ],
@@ -208,10 +210,11 @@ class _ReviewTextState extends State<ReviewText> {
 class ReviewLikesDislikes extends StatefulWidget {
   ReviewLikesDislikes({
     Key? key,
-    required this.likesAndDislikes
+    required this.review,
   }) : super(key: key);
 
-  List<Pair<String, int>> likesAndDislikes;
+  final Review review;
+  List<LoD> likesAndDislikes = [];
 
   @override
   State<ReviewLikesDislikes> createState() => _ReviewLikesDislikesState();
@@ -235,12 +238,15 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
     if (likes.contains(email)) {
       likes.remove(email);
+      removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
     }
     else{
       if(dislikes.contains(email)){
         dislikes.remove(email);
+        removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
       }
       likes.add(email);
+      addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
     }
   }
 
@@ -254,12 +260,15 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
     if(dislikes.contains(email)){
       dislikes.remove(email);
+      removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
     }
     else{
       if(likes.contains(email)){
         likes.remove(email);
+        removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
       }
       dislikes.add(email);
+      addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
     }
   }
 
@@ -267,12 +276,14 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
   @override
   Widget build(BuildContext context) {
 
+    widget.likesAndDislikes = widget.review.likesAndDislikes;
+
     for(int i = 0; i < widget.likesAndDislikes.length; i++){
-      if (widget.likesAndDislikes.last == 1){ // 1 is like
-        likes.add(widget.likesAndDislikes[i].first);
+      if (widget.likesAndDislikes[i].likeOrDislike == 1){ // 1 is like
+        likes.add(widget.likesAndDislikes[i].userEmail);
       }
-      else if (widget.likesAndDislikes.last == 2){ // 2 is dislike
-        dislikes.add(widget.likesAndDislikes[i].first);
+      else if (widget.likesAndDislikes[i].likeOrDislike == 2){ // 2 is dislike
+        dislikes.add(widget.likesAndDislikes[i].userEmail);
       }
     }
 

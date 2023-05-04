@@ -1,11 +1,11 @@
-import 'package:analyzer_plugin/utilities/pair.dart';
+import 'lOd.dart';
 
 class Review {
   final String _reviewText;
   final int _rating;
   final int _gameId;
   final String _userEmail;
-  List<Pair<String, int>> _likesAndDislikes;
+  List<LoD> _likesAndDislikes;
 
   Review(
     this._reviewText,
@@ -19,7 +19,8 @@ class Review {
   String get reviewText => _reviewText;
   int get rating => _rating;
   String get userEmail => _userEmail;
-  List<Pair<String, int>> get likesAndDislikes => _likesAndDislikes;
+  List<LoD> get likesAndDislikes => _likesAndDislikes;
+  set likesAndDislikes(List<LoD> likesAndDislikes) => _likesAndDislikes = likesAndDislikes;
 
   factory Review.fromJson(Map<String, dynamic> json) {
     return Review(
@@ -27,7 +28,7 @@ class Review {
       json['rating'],
       json['gameId'],
       json['userEmail'],
-      json['likesAndDislikes'],
+      List<LoD>.empty()
     );
   }
 }
