@@ -7,7 +7,6 @@ import 'package:gameshare/view/components/helper_widgets.dart';
 import '../components/bars/nav_bar.dart';
 import '../components/bars/top_bar.dart';
 
-
 class ForgotPasswordPage extends StatefulWidget {
   ForgotPasswordPage({Auth? auth, Key? key})
       : auth = auth ?? Auth(),

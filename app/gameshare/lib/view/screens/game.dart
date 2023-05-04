@@ -112,7 +112,6 @@ class _GamePage extends State<GamePage> {
       }
     }
 
-
     List<Widget> createReviewCards(List<Review> reviews) {
       List<Widget> reviewCards = [];
 
@@ -124,9 +123,6 @@ class _GamePage extends State<GamePage> {
 
       return reviewCards;
     }
-
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +168,6 @@ class _GamePage extends State<GamePage> {
               ),
               const addVerticalSpace(size: 10),
               if (FirebaseAuth.instance.currentUser != null)
-
                 getMyReviewWidget(),
               const addVerticalSpace(size: 10),
               getReviewsWidget(),

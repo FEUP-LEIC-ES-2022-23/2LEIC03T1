@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gameshare/services/auth.dart';
 
 import '../model/review.dart';
 import '../model/user.dart';
@@ -115,3 +116,19 @@ Future<List<Review>> getUserGameReviews(String userEmail,FirebaseFirestore fires
 }
 
 
+void deleteReview(String userEmail, int gameId,
+    FirebaseFirestore firebaseFirestore) async {
+  final db = FirebaseFirestore.instance;
+
+  final ref = db
+      .collection('games')
+      .doc(gameId.toString())
+      .collection('reviews')
+      .where('userEmail', isEqualTo: userEmail);
+
+  ref.get().then((querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+      docSnapshot.reference.delete();
+    }
+  });
+}

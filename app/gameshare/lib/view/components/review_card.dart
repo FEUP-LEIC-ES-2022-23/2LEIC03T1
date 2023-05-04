@@ -1,6 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:gameshare/view/components/utils/add_horizontal_space.dart';
-import 'package:gameshare/view/components/utils/add_vertical_space.dart';
 
 import 'package:gameshare/services/api_requests.dart';
 import 'package:gameshare/view/screens/game.dart';
@@ -10,7 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../model/review.dart';
 import '../../services/auth.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gameshare/services/database_actions.dart';
 
 
 class ReviewCard extends StatelessWidget {
@@ -29,6 +30,7 @@ class ReviewCard extends StatelessWidget {
     } else {
       return ReviewUser(
         name: review.userEmail,
+        gameId: review.gameId,
       );
     }
   }
@@ -53,7 +55,6 @@ class ReviewCard extends StatelessWidget {
         ],
         color: Theme.of(context).colorScheme.background,
       ),
-      child: Flexible(
         child: Column(
           children: [
             getHeader(),
@@ -71,7 +72,6 @@ class ReviewCard extends StatelessWidget {
             const SizedBox(height: 10),
           ],
         ),
-      ),
     );
   }
 }
@@ -117,12 +117,15 @@ class GameName extends StatelessWidget {
 }
 
 class ReviewUser extends StatelessWidget {
-  const ReviewUser({
+  ReviewUser({
     Key? key,
     required this.name,
+    required this.gameId,
   }) : super(key: key);
 
   final String name;
+  final int gameId;
+  var currUser = FirebaseAuth.instance.currentUser;
   final Image image = const Image(
     image: AssetImage('assets/images/default_avatar.png'),
     width: 70,
@@ -136,31 +139,47 @@ class ReviewUser extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
 
-        Container(padding: const EdgeInsets.all(0), child: image),
+        Container(child: image),
         Flexible(
+          flex: 1,
           child: InkWell(
-              onTap: () {
-                bool cond = false;
-                if (Auth().user != null) {
-                  cond = (Auth().user!.email) == name;
-                }
-                Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (_, __, ____) =>
-                        UserPage(user: name, isUser: cond),
-                    transitionDuration: const Duration(seconds: 0),
-                  ),
-                );
-              },
-              child: Text(
-                name,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.montserratAlternates(
-                    fontWeight: FontWeight.bold, fontSize: 15),
-              )),
+            onTap: () {
+              bool cond = false;
+              if (Auth().user != null) {
+                cond = (Auth().user!.email) == name;
+              }
+              Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ____) =>
+                      UserPage(user: name, isUser: cond),
+                  transitionDuration: const Duration(seconds: 0),
+                ),
+              );
+            },
+            child: Text(
+              name,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.montserratAlternates(
+                  fontWeight: FontWeight.bold, fontSize: 15),
+            )),
         ),
-
+        if (currUser != null && currUser!.email == name)
+          Expanded(
+              flex: 0,
+              child: Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                      onPressed: () { 
+                        deleteReview(
+                          FirebaseAuth.instance.currentUser!.email!,
+                          gameId,
+                          FirebaseFirestore.instance
+                        );
+                        
+                      },
+                      icon: const Icon(Icons.delete, size: 30)))),
+        const addHorizontalSpace(size: 10)
       ],
     );
   }

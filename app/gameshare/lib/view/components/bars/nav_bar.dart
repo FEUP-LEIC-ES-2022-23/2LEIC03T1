@@ -6,6 +6,7 @@ import 'package:gameshare/view/screens/user.dart';
 import '../../../services/auth.dart';
 import '../../screens/home.dart';
 import '../../screens/login.dart';
+import '../../screens/user.dart';
 
 
 class NavBar extends StatefulWidget {

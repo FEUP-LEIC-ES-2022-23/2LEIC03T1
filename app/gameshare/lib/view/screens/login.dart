@@ -5,8 +5,6 @@ import 'package:gameshare/view/screens/forgot_password.dart';
 import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/helper_widgets.dart';
 import 'package:gameshare/view/screens/user.dart';
-
-
 import '../components/bars/nav_bar.dart';
 import '../components/bars/top_bar.dart';
 
