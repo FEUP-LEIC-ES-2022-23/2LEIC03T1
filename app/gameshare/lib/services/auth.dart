@@ -10,6 +10,7 @@ class Auth {
 
   User? get user => _auth.currentUser;
   String get success => _success;
+  String? get email => _auth.currentUser?.email;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
