@@ -30,10 +30,10 @@ class _RegisterPageState extends State<RegisterPage> {
   late UserDataForm _userDataForm;
 
   final Entry _email = Entry(
-    'email_field_register',
-    'Email',
-    TextEditingController(),
-  ),
+        'email_field_register',
+        'Email',
+        TextEditingController(),
+      ),
       _username = Entry(
         'username_field_register',
         'Username',
@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
       const WhiteSpace(),
       TapLabel(
         'Already have an account',
-            () => goTo(context, LoginPage()),
+        () => goTo(context, LoginPage()),
         left: true,
         size: 15,
       ),
@@ -100,8 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _password.controller.text,
     );
     if (res == _auth.success) {
-       await addUser(_username.controller.text, _email.controller.text);
-      goTo(context, UserPage(user: _auth.user!.email!, isUser: true,));
+      goTo(context, UserPage(user: _auth.user!.email!, isUser: true));
     } else {
       setState(() => updateError(res));
     }
