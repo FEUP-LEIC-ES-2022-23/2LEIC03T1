@@ -115,7 +115,7 @@ Future<List<Review>> getUserGameReviews(
   return reviews;
 }
 
-Future<void> deleteReview (
+Future<void> deleteReview(
     String userEmail, int gameId, FirebaseFirestore firebaseFirestore) async {
   final db = FirebaseFirestore.instance;
 
@@ -142,4 +142,34 @@ Future<void> deleteReview (
       docSnapshot.reference.delete();
     }
   });
+}
+
+Future<String> updateUser(
+  String? email, {
+  String? name,
+  String? about,
+}) async {
+  final users_ref = FirebaseFirestore.instance.collection("users");
+
+  final data = {"userName": name, "about": about};
+
+  final user = await users_ref.doc(email).get();
+
+  if (!user.exists) {
+    return "User does not exist";
+  }
+
+  final same = await users_ref.where("userName", isEqualTo: name).get();
+
+  if (same.docs.isNotEmpty) {
+    return "Username already exists";
+  }
+
+  try {
+    await users_ref.doc(email).update(data);
+  } catch (e) {
+    return "Error updating user";
+  }
+
+  return "User updated successfully";
 }
