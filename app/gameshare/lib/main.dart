@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gameshare/services/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gameshare/services/providers/scroll_provider.dart';
 import 'package:gameshare/services/providers/theme_provider.dart';
 import 'package:gameshare/view/screens/home.dart';
@@ -12,7 +13,23 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  checkIfLoggedIn();
   runApp(const MyApp());
+}
+
+void checkIfLoggedIn() async {
+  final prefs = await SharedPreferences.getInstance();
+  final pref_rememberMe = prefs.getBool('rememberMe') ?? false;
+  final pref_darkMode = prefs.getBool('isDarkMode') ?? false;
+
+  if (pref_rememberMe == false) {
+    Auth().signOut();
+  }
+  else if (Auth().user != null){
+    if (pref_darkMode && !themeProv.isDarkMode()) {
+      themeProv.toggleTheme();
+    }
+  }
 }
 
 ThemeProvider themeProv = ThemeProvider();
