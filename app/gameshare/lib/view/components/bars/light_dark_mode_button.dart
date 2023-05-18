@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/consts/app_colors.dart';
 import 'package:gameshare/services/providers/theme_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LightDarkModeButton extends StatefulWidget {
   const LightDarkModeButton({super.key});
@@ -34,10 +35,13 @@ class _LightDarkModeButton extends State<LightDarkModeButton> {
                 )
               : Icon(Icons.light_mode_outlined,
                   color: MyAppColors.lightGreen, key: Key("lightMode")),
-          onPressed: () {
+          onPressed: () async {
             setState(() {
               themeProv.toggleTheme();
             });
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setBool('isDarkMode', themeProv.isDarkMode());
+            print("Theme Button has been pressed and theme has been saved in prefs to " + (themeProv.isDarkMode() ? "Dark" : "Light"));
           },
         ),
       ),
