@@ -12,7 +12,6 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await Auth().signOut();
   runApp(const MyApp());
 }
 

@@ -130,6 +130,12 @@ Future<List<Review>> getGameReviews(int gameId) async {
     },
   );
 
+  for (int i = 0; i < reviews.length; i++) {
+    reviews[i].likesAndDislikes = await getLikesAndDislikes(reviews[i].userEmail, reviews[i].gameId);
+  }
+
+
+
   return reviews;
 }
 
@@ -151,6 +157,7 @@ Future<Review?> getUserGameReview(String userEmail, int gameId) async {
   });
 
   getLikesAndDislikes(userEmail, gameId);
+  if (test == null) return null;
   test!.likesAndDislikes = await getLikesAndDislikes(userEmail, gameId);
 
   return test;
@@ -169,10 +176,16 @@ Future<List<LoD>> getLikesAndDislikes(String userEmail, int gameId) async {
       .collection("likesAndDislikes")
       .get()
       .then((querySnapshot) {
-    likesAndDislikes = querySnapshot.docs != null &&
-        querySnapshot.docs.isNotEmpty
-        ? querySnapshot.docs[0].data()['likesAndDislikes']
-        : [];
+      if (querySnapshot.docs != null && querySnapshot.docs.isNotEmpty) {
+        for (var docSnapshot in querySnapshot.docs) {
+          likesAndDislikes.add(LoD.fromJson(docSnapshot.data()));
+        }
+      }
+
+      else {
+        likesAndDislikes = [];
+      }
+
   });
 
   return likesAndDislikes;

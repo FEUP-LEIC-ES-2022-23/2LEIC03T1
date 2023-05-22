@@ -40,9 +40,6 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final String name = review.userEmail;
-    final String text = review.reviewText;
-    final int rating = review.rating;
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -74,7 +71,7 @@ class ReviewCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           ReviewText(
-            review: text,
+            review: review.reviewText,
           ),
           SizedBox(height: 5),
           ReviewLikesDislikes( review: review,),
@@ -305,13 +302,14 @@ class ReviewLikesDislikes extends StatefulWidget {
   }) : super(key: key);
 
   Review review;
-  List<LoD> likesAndDislikes = List<LoD>.empty(growable: true);
 
   @override
   State<ReviewLikesDislikes> createState() => _ReviewLikesDislikesState();
 }
 
 class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
+
+
 
   List<String?> likes = [];
   List<String?> dislikes = [];
@@ -320,16 +318,19 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
   void initState() {
     super.initState();
 
-    widget.likesAndDislikes = widget.review.likesAndDislikes;
+    print(widget.review.likesAndDislikes.length);
+    for(int i = 0; i < widget.review.likesAndDislikes.length; i++){
+      if (widget.review.likesAndDislikes[i].likeOrDislike == 1){ // 1 is like
+        print("adding like \n");
+        likes.add(widget.review.likesAndDislikes[i].userEmail);
 
-    for(int i = 0; i < widget.likesAndDislikes.length; i++){
-      if (widget.likesAndDislikes[i].likeOrDislike == 1){ // 1 is like
-        likes.add(widget.likesAndDislikes[i].userEmail);
       }
-      else if (widget.likesAndDislikes[i].likeOrDislike == 2){ // 2 is dislike
-        dislikes.add(widget.likesAndDislikes[i].userEmail);
+      else if (widget.review.likesAndDislikes[i].likeOrDislike == 2){ // 2 is dislike
+        print("adding dislike \n");
+        dislikes.add(widget.review.likesAndDislikes[i].userEmail);
       }
     }
+
   }
 
   final auth = FirebaseAuth.instance.currentUser;
@@ -345,21 +346,17 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
     if (likes.contains(email)) {
       likes.remove(email);
-      widget.likesAndDislikes.remove(LoD(email!,1));
-      widget.review.likesAndDislikes = widget.likesAndDislikes;
       removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
+      setState(() {});
     }
     else{
       if(dislikes.contains(email)){
         dislikes.remove(email);
-        widget.likesAndDislikes.remove(LoD(email!,2));
-        widget.review.likesAndDislikes = widget.likesAndDislikes;
         removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
       }
       likes.add(email);
-      widget.likesAndDislikes.add(LoD(email!,1));
-      widget.review.likesAndDislikes = widget.likesAndDislikes;
       addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
+      setState(() {});
     }
   }
 
@@ -373,23 +370,38 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
 
     if(dislikes.contains(email)){
       dislikes.remove(email);
-      widget.likesAndDislikes.remove(LoD(email!,2));
-      widget.review.likesAndDislikes = widget.likesAndDislikes;
       removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
-
+      setState(() {});
     }
     else{
       if(likes.contains(email)){
         likes.remove(email);
-        widget.likesAndDislikes.remove(LoD(email!,1));
-        widget.review.likesAndDislikes = widget.likesAndDislikes;
         removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
       }
       dislikes.add(email);
-      widget.likesAndDislikes.add(LoD(email!,2));
-      widget.review.likesAndDislikes = widget.likesAndDislikes;
       addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
+      setState(() {});
     }
+  }
+
+  Color chooseColor(List<String?> users, int likeOrDislike){
+
+    final auth = FirebaseAuth.instance.currentUser;
+    if(auth == null){
+      return Theme.of(context).colorScheme.primary;
+    }
+
+    final String? email = auth.email;
+
+    for (int i = 0; i < users.length; i++){
+      if (users[i] == email){
+        if (likeOrDislike == 1)
+          return Colors.green;
+        else if (likeOrDislike == 2)
+          return Colors.red;
+      }
+    }
+    return Theme.of(context).colorScheme.primary;
   }
 
 
@@ -409,7 +421,7 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
             iconSize: 25,
             icon: Icon(
               Icons.thumb_up_alt_outlined,
-              color: chooseColor(likes),
+              color: chooseColor(likes, 1),
             )
         ),
 
@@ -424,7 +436,7 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
             iconSize: 25,
             icon: Icon(
               Icons.thumb_down_alt_outlined,
-              color: chooseColor(dislikes),
+              color: chooseColor(dislikes, 2),
             )
         ),
 
@@ -442,21 +454,6 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
   }
 }
 
-Color chooseColor(List<String?> users){
 
-  final auth = FirebaseAuth.instance.currentUser;
-  if(auth == null){
-    return Colors.black;
-  }
-
-  final String? email = auth.email;
-
-  for (int i = 0; i < users.length; i++){
-    if (users[i] == email){
-      return Colors.green;
-    }
-  }
-  return Colors.black;
-}
 
 
