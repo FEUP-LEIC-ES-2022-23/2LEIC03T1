@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
   Auth({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
@@ -66,6 +67,9 @@ class Auth {
   }
 
   Future<void> signOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('rememberMe');
+    prefs.remove('isDarkMode');
     return _auth.signOut();
   }
 }
