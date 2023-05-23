@@ -49,12 +49,10 @@ class _MyCheckBoxState extends State<MyCheckBox> {
         if (value == true) {
           await prefs.setBool('rememberMe', true);
           await prefs.setBool('isDarkMode', themeProv.isDarkMode());
-          print("Remember me is true and Theme has been saved in prefs to " + (themeProv.isDarkMode() ? "Dark" : "Light")); //Delete this later
         }
         else {
           await prefs.setBool('rememberMe', false);
           await prefs.remove('isDarkMode');
-          print("Remember me is false and Theme has been deleted in prefs"); //Delete this later
         }
       },
       shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(10)),

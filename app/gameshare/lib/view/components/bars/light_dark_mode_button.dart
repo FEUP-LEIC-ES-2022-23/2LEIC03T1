@@ -41,7 +41,6 @@ class _LightDarkModeButton extends State<LightDarkModeButton> {
             });
             final prefs = await SharedPreferences.getInstance();
             prefs.setBool('isDarkMode', themeProv.isDarkMode());
-            print("Theme Button has been pressed and theme has been saved in prefs to " + (themeProv.isDarkMode() ? "Dark" : "Light"));
           },
         ),
       ),
