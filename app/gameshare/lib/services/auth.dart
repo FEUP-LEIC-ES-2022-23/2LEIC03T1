@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'database_actions.dart';
 
@@ -69,6 +70,9 @@ class Auth {
   }
 
   Future<void> signOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('rememberMe');
+    prefs.remove('isDarkMode');
     return _auth.signOut();
   }
 }

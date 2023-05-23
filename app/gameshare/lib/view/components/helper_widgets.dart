@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gameshare/consts/app_colors.dart';
+import 'package:gameshare/main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 TextStyle _font = GoogleFonts.montserratAlternates();
 
@@ -41,7 +43,18 @@ class _MyCheckBoxState extends State<MyCheckBox> {
   Widget build(BuildContext context) {
     return Checkbox(
       value: _rememberMe,
-      onChanged: (bool? value) => setState(() => _rememberMe = value!),
+      onChanged: (value) async {
+        setState(() => _rememberMe = value ?? false);
+        final prefs = await SharedPreferences.getInstance();
+        if (value == true) {
+          await prefs.setBool('rememberMe', true);
+          await prefs.setBool('isDarkMode', themeProv.isDarkMode());
+        }
+        else {
+          await prefs.setBool('rememberMe', false);
+          await prefs.remove('isDarkMode');
+        }
+      },
       shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(10)),
     );
   }
