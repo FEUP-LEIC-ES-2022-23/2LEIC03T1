@@ -1,6 +1,6 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gameshare/view/components/input.dart';
 import 'package:gameshare/view/components/review_card.dart';
 
 import 'package:gameshare/view/components/utils/add_vertical_space.dart';
@@ -17,19 +17,17 @@ import '../components/bars/top_bar.dart';
 import '../components/circular_progress.dart';
 import '../components/text_utils/section_title.dart';
 import '../components/text_utils/text_section.dart';
+import 'edit_user.dart';
 
 class UserPage extends StatefulWidget {
-   const UserPage({
-    super.key,
-    required this.user,
-    required this.isUser,
-    this.firestore
-  });
+  const UserPage(
+      {super.key, required this.user, required this.isUser, this.firestore});
   final String user;
   final bool isUser;
   final FirebaseFirestore? firestore;
   bool get _isUser => isUser;
-  FirebaseFirestore get fireBaseStore => firestore??FirebaseFirestore.instance;
+  FirebaseFirestore get fireBaseStore =>
+      firestore ?? FirebaseFirestore.instance;
 
   @override
   State<StatefulWidget> createState() => _UserPage(user: user);
@@ -42,11 +40,11 @@ class _UserPage extends State<UserPage> {
   final String user;
   late String name = "";
   late String about = "";
-  late String img="";
+  late String img = "";
   late Timestamp timestamp;
-  late bool isLoading=true;
-  late bool madeRequest=false;
-  late List<Review> reviews=[];
+  late bool isLoading = true;
+  late bool madeRequest = false;
+  late List<Review> reviews = [];
   bool get isUser => widget._isUser;
   @override
   void initState() {
@@ -57,32 +55,38 @@ class _UserPage extends State<UserPage> {
     setState(() {
       name = users.name;
       about = users.about;
-      timestamp=users.timestamp;
-      img=users.img;
+      timestamp = users.timestamp;
+      img = users.img;
     });
   }
-  void setReviews(List<Review> _reviews){
-    setState(() {
-      reviews=_reviews;
-      isLoading=false;
-    });
 
+  void setReviews(List<Review> _reviews) {
+    setState(() {
+      reviews = _reviews;
+      isLoading = false;
+    });
   }
 
   getBody() {
     if (name == "" || isLoading) {
       return const CircularProgressBar();
     } else {
-      return ListView(children: [...body(isUser, user, name, about,reviews,timestamp,img)]);
+      return ListView(children: [
+        ...body(isUser, user, name, about, reviews, timestamp, img)
+      ]);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if(!madeRequest)getUserInfo(user,widget.fireBaseStore).then((value) => setUserInfo(value));
-    if(!madeRequest)getUserGameReviews(user,widget.fireBaseStore).then((value) => setReviews(value));
+    if (!madeRequest)
+      getUserInfo(user, widget.fireBaseStore)
+          .then((value) => setUserInfo(value));
+    if (!madeRequest)
+      getUserGameReviews(user, widget.fireBaseStore)
+          .then((value) => setReviews(value));
     setState(() {
-      madeRequest=true;
+      madeRequest = true;
     });
     return Scaffold(
       key: Key(user),
@@ -90,18 +94,19 @@ class _UserPage extends State<UserPage> {
       body: Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 0),
         child: getBody(),
-
       ),
       bottomNavigationBar: const NavBar(),
     );
   }
 }
 
-
-body(bool isUser, String email, String name, String about,List<Review> reviews,Timestamp timestamp,String img) {
-  double marginTop=0;
-  if(isUser)marginTop=0;
-  else marginTop=15;
+body(bool isUser, String email, String name, String about, List<Review> reviews,
+    Timestamp timestamp, String img) {
+  double marginTop = 0;
+  if (isUser)
+    marginTop = 0;
+  else
+    marginTop = 15;
   return [
     if (isUser)
       Row(
@@ -111,12 +116,11 @@ body(bool isUser, String email, String name, String about,List<Review> reviews,T
           Logout(),
         ],
       ),
-
     Container(
-      margin:  EdgeInsets.only(left: 15, top: marginTop),
+      margin: EdgeInsets.only(left: 15, top: marginTop),
       child: Row(
         children: [
-          UserImage(size: 90, image:img),
+          UserImage(size: 90, image: img),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [UserName(name: name), JoinedAt(timestamp: timestamp)],
@@ -148,8 +152,11 @@ class MyReviews extends StatelessWidget {
           const addVerticalSpace(size: 25),
           if (reviews.isEmpty)
             const RectangleWithText(text: "No reviews have been written yet"),
-          for(Review rev in reviews)
-            ReviewCard(review: rev,isUser: true,),
+          for (Review rev in reviews)
+            ReviewCard(
+              review: rev,
+              isUser: true,
+            ),
         ],
       ),
     );
@@ -186,7 +193,8 @@ class UserImage extends StatelessWidget {
         right: 20,
       ),
       child: Image(
-        image: AssetImage(image=="" ?'assets/images/userPlaceholder.png': image),
+        image: AssetImage(
+            image == "" ? 'assets/images/userPlaceholder.png' : image),
         width: size,
         height: size,
         fit: BoxFit.fitWidth,
@@ -212,16 +220,15 @@ class UserName extends StatelessWidget {
 }
 
 class JoinedAt extends StatelessWidget {
-  JoinedAt({super.key, required this.timestamp});
+  const JoinedAt({super.key, required this.timestamp});
   final Timestamp timestamp;
-
-
 
   @override
   Widget build(BuildContext context) {
-    var date = DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
-   String _date=date.toString().substring(0,10);
-   _date=_date.split('-').reversed.join('-');
+    var date =
+        DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
+    String _date = date.toString().substring(0, 10);
+    _date = _date.split('-').reversed.join('-');
     return Container(
       margin: const EdgeInsets.only(top: 20),
       child: Text(
@@ -266,7 +273,9 @@ class EditProfile extends StatelessWidget {
     return SizedBox(
       width: 50,
       child: TextButton(
-        onPressed: () {},
+        onPressed: () {
+          goTo(context, const EditProfilePage());
+        },
         child: const Icon(
           Icons.edit_note,
           size: 35,
@@ -275,4 +284,3 @@ class EditProfile extends StatelessWidget {
     );
   }
 }
-

@@ -26,10 +26,12 @@ class Entry {
 class EntryField extends StatelessWidget {
   const EntryField(
     this.entry, {
+    this.lines = 1,
     Key? key,
   }) : super(key: key);
 
   final Entry entry;
+  final int lines;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class EntryField extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           TextField(
+            maxLines: lines,
             obscureText: entry.hide,
             controller: entry.controller,
             decoration: const InputDecoration(

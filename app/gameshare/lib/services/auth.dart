@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'database_actions.dart';
+
 class Auth {
   Auth({FirebaseAuth? auth}) : _auth = auth ?? FirebaseAuth.instance;
 
@@ -8,6 +10,7 @@ class Auth {
 
   User? get user => _auth.currentUser;
   String get success => _success;
+  String? get email => _auth.currentUser?.email;
 
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
@@ -30,7 +33,7 @@ class Auth {
   }
 
   Future<void> _register(String email, String username) async {
-    // TODO: Register user in database
+    await addUser(username, email);
   }
 
   Future<String> signInEmailPassword(String email, String password) async {
@@ -45,11 +48,11 @@ class Auth {
   Future<String> signUpEmailPassword(
       String email, String username, String password) async {
     try {
-      await _register(email, username);
       await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await _register(email, username);
       return _success;
     } catch (e) {
       return translateFirebaseError(e.toString());
