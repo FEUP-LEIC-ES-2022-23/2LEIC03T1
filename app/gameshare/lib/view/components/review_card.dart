@@ -1,17 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:gameshare/services/database_actions.dart';
+import '../../model/lOd.dart';
+import '../../model/review.dart';
 import 'package:gameshare/view/components/utils/add_horizontal_space.dart';
-
 import 'package:gameshare/services/api_requests.dart';
 import 'package:gameshare/view/screens/game.dart';
 import 'package:gameshare/view/screens/user.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../model/review.dart';
 import '../../services/auth.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:gameshare/services/database_actions.dart';
 
 class ReviewCard extends StatelessWidget {
   ReviewCard({
@@ -37,8 +36,11 @@ class ReviewCard extends StatelessWidget {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
+
+
     return Container(
       width: MediaQuery.of(context).size.width,
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -71,7 +73,11 @@ class ReviewCard extends StatelessWidget {
           ReviewText(
             review: review.reviewText,
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 5),
+          ReviewLikesDislikes( review: review,),
+          SizedBox(height: 5),
+
+
         ],
       ),
     );
@@ -288,3 +294,166 @@ class _ReviewTextState extends State<ReviewText> {
     );
   }
 }
+
+class ReviewLikesDislikes extends StatefulWidget {
+  ReviewLikesDislikes({
+    Key? key,
+    required this.review,
+  }) : super(key: key);
+
+  Review review;
+
+  @override
+  State<ReviewLikesDislikes> createState() => _ReviewLikesDislikesState();
+}
+
+class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
+
+
+
+  List<String?> likes = [];
+  List<String?> dislikes = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    print(widget.review.likesAndDislikes.length);
+    for(int i = 0; i < widget.review.likesAndDislikes.length; i++){
+      if (widget.review.likesAndDislikes[i].likeOrDislike == 1){ // 1 is like
+        print("adding like \n");
+        likes.add(widget.review.likesAndDislikes[i].userEmail);
+
+      }
+      else if (widget.review.likesAndDislikes[i].likeOrDislike == 2){ // 2 is dislike
+        print("adding dislike \n");
+        dislikes.add(widget.review.likesAndDislikes[i].userEmail);
+      }
+    }
+
+  }
+
+  final auth = FirebaseAuth.instance.currentUser;
+
+
+  toggleLike() {
+
+    if (auth == null) {
+      return;
+    }
+
+    final String? email = FirebaseAuth.instance.currentUser!.email ;
+
+    if (likes.contains(email)) {
+      likes.remove(email);
+      removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
+      setState(() {});
+    }
+    else{
+      if(dislikes.contains(email)){
+        dislikes.remove(email);
+        removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
+      }
+      likes.add(email);
+      addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
+      setState(() {});
+    }
+  }
+
+  toggleDislike() {
+
+    if (auth == null) {
+      return;
+    }
+
+    final String? email = FirebaseAuth.instance.currentUser!.email ;
+
+    if(dislikes.contains(email)){
+      dislikes.remove(email);
+      removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
+      setState(() {});
+    }
+    else{
+      if(likes.contains(email)){
+        likes.remove(email);
+        removeLikeOrDislike(widget.review.gameId, widget.review.userEmail, 1);
+      }
+      dislikes.add(email);
+      addLikeOrDislike(widget.review.gameId, widget.review.userEmail, 2);
+      setState(() {});
+    }
+  }
+
+  Color chooseColor(List<String?> users, int likeOrDislike){
+
+    final auth = FirebaseAuth.instance.currentUser;
+    if(auth == null){
+      return Theme.of(context).colorScheme.primary;
+    }
+
+    final String? email = auth.email;
+
+    for (int i = 0; i < users.length; i++){
+      if (users[i] == email){
+        if (likeOrDislike == 1)
+          return Colors.green;
+        else if (likeOrDislike == 2)
+          return Colors.red;
+      }
+    }
+    return Theme.of(context).colorScheme.primary;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+
+    if (auth == null) {
+      return SizedBox(width: 0, height: 0);
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        IconButton(
+            onPressed: (){toggleLike(); },
+            iconSize: 25,
+            icon: Icon(
+              Icons.thumb_up_alt_outlined,
+              color: chooseColor(likes, 1),
+            )
+        ),
+
+        SizedBox(width: 2),
+
+        Text(likes.length.toString()),
+
+        SizedBox(width: 10),
+
+        IconButton(
+            onPressed: (){toggleDislike();},
+            iconSize: 25,
+            icon: Icon(
+              Icons.thumb_down_alt_outlined,
+              color: chooseColor(dislikes, 2),
+            )
+        ),
+
+        SizedBox(width: 2),
+
+        Text(dislikes.length.toString()),
+
+        SizedBox(width: 15),
+
+      ],
+
+
+
+    );
+  }
+}
+
+
+
+

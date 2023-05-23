@@ -1,3 +1,4 @@
+import 'package:analyzer_plugin/utilities/pair.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gameshare/services/database_actions.dart';
@@ -88,6 +89,9 @@ class _GamePage extends State<GamePage> {
   }
 
   Widget getMyReviewWidget() {
+
+    //List<Pair<String, int>> likesAndDislikes = getLikesAndDislikes(FirebaseAuth.instance.currentUser!.email, myReview!.gameId)!;
+
     if (loadingMyReview) {
       return const CircularProgressBar();
     } else {
@@ -103,7 +107,9 @@ class _GamePage extends State<GamePage> {
                   myReview!.rating,
                   game.gameId,
                   FirebaseAuth.instance.currentUser!.email!,
-                  game.name),
+                  game.name,
+                  myReview!.likesAndDislikes
+              ),
               notifyParent: refreshPage,
             ),
           ],

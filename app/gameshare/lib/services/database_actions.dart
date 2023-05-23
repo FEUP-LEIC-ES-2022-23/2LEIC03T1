@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gameshare/services/auth.dart';
-
+import '../model/lOd.dart';
 import '../model/review.dart';
 import '../model/user.dart';
 
@@ -16,12 +15,68 @@ void addReview(int rating, String reviewText, int gameId, String gameName) {
     "gameId": gameId,
     "userEmail": auth!.email,
     "gameName": gameName,
+    "likesAndDislikes": List<LoD>.empty(),
   };
-  ref =
-      db.collection("games").doc(gameId.toString()).collection("reviews").doc();
+
+  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc();
   ref.set(reviewData);
   ref = db.collection("users").doc(auth.email).collection("reviews").doc();
   ref.set(reviewData);
+}
+
+void addLikeOrDislike(int gameId, String userEmail, int likeOrDislike) async {
+  try {
+    final db = FirebaseFirestore.instance;
+    final auth = FirebaseAuth.instance.currentUser;
+    final likeData = {
+      "userEmail": auth!.email,
+      "likeOrDislike": likeOrDislike,
+    };
+    await db
+        .collection("games")
+        .doc(gameId.toString())
+        .collection("reviews")
+        .doc(userEmail)
+        .collection("likesAndDislikes")
+        .doc()
+        .set(likeData, SetOptions(merge: true));
+  } catch (e) {
+    print('Erro ao adicionar like ou dislike: $e');
+  }
+}
+
+
+void removeLikeOrDislike(int gameId, String userEmail, int likeOrDislike) async {
+  try {
+    final db = FirebaseFirestore.instance;
+    final auth = FirebaseAuth.instance.currentUser;
+    final likeData = {
+      "userEmail": auth!.email,
+      "likeOrDislike": likeOrDislike,
+    };
+    final ref = db
+        .collection("games")
+        .doc(gameId.toString())
+        .collection("reviews")
+        .doc(userEmail)
+        .collection("likesAndDislikes")
+        .where("userEmail", isEqualTo: auth.email)
+        .where("likeOrDislike", isEqualTo: likeOrDislike);
+    final snapshot = await ref.get();
+    if (snapshot.docs.isNotEmpty) {
+      final docId = snapshot.docs.first.id;
+      await db
+          .collection("games")
+          .doc(gameId.toString())
+          .collection("reviews")
+          .doc(userEmail)
+          .collection("likesAndDislikes")
+          .doc(docId)
+          .delete();
+    }
+  } catch (e) {
+    print('Erro ao remover like ou dislike: $e');
+  }
 }
 
 Future<void> addUser(String name, String email) async {
@@ -75,6 +130,12 @@ Future<List<Review>> getGameReviews(int gameId) async {
     },
   );
 
+  for (int i = 0; i < reviews.length; i++) {
+    reviews[i].likesAndDislikes = await getLikesAndDislikes(reviews[i].userEmail, reviews[i].gameId);
+  }
+
+
+
   return reviews;
 }
 
@@ -82,7 +143,7 @@ Future<Review?> getUserGameReview(String userEmail, int gameId) async {
   final db = FirebaseFirestore.instance;
   Review? test;
 
-  return await db
+  /*return*/ await db
       .collection("users")
       .doc(userEmail)
       .collection("reviews")
@@ -92,8 +153,42 @@ Future<Review?> getUserGameReview(String userEmail, int gameId) async {
     test = querySnapshot.docs.isNotEmpty
         ? Review.fromJson(querySnapshot.docs[0].data())
         : null;
-    return test;
+
   });
+
+  getLikesAndDislikes(userEmail, gameId);
+  if (test == null) return null;
+  test!.likesAndDislikes = await getLikesAndDislikes(userEmail, gameId);
+
+  return test;
+
+}
+
+Future<List<LoD>> getLikesAndDislikes(String userEmail, int gameId) async {
+  final db = FirebaseFirestore.instance;
+  List<LoD> likesAndDislikes = [];
+
+  await db
+      .collection("games")
+      .doc(gameId.toString())
+      .collection("reviews")
+      .doc(userEmail)
+      .collection("likesAndDislikes")
+      .get()
+      .then((querySnapshot) {
+      if (querySnapshot.docs != null && querySnapshot.docs.isNotEmpty) {
+        for (var docSnapshot in querySnapshot.docs) {
+          likesAndDislikes.add(LoD.fromJson(docSnapshot.data()));
+        }
+      }
+
+      else {
+        likesAndDislikes = [];
+      }
+
+  });
+
+  return likesAndDislikes;
 }
 
 Future<List<Review>> getUserGameReviews(
