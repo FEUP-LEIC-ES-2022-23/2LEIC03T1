@@ -28,6 +28,10 @@ class Game {
 
   String get description => _description;
 
+  set setRating(double rating) {
+    _rating = rating;
+  }
+
   factory Game.fromJsonWithouIdx(Map<String, dynamic> result) {
     return Game(
       result['id'],

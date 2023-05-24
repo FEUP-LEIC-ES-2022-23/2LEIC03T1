@@ -143,7 +143,7 @@ Future<Review?> getUserGameReview(String userEmail, int gameId) async {
   final db = FirebaseFirestore.instance;
   Review? test;
 
-  /*return*/ await db
+  await db
       .collection("users")
       .doc(userEmail)
       .collection("reviews")
@@ -267,4 +267,25 @@ Future<String> updateUser(
   }
 
   return "User updated successfully";
+}
+
+Future<double> getGameRating(int gameId) async {
+  double rating = 0.0;
+
+  final reviewsRef = FirebaseFirestore.instance
+                        .collection("games")
+                        .doc(gameId.toString())
+                        .collection("reviews");
+
+  await reviewsRef.get().then((querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+      rating += docSnapshot.data()['rating'];
+    }
+
+    if (rating != 0) {
+      rating /= querySnapshot.docs.length;
+    }
+  });
+
+  return rating;
 }
