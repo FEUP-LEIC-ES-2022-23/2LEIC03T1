@@ -38,17 +38,10 @@ class _SearchBarState extends State<SearchBar> {
               widget.onSearch(_controller.text);
             },
             style: TextButton.styleFrom(
-                padding: EdgeInsets.only(left: 15),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 minimumSize: Size(10, 10)),
             child: Icon(Icons.search),
           ),
-          TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-              child: Icon(Icons.tune)),
         ]));
   }
 

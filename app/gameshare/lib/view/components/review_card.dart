@@ -318,15 +318,11 @@ class _ReviewLikesDislikesState extends State<ReviewLikesDislikes> {
   void initState() {
     super.initState();
 
-    print(widget.review.likesAndDislikes.length);
     for(int i = 0; i < widget.review.likesAndDislikes.length; i++){
       if (widget.review.likesAndDislikes[i].likeOrDislike == 1){ // 1 is like
-        print("adding like \n");
         likes.add(widget.review.likesAndDislikes[i].userEmail);
-
       }
       else if (widget.review.likesAndDislikes[i].likeOrDislike == 2){ // 2 is dislike
-        print("adding dislike \n");
         dislikes.add(widget.review.likesAndDislikes[i].userEmail);
       }
     }
