@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ____) => const HomePage(),
+        pageBuilder: (_, __, ____) => HomePage(),
         transitionDuration: const Duration(seconds: 0),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:http/http.dart';
 import '../../model/game.dart';
 import '../../services/api_requests.dart';
 import 'api_error_message.dart';
@@ -11,9 +13,13 @@ class ScrollableGameList extends StatefulWidget {
   int? pageSize;
   String? searchQuery;
   List<String>? genres;
+  BaseCacheManager? mockCache;
+  Client? client;
 
   ScrollableGameList({
     Key? key,
+    this.mockCache,
+    this.client,
     required this.scrollHorizontally,
     this.page,
     this.pageSize,
@@ -29,7 +35,7 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
   late Future<List<Game>> futureGames;
 
   void fetch() {
-    futureGames = fetchGames(IOClient(),
+    futureGames = fetchGames(widget.client ?? IOClient(),
         page: widget.page,
         pageSize: widget.pageSize,
         searchQuery: widget.searchQuery,
@@ -50,7 +56,7 @@ class _ScrollableGameListState extends State<ScrollableGameList> {
               scrollDirection:
                   widget.scrollHorizontally ? Axis.horizontal : Axis.vertical,
               children: [
-                for (var game in snapshot.data!) GameCard(game: game),
+                for (var game in snapshot.data!) GameCard(game: game, mockCache: widget.mockCache,),
               ],
             );
           }
