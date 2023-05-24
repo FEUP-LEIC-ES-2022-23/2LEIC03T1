@@ -35,7 +35,7 @@ Future<List<Game>> fetchGames(http.Client client,
 
   if (res.statusCode == 200) {
     List<Game> games = [];
-    for (int i = 0; i < decodedJson.length; i++) {
+    for (int i = 0; i < decodedJson['results'].length; i++) {
       Game game = Game.fromJson(decodedJson['results'], i);
       game.setRating = await getGameRating(game.gameId);
       games.add(game);
@@ -77,6 +77,8 @@ String buildGameUrl(
     int? page, int? pageSize, String? searchQuery, List<String>? genres) {
   String url =
       '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+
+  print("Page size: " + pageSize.toString());
 
   if (page != null) url += '&page=$page';
 
