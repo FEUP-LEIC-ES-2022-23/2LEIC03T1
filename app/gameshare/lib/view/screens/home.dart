@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gameshare/model/game.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:gameshare/services/api_requests.dart';
 import 'package:gameshare/view/components/bars/top_bar.dart';
 import 'package:gameshare/view/components/circular_progress.dart';
@@ -9,12 +9,19 @@ import 'package:http/io_client.dart';
 import '../../model/genre.dart';
 import '../../services/providers/scroll_provider.dart';
 import '../components/bars/nav_bar.dart';
-import '../components/game_card.dart';
+import 'package:http/http.dart';
 import '../components/text_utils/api_error_message.dart';
 import '../components/text_utils/section_title.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({
+    super.key,
+    this.mockCache,
+    this.client,
+  });
+
+  BaseCacheManager? mockCache;
+  Client? client;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    allGenres = fetchGenres(IOClient());
+    allGenres = fetchGenres(widget.client ?? IOClient());
   }
 
   @override
@@ -53,7 +60,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 300,
                                 child: ScrollableGameList(
                                     scrollHorizontally: true,
-                                    genres: [genre.slug])),
+                                    genres: [genre.slug],
+                                    mockCache: widget.mockCache,
+                                    client: widget.client,)),
                           ],
                         ),
                     ],

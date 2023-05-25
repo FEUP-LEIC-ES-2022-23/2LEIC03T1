@@ -62,7 +62,7 @@ class _NavBarState extends State<NavBar> {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
-                  pageBuilder: (_, __, ____) => const HomePage(),
+                  pageBuilder: (_, __, ____) => HomePage(),
                   transitionDuration: const Duration(seconds: 0),
                 ),
               );

@@ -1,17 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:gameshare/consts/app_colors.dart';
 import 'package:gameshare/view/screens/game.dart';
 
 import '../../model/game.dart';
 
 class GameCard extends StatelessWidget {
-  const GameCard({
+  GameCard({
     super.key,
     required this.game,
+    this.mockCache
   });
 
   final Game game;
+  BaseCacheManager? mockCache;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +42,7 @@ class GameCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              GameCardImage(game: game),
+              GameCardImage(game: game, mockCache: mockCache),
               const SizedBox(height: 10),
               Row(
                 children: [
@@ -182,12 +185,14 @@ class GameCardRating extends StatelessWidget {
 }
 
 class GameCardImage extends StatelessWidget {
-  const GameCardImage({
+  GameCardImage({
     super.key,
     required this.game,
+    this.mockCache,
   });
 
   final Game game;
+  BaseCacheManager? mockCache;
 
   @override
   Widget build(BuildContext context) {
@@ -197,6 +202,8 @@ class GameCardImage extends StatelessWidget {
         fit: BoxFit.fill,
         child: CachedNetworkImage(
           imageUrl: game.image,
+          cacheManager: mockCache,
+          fadeInDuration: const Duration(milliseconds: 200),
           errorWidget: (context, url, error) => Image.network(
               'https://www.slntechnologies.com/wp-content/uploads/2017/08/ef3-placeholder-image.jpg'),
         ),

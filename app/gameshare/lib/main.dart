@@ -74,7 +74,7 @@ class _MyApp extends State<MyApp> {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeProv.themeMode,
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
