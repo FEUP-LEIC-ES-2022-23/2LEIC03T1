@@ -15,12 +15,11 @@ void addReview(int rating, String reviewText, int gameId, String gameName) {
     "gameId": gameId,
     "userEmail": auth!.email,
     "gameName": gameName,
-    "likesAndDislikes": List<LoD>.empty(),
   };
 
-  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc();
+  ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc(auth.email);
   ref.set(reviewData);
-  ref = db.collection("users").doc(auth.email).collection("reviews").doc();
+  ref = db.collection("users").doc(auth.email).collection("reviews").doc(auth.email);
   ref.set(reviewData);
 }
 
@@ -213,6 +212,19 @@ Future<List<Review>> getUserGameReviews(
 Future<void> deleteReview(
     String userEmail, int gameId, FirebaseFirestore firebaseFirestore) async {
   final db = FirebaseFirestore.instance;
+
+  final likesAndDislikesRef = db
+        .collection('games')
+        .doc(gameId.toString())
+        .collection('reviews')
+        .doc(userEmail)
+        .collection('likesAndDislikes');
+
+  await likesAndDislikesRef.get().then((querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+      docSnapshot.reference.delete();
+    }
+  });
 
   final gameRef = db
       .collection('games')
