@@ -78,8 +78,6 @@ String buildGameUrl(
   String url =
       '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
 
-  print("Page size: " + pageSize.toString());
-
   if (page != null) url += '&page=$page';
 
   if (pageSize != null) url += '&page_size=$pageSize';
