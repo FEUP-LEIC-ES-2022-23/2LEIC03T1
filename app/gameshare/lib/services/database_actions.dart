@@ -254,7 +254,10 @@ Future<String> updateUser(
     return "User does not exist";
   }
 
-  final same = await users_ref.where("userName", isEqualTo: name).get();
+  final currUserEmail = FirebaseAuth.instance.currentUser!.email;
+
+  final same = await users_ref.where("userName", isEqualTo: name)
+                              .where("email", isNotEqualTo: currUserEmail).get();
 
   if (same.docs.isNotEmpty) {
     return "Username already exists";
