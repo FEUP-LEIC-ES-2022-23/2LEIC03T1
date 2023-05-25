@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gameshare/model/api_exception.dart';
+import 'package:gameshare/services/database_actions.dart';
 import 'package:http/http.dart' as http;
 import '../model/game.dart';
 import '../model/genre.dart';
@@ -33,10 +34,13 @@ Future<List<Game>> fetchGames(http.Client client,
   var decodedJson = jsonDecode(res.body);
 
   if (res.statusCode == 200) {
-    return [
-      for (int i = 0; i < decodedJson.length; i++)
-        Game.fromJson(decodedJson['results'], i)
-    ];
+    List<Game> games = [];
+    for (int i = 0; i < decodedJson['results'].length; i++) {
+      Game game = Game.fromJson(decodedJson['results'], i);
+      game.setRating = await getGameRating(game.gameId);
+      games.add(game);
+    }
+    return games;
   }
   // Already retrieved all games
   else if (res.statusCode == 404 && decodedJson['detail'] == 'Invalid page.') {
@@ -59,18 +63,22 @@ Future<String> getGameDescription(int? id) async {
     return res;
   }
 }
-Future<Game> getGame(int id) async{
+Future<Game> getGame(int id) async {
   String url =
       '${dotenv.env['API_URL_BASE']}/games/$id?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
   final res = await http.get(Uri.parse(url));
   var results = jsonDecode(res.body);
-  return Game.fromJsonWithouIdx(results);
+  Game game = Game.fromJsonWithouIdx(results);
+  game.setRating = await getGameRating(game.gameId);
+  return game;
 }
 
 String buildGameUrl(
     int? page, int? pageSize, String? searchQuery, List<String>? genres) {
   String url =
       '${dotenv.env['API_URL_BASE']}/games?key=${dotenv.env['FLUTTER_APP_API_KEY']}';
+
+  print("Page size: " + pageSize.toString());
 
   if (page != null) url += '&page=$page';
 
