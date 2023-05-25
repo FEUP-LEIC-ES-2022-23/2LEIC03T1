@@ -67,10 +67,11 @@ class _GamePage extends State<GamePage> {
     });
   }
 
-  refreshPage() {
+  refreshPage() async {
     loadingMyReview = true;
     getUserGameReview(FirebaseAuth.instance.currentUser!.email!, game.gameId)
         .then((review) => {setMyReview(review)});
+    game.setRating = await getGameRating(game.gameId);
   }
 
   @override
