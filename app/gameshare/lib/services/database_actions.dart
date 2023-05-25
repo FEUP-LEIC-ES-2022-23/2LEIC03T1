@@ -19,7 +19,7 @@ void addReview(int rating, String reviewText, int gameId, String gameName) {
 
   ref = db.collection("games").doc(gameId.toString()).collection("reviews").doc(auth.email);
   ref.set(reviewData);
-  ref = db.collection("users").doc(auth.email).collection("reviews").doc(auth.email);
+  ref = db.collection("users").doc(auth.email).collection("reviews").doc(gameId.toString());
   ref.set(reviewData);
 }
 
@@ -39,6 +39,15 @@ void addLikeOrDislike(int gameId, String userEmail, int likeOrDislike) async {
         .collection("likesAndDislikes")
         .doc()
         .set(likeData, SetOptions(merge: true));
+
+    await db
+        .collection("users")
+        .doc(userEmail)
+        .collection("reviews")
+        .doc(gameId.toString())
+        .collection("likesAndDislikes")
+        .doc()
+        .set(likeData, SetOptions(merge: true));
   } catch (e) {
     print('Erro ao adicionar like ou dislike: $e');
   }
@@ -53,7 +62,7 @@ void removeLikeOrDislike(int gameId, String userEmail, int likeOrDislike) async 
       "userEmail": auth!.email,
       "likeOrDislike": likeOrDislike,
     };
-    final ref = db
+    final gameRef = db
         .collection("games")
         .doc(gameId.toString())
         .collection("reviews")
@@ -61,14 +70,35 @@ void removeLikeOrDislike(int gameId, String userEmail, int likeOrDislike) async 
         .collection("likesAndDislikes")
         .where("userEmail", isEqualTo: auth.email)
         .where("likeOrDislike", isEqualTo: likeOrDislike);
-    final snapshot = await ref.get();
-    if (snapshot.docs.isNotEmpty) {
-      final docId = snapshot.docs.first.id;
+    final gameSnapshot = await gameRef.get();
+    if (gameSnapshot.docs.isNotEmpty) {
+      final docId = gameSnapshot.docs.first.id;
       await db
           .collection("games")
           .doc(gameId.toString())
           .collection("reviews")
           .doc(userEmail)
+          .collection("likesAndDislikes")
+          .doc(docId)
+          .delete();
+    }
+
+    final userRef = db
+        .collection("users")
+        .doc(userEmail)
+        .collection("reviews")
+        .doc(gameId.toString())
+        .collection("likesAndDislikes")
+        .where("userEmail", isEqualTo: auth.email)
+        .where("likeOrDislike", isEqualTo: likeOrDislike);
+    final userSnapshot = await userRef.get();
+    if (userSnapshot.docs.isNotEmpty) {
+      final docId = userSnapshot.docs.first.id;
+      await db
+          .collection("users")
+          .doc(userEmail)
+          .collection("reviews")
+          .doc(gameId.toString())
           .collection("likesAndDislikes")
           .doc(docId)
           .delete();
@@ -206,6 +236,10 @@ Future<List<Review>> getUserGameReviews(
     }
   });
 
+  for (int i = 0; i < reviews.length; i++) {
+    reviews[i].likesAndDislikes = await getLikesAndDislikes(reviews[i].userEmail, reviews[i].gameId);
+  }
+
   return reviews;
 }
 
@@ -213,14 +247,27 @@ Future<void> deleteReview(
     String userEmail, int gameId, FirebaseFirestore firebaseFirestore) async {
   final db = FirebaseFirestore.instance;
 
-  final likesAndDislikesRef = db
+  final gamelikesAndDislikesRef = db
         .collection('games')
         .doc(gameId.toString())
         .collection('reviews')
         .doc(userEmail)
         .collection('likesAndDislikes');
 
-  await likesAndDislikesRef.get().then((querySnapshot) {
+  await gamelikesAndDislikesRef.get().then((querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+      docSnapshot.reference.delete();
+    }
+  });
+
+  final userlikesAndDislikesRef = db
+      .collection('users')
+      .doc(userEmail)
+      .collection('reviews')
+      .doc(gameId.toString())
+      .collection('likesAndDislikes');
+
+  await userlikesAndDislikesRef.get().then((querySnapshot) {
     for (var docSnapshot in querySnapshot.docs) {
       docSnapshot.reference.delete();
     }

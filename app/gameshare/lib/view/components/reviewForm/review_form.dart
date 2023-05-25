@@ -87,7 +87,7 @@ class _ReviewFormState extends State<ReviewForm> {
                 },
                 child: const Text(
                   'Submit',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
             ),

@@ -10,7 +10,6 @@ void main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Just for now, while there is no user page (for testing)
   await Auth().signOut();
   //
   runApp(const MyApp());
